@@ -1,2 +1,2 @@
 # NodeShop
-Tienda Online
+Tienda Online.

@@ -6,7 +6,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 class EditComponent extends React.Component {
   render() {
     let userId = 0;
-    //let userId = this.props.match.params.employeeId;
+    //let userId = this.props.match.params.usuarioId;
     return (
       <form>
         <div class="form-row justify-content-center">

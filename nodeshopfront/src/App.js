@@ -31,12 +31,12 @@ function App() {
               <li class="nav-item active">
                 <Link class="nav-link" to="/">
                   {" "}
-                  Employee List{" "}
+                  Usuario List{" "}
                 </Link>
               </li>
             </ul>
             <Link class="btn btn-info " to="/form">
-              Add Employee
+              Add Usuario
             </Link>
           </div>
         </nav>
@@ -46,7 +46,7 @@ function App() {
 
             <Route path="/" exact component={Table} />
             <Route path="/form" component={Form} />
-            <Route path="/edit/:employeeId" component={Edit} />
+            <Route path="/edit/:usuarioId" component={Edit} />
 
           </div>
         </div>

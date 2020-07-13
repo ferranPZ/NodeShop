@@ -20,6 +20,32 @@ controllers.list = async (req, res) => {
   res.json({ success: true, data: data });
 };
 
+controllers.create = async (req, res) => {
+ 
+  // data
+  const { name, email, address, phone, role } = req.body;
+  // create
+  const data = await Usuario.create({
+    name: name,
+    email: email,
+    address: address,
+    phone: phone,
+    roleId: role,
+  })
+    .then(function (data) {
+      return data;
+    })
+    .catch((error) => {
+      console.log("Error  " + error);
+      return error;
+    });
+  // return res
+  res.status(200).json({
+    success: true,
+    message: "Guardo exitosamente",
+    data: data,
+  });
+};
 /*
 controllers.testdata = async (req, res) => {
   const response = await sequelize

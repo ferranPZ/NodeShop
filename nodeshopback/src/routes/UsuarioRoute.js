@@ -5,8 +5,11 @@ const router = express.Router();
 const UsuarioController = require("../controllers/UsuarioController");
 //const { Router } = require("express");
 
-router.get('/list',UsuarioController.list);
 
+
+router.post('/create',UsuarioController.create);
+router.get('/list',UsuarioController.list);
+ 
 
 
 /*

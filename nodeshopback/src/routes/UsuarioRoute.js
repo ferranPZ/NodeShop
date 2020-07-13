@@ -5,12 +5,9 @@ const router = express.Router();
 const UsuarioController = require("../controllers/UsuarioController");
 //const { Router } = require("express");
 
-
-
-router.post('/create',UsuarioController.create);
-router.get('/list',UsuarioController.list);
- 
-
+router.get("/list", UsuarioController.list);
+router.post("/create", UsuarioController.create);
+router.get("/get/:id", UsuarioController.get);
 
 /*
 routes.get("/datatest", UsuarioController.testdata);

@@ -2,30 +2,30 @@ import React from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 class tableComponent extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      listUsuario:[]
-    }
+      listUsuario: [],
+    };
   }
 
-  componentDidMount(){
-
-    axios.get("http://192.168.0.3:3000/usuario/list")
-    .then(res => {
-      const data = res.data.data;
-      this.setState({ listUsuario:data });
-    })
-    .catch(error => {
-      alert(error)
-    });
-
+  componentDidMount() {
+    axios
+      .get("http://192.168.0.3:3000/usuario/list")
+      .then((res) => {
+        const data = res.data.data;
+        this.setState({ listUsuario: data });
+      })
+      .catch((error) => {
+        alert(error);
+      });
   }
 
-/*
+  /*
   componentDidMount() {
     const url ="http://192.168.0.3:3000/usuario/list"
     axios
@@ -57,18 +57,14 @@ class tableComponent extends React.Component {
             <th colspan="2">Action</th>
           </tr>
         </thead>
-        <tbody>
- 
-          {this.loadFillData()}
-        </tbody>
+        <tbody>{this.loadFillData()}</tbody>
       </table>
     );
   }
 
-  loadFillData(){
-
-    return this.state.listUsuario.map((data)=>{
-      return(
+  loadFillData() {
+    return this.state.listUsuario.map((data) => {
+      return (
         <tr>
           <th>{data.id}</th>
           <td>{data.role.role}</td>
@@ -77,19 +73,17 @@ class tableComponent extends React.Component {
           <td>{data.address}</td>
           <td>{data.phone}</td>
           <td>
-            <button class="btn btn-outline-info "> Edit </button>
+            <Link class="btn btn-outline-info " to={"/edit/" + data.id}>
+              Edit id:{data.id}
+            </Link>
           </td>
           <td>
             <button class="btn btn-outline-danger "> Delete </button>
           </td>
         </tr>
-      )
+      );
     });
   }
-
 }
-
- 
-
 
 export default tableComponent;

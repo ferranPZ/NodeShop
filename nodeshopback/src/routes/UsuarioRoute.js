@@ -1,9 +1,15 @@
 const express = require("express");
-const routes = express.Router();
+const router = express.Router();
 
 //llamando al controlador usuario
 const UsuarioController = require("../controllers/UsuarioController");
+//const { Router } = require("express");
 
+router.get('/list',UsuarioController.list);
+
+
+
+/*
 routes.get("/datatest", UsuarioController.testdata);
 routes.get("/test", UsuarioController.test);
 
@@ -14,5 +20,5 @@ routes.get("/save", (req, res) => {
     status: "Usuario guardado",
   });
 });
-
-module.exports = routes;
+*/
+module.exports = router;

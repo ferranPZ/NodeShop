@@ -1,18 +1,32 @@
 const controllers = {};
 //importar modelo
 var sequelize = require("../model/database");
-var sequelize = require("../model/Role");
-var sequelize = require("../model/Usuario");
-//importante, la table usuario tiene una foranea de roles x ello se debe escribir abajo de ella
-const Usuario = require("../model/Usuario");
-const Role = require("../model/Role");
 
+const Role = require("../model/Role");
+const Usuario = require("../model/Usuario");
+
+sequelize.sync();
+
+controllers.list = async (req, res) => {
+  const data = await Usuario.findAll({
+    include: [Role],
+  })
+    .then(function (data) {
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+  res.json({ success: true, data: data });
+};
+
+/*
 controllers.testdata = async (req, res) => {
   const response = await sequelize
     .sync()
     .then(function () {
       //creacion de datos de prueba
-     /*
+     
       Role.create({
         role: "Admin",
       });
@@ -23,7 +37,7 @@ controllers.testdata = async (req, res) => {
         phone: "12345879256",
         roleId: 1,
       });
- */
+ 
       const data = Usuario.findAll(); //todos los datos de la table
       return data;
     })
@@ -44,5 +58,5 @@ controllers.test = (req, res) => {
   console.log("Enviado desde el controlador usuario");
   res.json(data);
 };
-
+*/
 module.exports = controllers;

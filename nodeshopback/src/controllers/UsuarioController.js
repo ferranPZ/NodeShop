@@ -90,7 +90,7 @@ controllers.update = async (req, res) => {
   res.json({ success: true, data: data, message: "Updated successful" });
  
 };
-
+ 
 
 controllers.delete = async (req, res) => {
   // parameter post

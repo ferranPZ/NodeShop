@@ -8,7 +8,8 @@ const UsuarioController = require("../controllers/UsuarioController");
 router.get("/list", UsuarioController.list);
 router.post("/create", UsuarioController.create);
 router.get("/get/:id", UsuarioController.get);
-
+router.post('/update/:id', UsuarioController.update);
+router.post('/delete',UsuarioController.delete);
 /*
 routes.get("/datatest", UsuarioController.testdata);
 routes.get("/test", UsuarioController.test);

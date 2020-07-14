@@ -14,9 +14,9 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -24,25 +24,25 @@ function App() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <Link class="nav-link" to="/">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item active">
+                <Link className="nav-link" to="/">
                   {" "}
                   Usuario List{" "}
                 </Link>
               </li>
             </ul>
-            <Link class="btn btn-info " to="/form">
+            <Link className="btn btn-info " to="/form">
               Add Usuario
             </Link>
           </div>
         </nav>
 
-        <div class="container py-4">
-          <div class="row">
+        <div className="container py-4">
+          <div className="row">
 
             <Route path="/" exact component={Table} />
             <Route path="/form" component={Form} />

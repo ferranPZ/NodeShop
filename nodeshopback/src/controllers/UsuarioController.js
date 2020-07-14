@@ -21,7 +21,6 @@ controllers.list = async (req, res) => {
 };
 
 controllers.create = async (req, res) => {
- 
   // data
   const { name, email, address, phone, role } = req.body;
   // create
@@ -47,21 +46,61 @@ controllers.create = async (req, res) => {
   });
 };
 
-controllers.get = async (req,res) => {
+controllers.get = async (req, res) => {
   const { id } = req.params;
   const data = await Usuario.findAll({
-      where: { id: id },
-      include: [ Role ]
+    where: { id: id },
+    include: [Role],
   })
-  .then(function(data){
-    return data;
-  })
-  .catch(error =>{
-    return error;
-  })
+    .then(function (data) {
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
   res.json({ success: true, data: data });
-}
+};
+controllers.update = async (req, res) => {
+  // parameter get id
+  
+  const { id } = req.params;
+  // parameter POST
+ 
+  const { name, email, address, phone, role } = req.body;
+  // Update data
+  const data = await Usuario.update(
+    {
+      name: name,
+      email: email,
+      address: address,
+      phone: phone,
+      roleId: role,
+    },
+    {
+      where: { id: id },
+    }
+  )
+    .then(function (data) {
+      return data;
+    })
+    .catch((error) => {
+      return error;
+    });
+    
+  res.json({ success: true, data: data, message: "Updated successful" });
+ 
+};
 
+
+controllers.delete = async (req, res) => {
+  // parameter post
+  const { id } = req.body;
+  // delete sequelize
+  const del = await Usuario.destroy({
+    where: { id: id },
+  });
+  res.json({ success: true, deleted: del, message: "Deleted successful" });
+};
 /*
 controllers.testdata = async (req, res) => {
   const response = await sequelize

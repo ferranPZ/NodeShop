@@ -22,13 +22,13 @@ class EditComponent extends React.Component {
   componentDidMount() {
     // parametro de id del usuario
     let userId = this.props.match.params.usuarioId;
-    
+
     // http://localhost:3000/usuario/get/4
 
     // const url = baseUrl+"/usuario/get/"+userId
     //  axios.get(url)
     const url = baseUrl + "/usuario/get/" + userId;
-    console.log(url);
+
     axios
       .get(url)
       .then((res) => {
@@ -55,12 +55,12 @@ class EditComponent extends React.Component {
   render() {
     return (
       <div>
-        <div class="form-row justify-content-center">
-          <div class="form-group col-md-6">
-            <label for="inputPassword4">Name</label>
+        <div className="form-row justify-content-center">
+          <div className="form-group col-md-6">
+            <label htmlFor="inputPassword4">Name</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               placeholder="Name"
               value={this.state.campName}
               onChange={(value) =>
@@ -68,11 +68,11 @@ class EditComponent extends React.Component {
               }
             />
           </div>
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">Email</label>
+          <div className="form-group col-md-6">
+            <label htmlFor="inputEmail4">Email</label>
             <input
               type="email"
-              class="form-control"
+              className="form-control"
               placeholder="Email"
               value={this.state.campEmail}
               onChange={(value) =>
@@ -81,17 +81,17 @@ class EditComponent extends React.Component {
             />
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputState">Role </label>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <label htmlFor="inputState">Role </label>
             <select
               id="inputState"
-              class="form-control"
+              className="form-control"
               onChange={(value) =>
                 this.setState({ selectRole: value.target.value })
               }
             >
-              <option selected value={this.state.dataUsuario.roleId}>
+              <option defaultValue={this.state.dataUsuario.roleId}>
                 {this.state.stringRole}
               </option>
               <option value="1">Admin</option>
@@ -99,11 +99,11 @@ class EditComponent extends React.Component {
               <option value="3">Programer</option>
             </select>
           </div>
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">Phone</label>
+          <div className="form-group col-md-6">
+            <label htmlFor="inputEmail4">Phone</label>
             <input
               type="number"
-              class="form-control"
+              className="form-control"
               placeholder="Phone"
               value={this.state.campPhone}
               onChange={(value) =>
@@ -112,11 +112,11 @@ class EditComponent extends React.Component {
             />
           </div>
         </div>
-        <div class="form-group">
-          <label for="inputAddress">Address</label>
+        <div className="form-group">
+          <label htmlFor="inputAddress">Address</label>
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             id="inputAddress"
             placeholder="1234 Main St"
             value={this.state.campAddress}
@@ -127,7 +127,7 @@ class EditComponent extends React.Component {
         </div>
         <button
           type="submit"
-          class="btn btn-primary"
+          className="btn btn-primary"
           onClick={() => this.sendUpdate()}
         >
           Update
@@ -138,9 +138,10 @@ class EditComponent extends React.Component {
 
   sendUpdate() {
     // get parameter id
-    let userId = this.props.match.params.id;
+    let userId = this.props.match.params.usuarioId;
     // url de backend
     const baseUrl = "http://localhost:3000/usuario/update/" + userId;
+
     // parameter data post
     const datapost = {
       name: this.state.campName,

@@ -45,8 +45,8 @@ class tableComponent extends React.Component {
 */
   render() {
     return (
-      <table class="table table-hover table-striped">
-        <thead class="thead-dark">
+      <table className="table table-hover table-striped">
+        <thead className="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Roles</th>
@@ -54,7 +54,7 @@ class tableComponent extends React.Component {
             <th scope="col">Email</th>
             <th scope="col">Address</th>
             <th scope="col">Phone</th>
-            <th colspan="2">Action</th>
+            <th colSpan="2">Action</th>
           </tr>
         </thead>
         <tbody>{this.loadFillData()}</tbody>
@@ -63,9 +63,9 @@ class tableComponent extends React.Component {
   }
 
   loadFillData() {
-    return this.state.listUsuario.map((data) => {
+    return this.state.listUsuario.map((data, index) => {
       return (
-        <tr>
+        <tr key={index}>
           <th>{data.id}</th>
           <td>{data.role.role}</td>
           <td>{data.name}</td>
@@ -73,12 +73,12 @@ class tableComponent extends React.Component {
           <td>{data.address}</td>
           <td>{data.phone}</td>
           <td>
-            <Link class="btn btn-outline-info " to={"/edit/" + data.id}>
+            <Link className="btn btn-outline-info " to={"/edit/" + data.id}>
               Edit id:{data.id}
             </Link>
           </td>
           <td>
-            <button class="btn btn-outline-danger "> Delete </button>
+          <button className="btn btn-outline-danger" onClick={()=>this.onDelete(data.id)}> Delete </button>
           </td>
         </tr>
       );

@@ -18,58 +18,42 @@ class EditComponent extends React.Component{
   render(){
     return (
       <div>
-        <div class="form-row justify-content-center">
-          <div class="form-group col-md-6">
-            <label for="inputPassword4">Name </label>
-            <input type="text" class="form-control"  placeholder="Name" value={this.state.campName} onChange={(value)=> this.setState({campName:value.target.value})}/>
+        <div className="form-row justify-content-center">
+          <div className="form-group col-md-6">
+            <label htmlFor="inputPassword4">Name </label>
+            <input type="text" className="form-control"  placeholder="Name" value={this.state.campName} onChange={(value)=> this.setState({campName:value.target.value})}/>
           </div>
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">Email</label>
-            <input type="email" class="form-control"  placeholder="Email" value={this.state.campEmail} onChange={(value)=> this.setState({campEmail:value.target.value})}/>
+          <div className="form-group col-md-6">
+            <label htmlFor="inputEmail4">Email</label>
+            <input type="email" className="form-control"  placeholder="Email" value={this.state.campEmail} onChange={(value)=> this.setState({campEmail:value.target.value})}/>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputState">Role</label>
-            <select id="inputState" class="form-control" onChange={(value)=> this.setState({selectRole:value.target.value})}>
-              <option selected>Choose...</option>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <label htmlFor="inputState">Role</label>
+            <select id="inputState" className="form-control" onChange={(value)=> this.setState({selectRole:value.target.value})}>
+              <option defaultValue>Choose...</option>
               <option value="1">Admin...</option>
               <option value="2">Project Manager</option>
               <option value="3">Programer</option>
             </select>
           </div>
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">Phone</label>
-            <input type="number" class="form-control"  placeholder="Phone"  value={this.state.campPhone} onChange={(value)=> this.setState({campPhone:value.target.value})}/>
+          <div className="form-group col-md-6">
+            <label htmlFor="inputEmail4">Phone</label>
+            <input type="number" className="form-control"  placeholder="Phone"  value={this.state.campPhone} onChange={(value)=> this.setState({campPhone:value.target.value})}/>
           </div>
         </div>
-        <div class="form-group">
-          <label for="inputAddress">Address</label>
-          <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" value={this.state.campAddress} onChange={(value)=> this.setState({campAddress:value.target.value})}/>
+        <div className="form-group">
+          <label htmlFor="inputAddress">Address</label>
+          <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" value={this.state.campAddress} onChange={(value)=> this.setState({campAddress:value.target.value})}/>
         </div>
-        <button type="submit" class="btn btn-primary" onClick={()=>this.sendSave()}>Save</button>
+        <button type="submit" className="btn btn-primary" onClick={()=>this.sendSave()}>Save</button>
       </div>
     );
   }
   sendSave(){
 
-
-    const datapost = {
-      name : this.state.campName,
-      email : this.state.campEmail,
-      phone : this.state.campPhone,
-      address : this.state.campAddress,
-      role  : this.state.selectRole
-    }
-
-    axios
-    .post(`http://localhost:3000/usuario/create`,datapost)
-    .then((res) => console.log(res.data))
-    .catch((err) => console.log(err));
-
-/*
-    const baseUrl = "http://localhost:3000/usuario/create"
-  
+ 
       const datapost = {
         name : this.state.campName,
         email : this.state.campEmail,
@@ -79,6 +63,24 @@ class EditComponent extends React.Component{
       }
   
  
+ 
+    if (this.state.selectRole===0) {
+      alert("Seleccione el tipo de Role")
+    }
+    else if (this.state.campPhone==="") {
+       alert("Digite el campo de telefono")
+    }
+    else if (this.state.campName==="") {
+       alert("Digite el campo de Nombre")
+    }
+    else if (this.state.campEmail==="") {
+       alert("Digite el campo de email")
+    }
+    else if (this.state.campAddress==="") {
+       alert("Digite el campo de Direccion")
+    }
+    else {
+      const baseUrl = "http://localhost:3000/usuario/create"
       axios.post(baseUrl,datapost) 
       .then(response=>{
         if (response.data.success===true) {
@@ -91,25 +93,6 @@ class EditComponent extends React.Component{
       }).catch(error=>{
         alert("Error 34 "+error)
       })
-  */
-    if (this.state.selectRole==0) {
-      alert("Seleccione el tipo de Role")
-    }
-    else if (this.state.campPhone=="") {
-       alert("Digite el campo de telefono")
-    }
-    else if (this.state.campName=="") {
-       alert("Digite el campo de Nombre")
-    }
-    else if (this.state.campEmail=="") {
-       alert("Digite el campo de email")
-    }
-    else if (this.state.campAddress=="") {
-       alert("Digite el campo de Direccion")
-    }
-    else {
- 
-    
  
     }
  

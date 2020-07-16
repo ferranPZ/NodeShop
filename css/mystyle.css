@@ -1,5 +1,9 @@
 .header{
+    margin-top: 50px;
+    font-family: sans-serif;
+    text-shadow: 2px 2px red;
     background-color: slateblue;
+    box-shadow: 10px 10px;
 }
 
 

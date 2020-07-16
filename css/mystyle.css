@@ -8,6 +8,8 @@
 
 
 .footer{
+    padding-top: 50px;
+    font-family: 'Courier New', Courier, monospace;
     background-color: yellow;
     color: gray;
 }

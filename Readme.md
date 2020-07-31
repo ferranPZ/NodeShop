@@ -1,11 +1,22 @@
----Para probar el backend---
+# NodeShop
 
-(importar BDD)
+Tienda de comercio electronico desarrollada en NodeJs
 
-[bash]
+## Instalación
+
+Usar el gestor de paquetes npm
+```bash
 cd ~/NodeShop/nodeshopback
-npm i 
-nodemon server.js
+npm i
+```
 
-[navegador]
- localhost:3000/producto
+## Uso
+
+```nodejs
+nodemon server.js
+```
+
+## Contribuciones
+
+## Licencia
+[MIT](https://choosealicense.com/licenses/mit/)

@@ -6,9 +6,9 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 //SPA <Router></Router>
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-import Form from "./module/form";
-import Table from "./module/table";
-import Edit from './module/edit';
+import Form from "./module/ejemplos_antiguos/form";
+import Show_productos from "./module/productos/show";
+import Edit from './module/ejemplos_antiguos/edit';
 
 function App() {
   return (
@@ -44,7 +44,7 @@ function App() {
         <div className="container py-4">
           <div className="row">
 
-            <Route path="/" exact component={Table} />
+            <Route path="/" exact component={Show_productos} />
             <Route path="/form" component={Form} />
             <Route path="/edit/:usuarioId" component={Edit} />
 

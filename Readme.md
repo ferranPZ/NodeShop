@@ -16,7 +16,10 @@ npm i
 nodemon server.js
 ```
 
-## Contribuciones
+## Api
+```
+localhost:3000/producto
+```
 
 ## Licencia
 [MIT](https://choosealicense.com/licenses/mit/)

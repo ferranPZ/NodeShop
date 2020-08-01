@@ -4,7 +4,7 @@
   "description": "tienda de productos online",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon src/app.js",
+    "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

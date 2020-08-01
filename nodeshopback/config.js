@@ -13,7 +13,11 @@ const mysql = {
     database:process.env.MYSQL_DB || 'nstorepl',
 }
 
+const product ={
+    default_img: process.env.DEFAULT_IMG || 'default',
+}
 module.exports = {
     api,
-    mysql
+    mysql,
+    product
 };

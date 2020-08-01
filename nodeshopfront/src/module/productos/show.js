@@ -122,7 +122,7 @@ class tableComponent extends React.Component {
     axios
       .post(baseUrl, {
         id: userId,
-      })
+      })  
       .then((response) => {
         if (response.data.success) {
           Swal.fire("Deleted!", "Your employee has been deleted.", "success");

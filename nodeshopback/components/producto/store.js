@@ -28,22 +28,40 @@ function handleCon() {
             throw error;
         }
     });
-    console.log("primero")
+    console.log("Coneccion exitosa!")
 }
 
 
 handleCon();
 
-function list(id,table) {
-    console.log("segundo")
+function list(id_product) {
+    let query;
+    if (id_product) {
+        query=`SELECT * FROM producto WHERE idProducto=${id_product}`;
+    } else {
+        query=`SELECT * FROM producto`;
+    }
+    console.log("Listando")
     return new Promise((resolve,reject)=>{
-        connection.query('SELECT * FROM producto',(err,data)=>{
+        connection.query(query,(err,data)=>{
             if (err) {
-                console.log("mal");
-
                 reject(err);
             } else {
-                console.log("bien");
+                resolve(data);
+            }
+        });
+    });
+}
+
+function add(nombre,descripcion,unidades,valor,id_categoria,profile_pic) {
+    query=`INSERT INTO producto (idProducto, nombre, descripcion, unidades, valor, estado, imagen, categoria_idcategoria) VALUES (NULL, '${nombre}', '${descripcion}', '${unidades}', '${valor}', '', '${profile_pic}', '${id_categoria}');`
+
+
+    return new Promise((resolve,reject)=>{
+        connection.query(query,(err,data)=>{
+            if (err) {
+                reject(err);
+            } else {
                 resolve(data);
             }
         });
@@ -51,4 +69,5 @@ function list(id,table) {
 }
 module.exports = {
     list,
+    add
 }

@@ -19,14 +19,28 @@ class tableComponent extends React.Component {
   componentDidMount() {
     this.loadProducts();
   }
+  /*
+  loadProducts() {
+    return axios.get("http://localhost:3000/producto").then((response) => {
+      const data = response.data;
+      if (data.body.success) {
+        this.setState({ listProducts: data.body.data });
+      } else {
+        alert("Error web service");
+      }
+
+      return response.data;
+    });
+  } */
 
   loadProducts() {
     axios
-      .get("http://192.168.0.3:3000/usuario/list")
+      .get("http://localhost:3000/producto")
+
       .then((res) => {
-        if (res.data.success) {
-          const data = res.data.data;
-          this.setState({ listProducts: data });
+        if (res) {
+          const data = res.data.body;
+          this.setState({ listProducts: data  });
         } else {
           alert("Error web service");
         }
@@ -88,7 +102,7 @@ class tableComponent extends React.Component {
     Swal.fire({
       title: "Are you sure?",
       text: "You will not be able to recover this imaginary file!",
-    //  type: "warning",
+      //  type: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "No, keep it",
@@ -100,6 +114,7 @@ class tableComponent extends React.Component {
       }
     });
   }
+
   sendDelete(userId) {
     // url de backend
     const baseUrl = "http://localhost:3000/usuario/delete"; // parameter data post
@@ -111,7 +126,7 @@ class tableComponent extends React.Component {
       .then((response) => {
         if (response.data.success) {
           Swal.fire("Deleted!", "Your employee has been deleted.", "success");
-          this.loadUsuario(); //para recargar 
+          this.loadUsuario(); //para recargar
         }
       })
       .catch((error) => {

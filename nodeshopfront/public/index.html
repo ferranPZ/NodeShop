@@ -24,11 +24,34 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/plugins/fontawesome-free/css/all.min.css"
+    />
+    <!-- overlayScrollbars -->
+    <link
+      rel="stylesheet"
+      href="%PUBLIC_URL%/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
+    />
+    <!-- Theme style -->
+    <link rel="stylesheet" href="%PUBLIC_URL%/dist/css/adminlte.min.css" />
+    <!-- Google Font: Source Sans Pro -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+      rel="stylesheet"
+    />
     <title>React App</title>
   </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+  <body
+    class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed"
+  >
+    <div id="root">
+      <div class="wrapper">
+
+        
+      </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -39,5 +62,16 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- ./wrapper -->
+
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="%PUBLIC_URL%/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="%PUBLIC_URL%/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="%PUBLIC_URL%/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="%PUBLIC_URL%/dist/js/adminlte.js"></script>
   </body>
 </html>

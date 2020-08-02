@@ -15,17 +15,6 @@ import InfoBoxes from "./page-components/InfoBoxes";
 import MainRow from "./page-components/MainRow";
 import Footer from "./page-components/Footer";
 import ShowProductos from "./module/productos/show";
-/*
-import Show_productos from "./module/productos/show";
-import Edit_productos from "./module/productos/edit";
-import Form from "./module/ejemplos_antiguos/form";
- 
-import Edit from "./module/ejemplos_antiguos/edit";
-import MainRow from './page-components/MainRow';
-import InfoBoxes from './page-components/InfoBoxes';
-import ContentHeader from './page-components/ContentHeader';
- 
- */
 
 function App() {
   return (
@@ -55,7 +44,7 @@ function App() {
                       >
                         <i className="fas fa-minus" />
                       </button>
-                
+
                       <button
                         type="button"
                         className="btn btn-tool"

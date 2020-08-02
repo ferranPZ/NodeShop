@@ -2,12 +2,9 @@ import React from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-//import { Link } from "react-router-dom";
+
 import axios from "axios";
-
-import Swal from "sweetalert2/dist/sweetalert2.js";
-import "sweetalert2/src/sweetalert2.scss";
-
+ 
 class tableComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -103,42 +100,6 @@ class tableComponent extends React.Component {
         </div>
       );
     });
-  }
-
-  onDelete(id) {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You will not be able to recover this imaginary file!",
-      //  type: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, keep it",
-    }).then((result) => {
-      if (result.value) {
-        this.sendDelete(id);
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
-      }
-    });
-  }
-
-  sendDelete(userId) {
-    // url de backend
-    const baseUrl = "http://localhost:3000/usuario/delete"; // parameter data post
-    // network
-    axios
-      .post(baseUrl, {
-        id: userId,
-      })
-      .then((response) => {
-        if (response.data.success) {
-          Swal.fire("Deleted!", "Your employee has been deleted.", "success");
-          this.loadUsuario(); //para recargar
-        }
-      })
-      .catch((error) => {
-        alert("Error 325 ");
-      });
   }
 }
 

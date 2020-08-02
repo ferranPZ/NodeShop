@@ -8,8 +8,8 @@ const api = {
 
 const mysql = {
     host: process.env.MYSQL_HOST || 'localhost',
-    user:process.env.MYSQL_USER || 'root',
-    password:process.env.MYSQL_PASS || '',
+    user:process.env.MYSQL_USER || 'admin',
+    password:process.env.MYSQL_PASS || '4959853260013',
     database:process.env.MYSQL_DB || 'nstorepl',
 }
 

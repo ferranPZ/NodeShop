@@ -4,10 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 //SPA <Router></Router>
-import { BrowserRouter as Router } from "react-router-dom";
-//import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// luego usaremos Route y Link
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
+//Componentes
 import Header from "./page-components/Header";
 import Aside from "./page-components/Aside";
 import ContentHeader from "./page-components/ContentHeader";
@@ -15,22 +14,36 @@ import InfoBoxes from "./page-components/InfoBoxes";
 import MainRow from "./page-components/MainRow";
 import Footer from "./page-components/Footer";
 import ShowProductos from "./module/productos/show";
-
+//componentes
 function App() {
   return (
     <Router>
       <Header></Header>
       <Aside></Aside>
-
       <div className="content-wrapper">
         <ContentHeader></ContentHeader>
-
         <section className="content">
           <div className="container-fluid">
             {/* Info boxes  
             <InfoBoxes></InfoBoxes>
           */}
-
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item active">
+                <Link className="nav-link" to="/">
+                  Productos
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/editar">
+                  para probar el SPA 1
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/otro">
+                  para probar el SPA 2
+                </Link>
+              </li>
+            </ul>
             <div className="row">
               <div className="col-md-12">
                 <div className="card">
@@ -44,7 +57,6 @@ function App() {
                       >
                         <i className="fas fa-minus" />
                       </button>
-
                       <button
                         type="button"
                         className="btn btn-tool"
@@ -57,9 +69,9 @@ function App() {
 
                   <div className="card-body">
                     {/* Productos aqui se llamará un template */}
-
-                    <ShowProductos />
-
+                    <Route path="/" exact component={ShowProductos} />
+                    <Route path="/editar" exact component={InfoBoxes} />
+                    <Route path="/otro" exact component={MainRow} />
                     {/* Productos aqui se llamará un template */}
                   </div>
                 </div>
@@ -71,7 +83,6 @@ function App() {
           </div>
         </section>
       </div>
-
       <Footer></Footer>
     </Router>
   );

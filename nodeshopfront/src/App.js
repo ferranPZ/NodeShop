@@ -6,15 +6,16 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 //SPA <Router></Router>
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-//Componentes
+//Componentes de pagina
 import Header from "./page-components/Header";
 import Aside from "./page-components/Aside";
 import ContentHeader from "./page-components/ContentHeader";
 import InfoBoxes from "./page-components/InfoBoxes";
 import MainRow from "./page-components/MainRow";
 import Footer from "./page-components/Footer";
+//Componentes funcionales
 import ShowProductos from "./module/productos/show";
-//componentes
+import MenuProductos from "./module/productos/menu";
 function App() {
   return (
     <Router>
@@ -27,7 +28,7 @@ function App() {
             {/* Info boxes  
             <InfoBoxes></InfoBoxes>
           */}
-            <ul className="navbar-nav mr-auto">
+            <ol className="breadcrumb float-sm">
               <li className="nav-item active">
                 <Link className="nav-link" to="/">
                   Productos
@@ -43,7 +44,7 @@ function App() {
                   para probar el SPA 2
                 </Link>
               </li>
-            </ul>
+            </ol>
             <div className="row">
               <div className="col-md-12">
                 <div className="card">
@@ -72,6 +73,7 @@ function App() {
                     <Route path="/" exact component={ShowProductos} />
                     <Route path="/editar" exact component={InfoBoxes} />
                     <Route path="/otro" exact component={MainRow} />
+                    <Route path="/menu" exact component={MenuProductos} />
                     {/* Productos aqui se llamará un template */}
                   </div>
                 </div>

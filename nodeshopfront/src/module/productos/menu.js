@@ -8,25 +8,26 @@ import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 
-class tableComponent extends React.Component {
+class menuComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listUsuario: [],
+      listProducts: [],
     };
   }
 
   componentDidMount() {
-    this.loadUsuario();
+    this.loadProducts();
   }
 
-  loadUsuario() {
+  loadProducts() {
     axios
-      .get("http://192.168.0.3:3000/usuario/list")
+      .get("http://localhost:3000/producto")
+
       .then((res) => {
-        if (res.data.success) {
-          const data = res.data.data;
-          this.setState({ listUsuario: data });
+        if (res) {
+          const data = res.data.body;
+          this.setState({ listProducts: data });
         } else {
           alert("Error web service");
         }
@@ -42,11 +43,7 @@ class tableComponent extends React.Component {
         <thead className="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Roles</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Address</th>
-            <th scope="col">Phone</th>
+            <th scope="col">Nombre</th>
             <th colSpan="2">Action</th>
           </tr>
         </thead>
@@ -56,24 +53,19 @@ class tableComponent extends React.Component {
   }
 
   loadFillData() {
-    return this.state.listUsuario.map((data, index) => {
+    return this.state.listProducts.map((data, index) => {
       return (
         <tr key={index}>
-          <th>{data.id}</th>
-          <td>{data.role.role}</td>
-          <td>{data.name}</td>
-          <td>{data.email}</td>
-          <td>{data.address}</td>
-          <td>{data.phone}</td>
+          <th>{data.idProducto}</th>
+          <th>{data.nombre}</th>
           <td>
             <Link className="btn btn-outline-info " to={"/edit/" + data.id}>
-              Edit id:{data.id}
+              Edit id:{data.idProducto}
             </Link>
-          </td>
-          <td>
+           
             <button
               className="btn btn-outline-danger"
-              onClick={() => this.onDelete(data.id)}
+              onClick={() => this.onDelete(data.idProducto)}
             >
               {" "}
               Delete{" "}
@@ -88,13 +80,13 @@ class tableComponent extends React.Component {
     Swal.fire({
       title: "Are you sure?",
       text: "You will not be able to recover this imaginary file!",
-    //  type: "warning",
+      //  type: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.value) {
-        this.sendDelete(id);
+        this.sendDelete(id.idProducto);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
       }
@@ -111,7 +103,7 @@ class tableComponent extends React.Component {
       .then((response) => {
         if (response.data.success) {
           Swal.fire("Deleted!", "Your employee has been deleted.", "success");
-          this.loadUsuario(); //para recargar 
+          this.loadUsuario(); //para recargar
         }
       })
       .catch((error) => {
@@ -120,4 +112,4 @@ class tableComponent extends React.Component {
   }
 }
 
-export default tableComponent;
+export default menuComponent;

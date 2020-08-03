@@ -1,19 +1,18 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent } from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Aside extends PureComponent {
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            
-        }
-    }
+    this.state = {};
+  }
 
-    render() {
-        return (
-          <div>
-              {/* Main Sidebar Container */}
-              <aside className="main-sidebar sidebar-dark-primary elevation-4">
+  render() {
+    return (
+      <div>
+        {/* Main Sidebar Container */}
+        <aside className="main-sidebar sidebar-dark-primary elevation-4">
           {/* Brand Logo */}
           <a href="index3.html" className="brand-link">
             <img
@@ -100,10 +99,9 @@ class Aside extends PureComponent {
                   </a>
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
-                      <a href="pages/layout/top-nav.html" className="nav-link">
-                        <i className="far fa-circle nav-icon" />
-                        <p>Gestionar productos</p>
-                      </a>
+                      <Link className="nav-link" to="/menu">
+                        Gestionar Productos
+                      </Link>
                     </li>
                   </ul>
                 </li>
@@ -113,10 +111,9 @@ class Aside extends PureComponent {
           </div>
           {/* /.sidebar */}
         </aside>
-
-          </div>
-        );
-      }
+      </div>
+    );
+  }
 }
 
-export default Aside
+export default Aside;

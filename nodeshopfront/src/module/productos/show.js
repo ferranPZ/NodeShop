@@ -35,14 +35,38 @@ class tableComponent extends React.Component {
   }
 
   render() {
-    return <div className="row">{this.loadFillData()}</div>;
+    return<div className="card">
+    <div className="card-header">
+      <h5 className="card-title">Productos</h5>
+      <div className="card-tools">
+        <button
+          type="button"
+          className="btn btn-tool"
+          data-card-widget="collapse"
+        >
+          <i className="fas fa-minus" />
+        </button>
+        <button
+          type="button"
+          className="btn btn-tool"
+          data-card-widget="remove"
+        >
+          <i className="fas fa-times" />
+        </button>
+      </div>
+    </div><div className="row">
+      
+      
+      {this.loadFillData()}
+    </div>
+    </div>;
   }
 
   loadFillData() {
     return this.state.listProducts.map((data, index) => {
       return (
         <div className="col-md-6" key={index}>
-          <div className="d-flex flex-column ">
+          <div className="d-flex flex-column px-5 mt-2 mb-3">
             <h3>
               <a href="/products/65582-lenovo-ideapad-l340-15irh-gaming-81lk000bcl">
                 {data.nombre}

@@ -11,6 +11,26 @@ class MainRow extends PureComponent {
 
     render() {
         return (
+          <div className="card">
+          <div className="card-header">
+            <h5 className="card-title">Productos</h5>
+            <div className="card-tools">
+              <button
+                type="button"
+                className="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i className="fas fa-minus" />
+              </button>
+              <button
+                type="button"
+                className="btn btn-tool"
+                data-card-widget="remove"
+              >
+                <i className="fas fa-times" />
+              </button>
+            </div>
+          </div>
           <div className="row">
           {/* Left col */}
           <div className="col-md-8">
@@ -335,6 +355,7 @@ class MainRow extends PureComponent {
             {/* /.card */}
           </div>
           {/* /.col */}
+        </div>
         </div>
         );
       }

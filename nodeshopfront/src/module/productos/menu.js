@@ -39,16 +39,56 @@ class menuComponent extends React.Component {
 
   render() {
     return (
-      <table className="table table-hover table-striped">
-        <thead className="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th colSpan="2">Action</th>
-          </tr>
-        </thead>
-        <tbody>{this.loadFillData()}</tbody>
-      </table>
+   
+ <div>
+  {/* Button trigger modal */}
+  <button type="button" className="btn btn-block bg-gradient-primary float-right my-2" data-toggle="modal" data-target="#exampleModalCenter">
+    Crear nuevo producto
+  </button>
+  {/* Modal */}
+  <div className="modal fade" id="exampleModalCenter" tabIndex={-1} role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div className="modal-dialog modal-dialog-centered" role="document">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div className="modal-body">
+ {/** */}
+
+<button type="button" className="btn btn-info swalDefaultInfo">
+  Launch Info Toast
+</button>
+
+
+
+{/** */}
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" className="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+
+
+        {/*Table*/}
+        <table className="table table-hover table-striped">
+          <thead className="thead-dark">
+            <tr>
+              <th width="50px" scope="col">#</th>
+              <th width="100px" scope="col">Nombre</th>
+              <th width="200px" scope="col">Descripción</th>
+              <th width="50px" scope="col">Acción</th>
+            </tr>
+          </thead>
+          <tbody>{this.loadFillData()}</tbody>
+        </table>
+      </div>
     );
   }
 
@@ -56,13 +96,14 @@ class menuComponent extends React.Component {
     return this.state.listProducts.map((data, index) => {
       return (
         <tr key={index}>
-          <th>{data.idProducto}</th>
-          <th>{data.nombre}</th>
+          <td>{data.idProducto}</td>
+          <td>{data.nombre}</td>
+          <td>{data.descripcion}</td>
           <td>
             <Link className="btn btn-outline-info " to={"/edit/" + data.id}>
               Edit id:{data.idProducto}
             </Link>
-           
+
             <button
               className="btn btn-outline-danger"
               onClick={() => this.onDelete(data.idProducto)}

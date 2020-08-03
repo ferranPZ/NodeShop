@@ -52,7 +52,7 @@ class MainRow extends PureComponent {
                     <tbody>
                       <tr>
                         <td>
-                          <a href="pages/examples/invoice.html">OR9842</a>
+                          <a href="fake_url">OR9842</a>
                         </td>
                         <td>Call of Duty IV</td>
                         <td>
@@ -72,7 +72,7 @@ class MainRow extends PureComponent {
                       </tr>
                       <tr>
                         <td>
-                          <a href="pages/examples/invoice.html">OR1848</a>
+                          <a href="fake_url">OR1848</a>
                         </td>
                         <td>Samsung Smart TV</td>
                         <td>
@@ -92,7 +92,7 @@ class MainRow extends PureComponent {
                       </tr>
                       <tr>
                         <td>
-                          <a href="pages/examples/invoice.html">OR7429</a>
+                          <a href="fake_url">OR7429</a>
                         </td>
                         <td>iPhone 6 Plus</td>
                         <td>
@@ -112,7 +112,7 @@ class MainRow extends PureComponent {
                       </tr>
                       <tr>
                         <td>
-                          <a href="pages/examples/invoice.html">OR7429</a>
+                          <a href="fake_url">OR7429</a>
                         </td>
                         <td>Samsung Smart TV</td>
                         <td>
@@ -132,7 +132,7 @@ class MainRow extends PureComponent {
                       </tr>
                       <tr>
                         <td>
-                          <a href="pages/examples/invoice.html">OR1848</a>
+                          <a href="fake_url">OR1848</a>
                         </td>
                         <td>Samsung Smart TV</td>
                         <td>
@@ -152,7 +152,7 @@ class MainRow extends PureComponent {
                       </tr>
                       <tr>
                         <td>
-                          <a href="pages/examples/invoice.html">OR7429</a>
+                          <a href="fake_url">OR7429</a>
                         </td>
                         <td>iPhone 6 Plus</td>
                         <td>
@@ -172,7 +172,7 @@ class MainRow extends PureComponent {
                       </tr>
                       <tr>
                         <td>
-                          <a href="pages/examples/invoice.html">OR9842</a>
+                          <a href="fake_url">OR9842</a>
                         </td>
                         <td>Call of Duty IV</td>
                         <td>
@@ -197,11 +197,11 @@ class MainRow extends PureComponent {
               </div>
               {/* /.card-body */}
               <div className="card-footer clearfix">
-                <a href=" " className="btn btn-sm btn-info float-left">
+                <a href="fake_url" className="btn btn-sm btn-info float-left">
                   Place New Order
                 </a>
                 <a
-                  href=" "
+                  href="fake_url"
                   className="btn btn-sm btn-secondary float-right"
                 >
                   View All Orders
@@ -241,12 +241,12 @@ class MainRow extends PureComponent {
                     <div className="product-img">
                       <img
                         src="dist/img/default-150x150.png"
-                        alt="Product Image"
+                        alt="Product_Image"
                         className="img-size-50"
                       />
                     </div>
                     <div className="product-info">
-                      <a href="" className="product-title">
+                      <a href="fake_url" className="product-title">
                         Samsung TV
                         <span className="badge badge-warning float-right">
                           $1800
@@ -262,12 +262,12 @@ class MainRow extends PureComponent {
                     <div className="product-img">
                       <img
                         src="dist/img/default-150x150.png"
-                        alt="Product Image"
+                        alt="Product_Image"
                         className="img-size-50"
                       />
                     </div>
                     <div className="product-info">
-                      <a href="" className="product-title">
+                      <a href="fake_url" className="product-title">
                         Bicycle
                         <span className="badge badge-info float-right">
                           $700
@@ -283,12 +283,12 @@ class MainRow extends PureComponent {
                     <div className="product-img">
                       <img
                         src="dist/img/default-150x150.png"
-                        alt="Product Image"
+                        alt="Product_Image"
                         className="img-size-50"
                       />
                     </div>
                     <div className="product-info">
-                      <a href="" className="product-title">
+                      <a href="fake_url" className="product-title">
                         Xbox One{" "}
                         <span className="badge badge-danger float-right">
                           $350
@@ -305,12 +305,12 @@ class MainRow extends PureComponent {
                     <div className="product-img">
                       <img
                         src="dist/img/default-150x150.png"
-                        alt="Product Image"
+                        alt="Product_Image"
                         className="img-size-50"
                       />
                     </div>
                     <div className="product-info">
-                      <a href="" className="product-title">
+                      <a href="fake_url" className="product-title">
                         PlayStation 4
                         <span className="badge badge-success float-right">
                           $399
@@ -326,7 +326,7 @@ class MainRow extends PureComponent {
               </div>
               {/* /.card-body */}
               <div className="card-footer text-center">
-                <a href="" className="uppercase">
+                <a href="fake_url" className="uppercase">
                   View All Products
                 </a>
               </div>

@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+//import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 
 class Aside extends PureComponent {
   constructor(props) {
@@ -14,7 +15,7 @@ class Aside extends PureComponent {
         {/* Main Sidebar Container */}
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
           {/* Brand Logo */}
-          <a href="index3.html" className="brand-link">
+          <a href="fake_url" className="brand-link">
             <img
               src="dist/img/AdminLTELogo.png"
               alt="AdminLTE Logo"
@@ -35,7 +36,7 @@ class Aside extends PureComponent {
                 />
               </div>
               <div className="info">
-                <a href="" className="d-block">
+                <a href="fake_url" className="d-block">
                   Alexander Pierce
                 </a>
               </div>
@@ -51,7 +52,7 @@ class Aside extends PureComponent {
                 {/* Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library */}
                 <li className="nav-item has-treeview menu-closed">
-                  <a href="#" className="nav-link active">
+                  <a href="fake_url" className="nav-link active">
                     <i className="nav-icon fas fa-tachometer-alt" />
                     <p>
                       Dashboard
@@ -60,19 +61,19 @@ class Aside extends PureComponent {
                   </a>
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
-                      <a href="./index.html" className="nav-link">
+                      <a href="fake_url" className="nav-link">
                         <i className="far fa-circle nav-icon" />
                         <p>Dashboard v1</p>
                       </a>
                     </li>
                     <li className="nav-item">
-                      <a href="./index2.html" className="nav-link active">
+                      <a href="fake_url" className="nav-link active">
                         <i className="far fa-circle nav-icon" />
                         <p>Dashboard v2</p>
                       </a>
                     </li>
                     <li className="nav-item">
-                      <a href="./index3.html" className="nav-link">
+                      <a href="fake_url" className="nav-link">
                         <i className="far fa-circle nav-icon" />
                         <p>Dashboard v3</p>
                       </a>
@@ -80,7 +81,7 @@ class Aside extends PureComponent {
                   </ul>
                 </li>
                 <li className="nav-item">
-                  <a href="pages/widgets.html" className="nav-link">
+                  <a href="fake_url" className="nav-link">
                     <i className="nav-icon fas fa-th" />
                     <p>
                       Widgets
@@ -89,7 +90,7 @@ class Aside extends PureComponent {
                   </a>
                 </li>
                 <li className="nav-item has-treeview">
-                  <a href="#" className="nav-link">
+                  <a href="fake_url" className="nav-link">
                     <i className="nav-icon fas fa-user" />
                     <p>
                       Administrador

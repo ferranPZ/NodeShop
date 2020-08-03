@@ -21,7 +21,7 @@ class ContentHeader extends PureComponent {
               <div className="col-sm-6">
                 <ol className="breadcrumb float-sm-right">
                   <li className="breadcrumb-item">
-                    <a href="#">Home</a>
+                    <a href="fake_url">Home</a>
                   </li>
                   <li className="breadcrumb-item active">Dashboard v2</li>
                 </ol>

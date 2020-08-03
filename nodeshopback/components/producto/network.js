@@ -11,7 +11,7 @@ const upload = multer({
 });
 
 router.get('/', function (req, res) {
-    //si se pasa por query(?idprod=423471) devolvera solo ese productod de lo contrario los devolvera todos
+    //si se pasa por query(?idproduct=423471) devolvera solo ese productod de lo contrario los devolvera todos
     const filter_product = req.query.idproduct || null;
     console.log(filter_product);
     controller.getProduct(filter_product)
@@ -37,15 +37,15 @@ router.post('/', upload.single('file'), function (req, res) {
 });
 
 
-// router.patch('/:id', function (req, res) {
-//     controller.updateMessage(req.params.id, req.body.message)
-//         .then((data) => {
-//             response.success(req, res, data, 200);
-//         })
-//         .catch(e => {
-//             response.error(req, res, 'Error interno', 500, e);
-//         });
-// });
+router.patch('/:id', function (req, res) {
+    controller.updateMessage(req.params.id, req.body.message)
+        .then((data) => {
+            response.success(req, res, data, 200);
+        })
+        .catch(e => {
+            response.error(req, res, 'Error interno', 500, e);
+        });
+});
 
 // router.delete('/:id', function(req, res) {
 //     controller.deleteMessage(req.params.id)

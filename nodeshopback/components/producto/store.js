@@ -26,9 +26,10 @@ function handleCon() {
             handleCon();
         }else{
             throw error;
-        }
+            
+        }   
     });
-    console.log("Coneccion exitosa!")
+
 }
 
 

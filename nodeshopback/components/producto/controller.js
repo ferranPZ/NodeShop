@@ -28,15 +28,18 @@ function addProduct(nombre,descripcion,unidades,valor,id_categoria,imagen) {
 
     resolve(store.add(nombre,descripcion,unidades,valor,id_categoria,profile_pic))
       
-
-
   });
 
 
 } 
 
+function updateProduct(params) {
+  
+}
+
 
 module.exports = {
     getProduct,
     addProduct,
+    updateProduct
 }

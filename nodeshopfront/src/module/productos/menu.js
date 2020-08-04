@@ -8,22 +8,60 @@ import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 
+import Datatable from "react-data-table-component";
+
+const tablaProductos = [
+  {
+    idProducto: 1,
+    nombre: "uno",
+  },
+  {
+    idProducto: 2,
+    nombre: "dos",
+  },
+  {
+    idProducto: 3,
+    nombre: "tres",
+  },
+  {
+    idProducto: 4,
+    nombre: "cuatro",
+  },
+  {
+    idProducto: 5,
+    nombre: "cinco",
+  },
+];
+
+const columnas = [
+  {
+    name: "ID",
+    selector: "idProducto",
+  },
+  {
+    name: "Nombre",
+    selector: "nombre",
+  },
+];
+
+const paginacionOpciones = {
+  rowsPerPageText: "Filas por Páginas",
+  rangeSeparatorText: "de",
+  selectAllRowsItem: true,
+  selectAllRowsItemText: "Todos",
+};
 
 const Toast = Swal.mixin({
   toast: true,
-  position: 'top-end',
+  position: "top-end",
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
   onOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
-
-
-
-
+    toast.addEventListener("mouseenter", Swal.stopTimer);
+    toast.addEventListener("mouseleave", Swal.resumeTimer);
+  },
+});
 
 class menuComponent extends React.Component {
   constructor(props) {
@@ -32,10 +70,31 @@ class menuComponent extends React.Component {
       listProducts: [],
     };
   }
+  state = {
+    busqueda: "",
+    listaBusqueda: "",
+  };
+  onChange = async e => {
+    e.persist();
+    await this.setState({ busqueda: e.target.value });
+ this.filtrarElementos();
+  };
 
   componentDidMount() {
+    this.setState({ listaBusqueda: tablaProductos });
     this.loadProducts();
   }
+
+  filtrarElementos = () => {
+    var search = tablaProductos.filter(item => {
+      if (item.idProducto.toLowerCase().includes(this.state.busqueda) ||
+      item.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").includes(this.state.busqueda)
+      ) {
+        return item;
+      }
+    });
+    this.setState({listaBusqueda: search});
+  };
 
   loadProducts() {
     axios
@@ -56,53 +115,95 @@ class menuComponent extends React.Component {
 
   render() {
     return (
-   
- <div>
-<button className="show-example-btn" aria-label="Show SweetAlert2 success message"
- onClick={() => this.alert()}
-    >
-  Show success message
-</button>
- 
+      <div>
+        <button
+          className="show-example-btn"
+          aria-label="Show SweetAlert2 success message"
+          onClick={() => this.alert()}
+        >
+          Show success message
+        </button>
 
+        {/* Button trigger modal */}
+        <button
+          type="button"
+          className="btn  bg-gradient-primary float-right my-2"
+          data-toggle="modal"
+          data-target="#exampleModalCenter"
+        >
+          Crear nuevo producto
+        </button>
+        {/* Modal */}
+        <div
+          className="modal fade"
+          id="exampleModalCenter"
+          tabIndex={-1}
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLongTitle">
+                  Modal title
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                {/** */}
 
+                <button type="button" className="btn btn-info swalDefaultInfo">
+                  Launch Info Toast
+                </button>
 
-  {/* Button trigger modal */}
-  <button type="button" className="btn  bg-gradient-primary float-right my-2" data-toggle="modal" data-target="#exampleModalCenter">
-    Crear nuevo producto
-  </button>
-  {/* Modal */}
-  <div className="modal fade" id="exampleModalCenter" tabIndex={-1} role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div className="modal-dialog modal-dialog-centered" role="document">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title" id="exampleModalLongTitle">Modal title</h5>
-          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
+                {/** */}
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <button type="button" className="btn btn-primary">
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="modal-body">
- {/** */}
 
-<button type="button" className="btn btn-info swalDefaultInfo">
-  Launch Info Toast
-</button>
-
-
-
-{/** */}
+        <div className="barraBusqueda">
+          <input
+            type="text"
+            placeholder="Buscar"
+            className="textField"
+            name="busqueda"
+            defaultValue={this.state.busqueda}
+            onChange={this.onChange}
+          />
+          <button>hola</button>
         </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" className="btn btn-primary">Guardar</button>
-        </div>
-      </div>
-    </div>
-  </div>
- 
 
+        <Datatable
+          columns={columnas}
+          data={this.state.listaBusqueda}
+          title="Productos"
+          pagination
+          paginationComponentOptions={paginacionOpciones}
+        />
 
-        {/*Table*/}
+        {/*
+        {/*Table 
         <table className="table table-hover table-striped">
           <thead className="thead-dark">
             <tr>
@@ -113,11 +214,11 @@ class menuComponent extends React.Component {
             </tr>
           </thead>
           <tbody>{this.loadFillData()}</tbody>
-        </table>
+        </table> */}
       </div>
     );
   }
-
+  /*
   loadFillData() {
     return this.state.listProducts.map((data, index) => {
       return (
@@ -142,7 +243,7 @@ class menuComponent extends React.Component {
       );
     });
   }
-
+*/
   onDelete(id) {
     Swal.fire({
       title: "Are you sure?",
@@ -159,8 +260,6 @@ class menuComponent extends React.Component {
       }
     });
   }
-
- 
 
   sendDelete(userId) {
     // url de backend
@@ -181,19 +280,12 @@ class menuComponent extends React.Component {
       });
   }
 
- 
-  
- 
   alert() {
     Toast.fire({
-      icon: 'success',
-      title: 'Creado con éxito'
-    })
- 
-    }
-
-
-
+      icon: "success",
+      title: "Creado con éxito",
+    });
+  }
 }
 
 export default menuComponent;

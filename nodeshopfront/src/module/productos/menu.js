@@ -8,6 +8,23 @@ import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  onOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+
+
+
+
 class menuComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -41,8 +58,17 @@ class menuComponent extends React.Component {
     return (
    
  <div>
+<button className="show-example-btn" aria-label="Show SweetAlert2 success message"
+ onClick={() => this.alert()}
+    >
+  Show success message
+</button>
+ 
+
+
+
   {/* Button trigger modal */}
-  <button type="button" className="btn btn-block bg-gradient-primary float-right my-2" data-toggle="modal" data-target="#exampleModalCenter">
+  <button type="button" className="btn  bg-gradient-primary float-right my-2" data-toggle="modal" data-target="#exampleModalCenter">
     Crear nuevo producto
   </button>
   {/* Modal */}
@@ -133,6 +159,9 @@ class menuComponent extends React.Component {
       }
     });
   }
+
+ 
+
   sendDelete(userId) {
     // url de backend
     const baseUrl = "http://localhost:3000/usuario/delete"; // parameter data post
@@ -151,6 +180,20 @@ class menuComponent extends React.Component {
         alert("Error 325 ");
       });
   }
+
+ 
+  
+ 
+  alert() {
+    Toast.fire({
+      icon: 'success',
+      title: 'Creado con éxito'
+    })
+ 
+    }
+
+
+
 }
 
 export default menuComponent;

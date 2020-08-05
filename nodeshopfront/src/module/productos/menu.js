@@ -8,47 +8,86 @@ import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 
-import Datatable from "react-data-table-component";
+import moment from "moment";
+import Datatable from "react-bs-datatable";
 
-const tablaProductos = [
+
+const header = [
   {
-    idProducto: 1,
-    nombre: "uno",
+    title: "Username",
+    prop: "username",
+    sortable: true,
+    filterable: true,
   },
+  { title: "Name", prop: "realname", sortable: true },
+  { title: "Location", prop: "location" },
   {
-    idProducto: 2,
-    nombre: "dos",
+    title: 'Image', prop: 'image',
+    cell: row => (<img height="32x" width="64px" alt={row.image} src={row.image} />),
   },
+  { title: "Last Updated", prop: "date", sortable: true },
   {
-    idProducto: 3,
-    nombre: "tres",
-  },
-  {
-    idProducto: 4,
-    nombre: "cuatro",
-  },
-  {
-    idProducto: 5,
-    nombre: "cinco",
+    title: "Acciones",
+    cell: (row) => (
+      <div>
+        {" "}
+        <button
+          className="btn-sm btn-danger"
+          onClick={(e) => deleteRow(row.idProducto, e)}
+        >
+         <i className="fas fa-trash"></i>
+        </button>
+        <button
+          className="btn-sm btn-warning"
+          onClick={(e) => deleteRow(row.idProducto, e)}
+        >
+          <i className="fas fa-edit"></i>
+         
+        </button>
+      </div>
+    ),
   },
 ];
 
-const columnas = [
-  {
-    name: "ID",
-    selector: "idProducto",
-  },
-  {
-    name: "Nombre",
-    selector: "nombre",
-  },
-];
+function deleteRow(idProducto, e) {
+  e.preventDefault();
+  console.log(idProducto);
+}
 
-const paginacionOpciones = {
-  rowsPerPageText: "Filas por Páginas",
-  rangeSeparatorText: "de",
-  selectAllRowsItem: true,
-  selectAllRowsItemText: "Todos",
+/*
+const body =[
+  {
+    idProducto: "1",
+    username: "i-am-billy",
+    realname: `Billy Numero `,
+    location: "Mars",
+    date: moment().subtract(1, "days").format("Do MMMM YYYY")
+  },
+]
+*/
+
+const body = Array.from(new Array(57), () => {
+  const rd = (Math.random() * 20).toFixed(1);
+
+  return {
+    idProducto: `${rd}`,
+    username: `Billy  ${rd}`,
+    realname: `Billy Numero ${rd}`,
+    location: `Casa  ${rd + rd + 5}`,
+    image: "https://picsum.photos/200",
+    date: moment().subtract(`${rd}`, "days").format("Do MMMM YYYY"),
+  };
+});
+
+const classes = {
+  table: 'table table-dark table-bordered responsive{-sm|-md}',
+};
+const onSortFunction = {
+  date(columnValue) {
+    // Convert the string date format to UTC timestamp
+    // So the table could sort it by number instead of by string
+    return moment(columnValue, "Do MMMM YYYY").valueOf();
+  },
 };
 
 const Toast = Swal.mixin({
@@ -70,31 +109,10 @@ class menuComponent extends React.Component {
       listProducts: [],
     };
   }
-  state = {
-    busqueda: "",
-    listaBusqueda: "",
-  };
-  onChange = async e => {
-    e.persist();
-    await this.setState({ busqueda: e.target.value });
- this.filtrarElementos();
-  };
 
   componentDidMount() {
-    this.setState({ listaBusqueda: tablaProductos });
     this.loadProducts();
   }
-
-  filtrarElementos = () => {
-    var search = tablaProductos.filter(item => {
-      if (item.idProducto.toString().includes(this.state.busqueda) ||
-      item.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").includes(this.state.busqueda)
-      ) {
-        return item;
-      }
-    });
-    this.setState({listaBusqueda: search});
-  };
 
   loadProducts() {
     axios
@@ -181,40 +199,21 @@ class menuComponent extends React.Component {
             </div>
           </div>
         </div>
-
-        <div className="barraBusqueda">
-          <input
-            type="text"
-            placeholder="Buscar"
-            className="textField"
-            name="busqueda"
-            defaultValue={this.state.busqueda}
-            onChange={this.onChange}
-          />
-          <button>hola</button>
-        </div>
-
+       
+       
+       
+       
         <Datatable
-          columns={columnas}
-          data={this.state.listaBusqueda}
-          title="Productos"
-          pagination
-          paginationComponentOptions={paginacionOpciones}
+          tableHeaders={header}
+          tableBody={body}
+          rowsPerPage={5}
+          rowsPerPageOption={[5, 10, 30]}
+          initialSort={{ prop: "username", isAscending: true }}
+          onSort={onSortFunction}
+          classes={classes}
         />
 
-        {/*
-        {/*Table 
-        <table className="table table-hover table-striped">
-          <thead className="thead-dark">
-            <tr>
-              <th width="50px" scope="col">#</th>
-              <th width="100px" scope="col">Nombre</th>
-              <th width="200px" scope="col">Descripción</th>
-              <th width="50px" scope="col">Acción</th>
-            </tr>
-          </thead>
-          <tbody>{this.loadFillData()}</tbody>
-        </table> */}
+     
       </div>
     );
   }

@@ -3,6 +3,8 @@ const config = require('../../config');
 const response = require('../../network/response');
 
 
+// consejo :no es necesario retornar una promesa en todos los metodos, ya que el store ya devuelve una. solo deberia retornar el store, y si falta algun dato, return new reject!
+
 function getProduct(id_product) {
     return new Promise(async (resolve, reject) => {
       resolve(store.list(id_product));
@@ -53,6 +55,8 @@ function updateProduct(id_product,nombre,descripcion,unidades,valor,id_categoria
 }
 
 function deleteProduct(id_product) {
+  
+
 
   return new Promise((resolve,reject)=>{
     //comprueba de que se hayan enviado los datos

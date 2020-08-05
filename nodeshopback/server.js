@@ -1,4 +1,9 @@
 const express = require('express');
+
+//documentacion de api
+const swaggerUi = require('swagger-ui-express')
+const swagerDoc = require('./swagger.json');
+
 const app = express();
 const server = require('http').Server(app);
 const config = require('./config').api;
@@ -14,7 +19,7 @@ app.use(config.publicRoute, express.static('public'));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
+app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swagerDoc))
 
 
 router(app);

@@ -1,0 +1,335 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Tienda de comercio electrónico",
+    "version": "1.0.0",
+    "title": "API "
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "producto",
+      "description": "Acceso a información de los productos"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/producto": {
+      "post": {
+        "tags": [
+          "producto"
+        ],
+        "summary": "Sube un producto",
+        "description": "",
+        "operationId": "uploadFile",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "nombre",
+            "in": "formData",
+            "description": "Nombre del producto",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "descripcion",
+            "in": "formData",
+            "description": "Descripción del producto",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "unidades",
+            "in": "formData",
+            "description": "Unidiades disponibles del producto",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "valor",
+            "in": "formData",
+            "description": "valor del producto",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "categoria_idcategoria",
+            "in": "formData",
+            "description": "Categoría a la que pertenece el producto (solo existe categoría 1 por ahora)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "file to upload",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "producto"
+        ],
+        "summary": "Listar productos",
+        "description": "Lista todos los productos o individualmente indicando su id",
+        "operationId": "findPetsByStatus",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "ID del producto a retornar",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "producto"
+        ],
+        "summary": "Actualiza un producto existente",
+        "description": "",
+        "operationId": "updateProduct",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "ID del producto a actualizar",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "nombre",
+            "in": "formData",
+            "description": "Nombre del producto",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "descripcion",
+            "in": "formData",
+            "description": "Descripción del producto",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "unidades",
+            "in": "formData",
+            "description": "Unidiades disponibles del producto",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "valor",
+            "in": "formData",
+            "description": "valor del producto",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "categoria_idcategoria",
+            "in": "formData",
+            "description": "Categoría a la que pertenece el producto (solo existe categoría 1 por ahora)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "file to upload",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "producto"
+        ],
+        "summary": "Elimina un producto",
+        "description": "",
+        "operationId": "deleteProduct",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "ID del producto a eliminar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Producto": {
+      "type": "object",
+      "required": [
+        "nombre",
+        "descripcion",
+        "unidades",
+        "valor",
+        "categoria_idcategoria"
+      ],
+      "properties": {
+        "idProducto": {
+          "type": "integer"
+        },
+        "nombre": {
+          "type": "string"
+        },
+        "descripcion": {
+          "type": "string"
+        },
+        "unidades": {
+          "type": "integer"
+        },
+        "valor": {
+          "type": "string"
+        },
+        "estado": {
+          "type": "string"
+        },
+        "imagen": {
+          "type": "string"
+        },
+        "categoria_idcategoria": {
+          "type": "integer"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about us",
+    "url": "https://github.com/ferranPZ/NodeShop"
+  }
+}

@@ -87,7 +87,7 @@ class menuComponent extends React.Component {
 
   filtrarElementos = () => {
     var search = tablaProductos.filter(item => {
-      if (item.idProducto.toLowerCase().includes(this.state.busqueda) ||
+      if (item.idProducto.toString().includes(this.state.busqueda) ||
       item.nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").includes(this.state.busqueda)
       ) {
         return item;

@@ -164,15 +164,6 @@ class menuComponent extends React.Component {
     super(props);
     this.state = {
       listProducts: [],
-      // variables update
-      u_idProducto: "",
-      u_nombre: "",
-      u_descripcion: "",
-      u_unidades: "",
-      u_valor: "",
-      u_estado: "",
-      u_imagen: "",
-      u_categoria_id_categoria: "",
       // variables crear
       idProducto: "",
       nombre: "",
@@ -193,15 +184,13 @@ class menuComponent extends React.Component {
       cell: (row) => (
         <div>
           <div className="btn-group">
-            <button
-              className="btn-sm btn-warning"
-            >
-                   <Link className="btn fas fa-edit" to={"/edit/" + row.idProducto}>
-             
-            </Link>
-      
+            <button className="btn-sm btn-warning">
+              <Link
+                className="btn fas fa-edit"
+                to={"/edit/" + row.idProducto}
+              ></Link>
             </button>
-        
+
             <button
               className="btn-sm btn-danger"
               onClick={(e) => this.onDelete(row.idProducto, e)}
@@ -213,41 +202,44 @@ class menuComponent extends React.Component {
       ),
     },
   ];
-//Funciones Crud
-sendSave(){
-  const datapost = {
-    nombre : this.state.nombre,
-    descripcion : this.state.descripcion,
-    unidades : this.state.unidades,
-    valor : this.state.valor,
-    estado  : 1,
-    categoria_idcategoria  : 1,
-    file  : 1,
+
+  CleanCreateForm() {
+    this.setState({ nombre: "" });
+    this.setState({ descripcion: "" });
+    this.setState({ unidades: "" });
+    this.setState({ valor: "" });
   }
-  const baseUrl = "http://localhost:3000/producto"
-  axios.post(baseUrl,datapost) 
-  .then(response=>{
-    if (response.status===201) {
-      this.alert();
-      this.setState({ nombre: '' });
-      this.setState({ descripcion: '' });
-      this.setState({ unidades: '' });
-      this.setState({ valor: '' });
-      this.loadProducts(); //para recargar
-    }
-    else {
-      console.log(response.status);
-      alert("no funcko")
-    }
-  }).catch(error=>{
-    alert("Error 34 "+error)
-  })
-}
-
-
-
-
-
+  //Funciones Crud
+  sendSave() {
+    const datapost = {
+      nombre: this.state.nombre,
+      descripcion: this.state.descripcion,
+      unidades: this.state.unidades,
+      valor: this.state.valor,
+      estado: 1,
+      categoria_idcategoria: 1,
+      file: 1,
+    };
+    const baseUrl = "http://localhost:3000/producto";
+    axios
+      .post(baseUrl, datapost)
+      .then((response) => {
+        if (response.status === 201) {
+          this.alert();
+          this.setState({ nombre: "" });
+          this.setState({ descripcion: "" });
+          this.setState({ unidades: "" });
+          this.setState({ valor: "" });
+          this.loadProducts(); //para recargar
+        } else {
+          console.log(response.status);
+          alert("no funcko");
+        }
+      })
+      .catch((error) => {
+        alert("Error 34 " + error);
+      });
+  }
   EditRow(row, e) {
     this.setState({
       u_idProducto: row.idProducto,
@@ -290,7 +282,6 @@ sendSave(){
         alert("Error 325 ");
       });
   }
-
   //funciones Toast
   alert() {
     Toast.fire({
@@ -298,12 +289,10 @@ sendSave(){
       title: "Creado con éxito",
     });
   }
-
   //Funciones del render
   componentDidMount() {
     this.loadProducts();
   }
-
   loadProducts() {
     axios
       .get("http://localhost:3000/producto")
@@ -363,59 +352,94 @@ sendSave(){
               <div className="modal-body">
                 {/** */}
 
-            
                 <div className="form-group row">
-                  <label  htmlFor="NombreCreate" className="col-sm-2 col-form-label">
+                  <label
+                    htmlFor="NombreCreate"
+                    className="col-sm-2 col-form-label"
+                  >
                     Nombre
                   </label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="inputNombreCreate" placeholder="Escriba un nombre"
-                      value={this.state.nombre} 
-                      onChange={(value)=> this.setState({nombre:value.target.value})}
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="inputNombreCreate"
+                      placeholder="Escriba un nombre"
+                      value={this.state.nombre}
+                      onChange={(value) =>
+                        this.setState({ nombre: value.target.value })
+                      }
                     />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label  htmlFor="DescripcionCreate" className="col-sm-2 col-form-label">
+                  <label
+                    htmlFor="DescripcionCreate"
+                    className="col-sm-2 col-form-label"
+                  >
                     Descripción
                   </label>
                   <div className="col-sm-10">
                     <textarea
-                        className="form-control"
-                        rows="3"
-                        placeholder="Escriba una descripción..."
-                        value={this.state.descripcion}
-                        onChange={(value) =>
-                          this.setState({ descripcion: value.target.value })
-                        }
-                      ></textarea>
+                      className="form-control"
+                      rows="3"
+                      placeholder="Escriba una descripción..."
+                      value={this.state.descripcion}
+                      onChange={(value) =>
+                        this.setState({ descripcion: value.target.value })
+                      }
+                    ></textarea>
                   </div>
-                </div>            
+                </div>
                 <div className="form-group row">
-                  <label  htmlFor="UnidadesCreate" className="col-sm-2 col-form-label">
+                  <label
+                    htmlFor="UnidadesCreate"
+                    className="col-sm-2 col-form-label"
+                  >
                     Unidades
                   </label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="inputUnidadesCreate"
-                      value={this.state.unidades} 
-                      onChange={(value)=> this.setState({unidades:value.target.value})}
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="inputUnidadesCreate"
+                      value={this.state.unidades}
+                      onChange={(value) =>
+                        this.setState({ unidades: value.target.value })
+                      }
                     />
                   </div>
-                </div>       
+                </div>
                 <div className="form-group row">
-                  <label  htmlFor="ValorCreate" className="col-sm-2 col-form-label">
+                  <label
+                    htmlFor="ValorCreate"
+                    className="col-sm-2 col-form-label"
+                  >
                     Valor
                   </label>
                   <div className="col-sm-10">
-                    <input type="text" className="form-control" id="inputValorCreate" placeholder="Escriba un nombre"
-                      value={this.state.valor} 
-                      onChange={(value)=> this.setState({valor:value.target.value})}
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="inputValorCreate"
+                      placeholder="Escriba un nombre"
+                      value={this.state.valor}
+                      onChange={(value) =>
+                        this.setState({ valor: value.target.value })
+                      }
                     />
                   </div>
-                </div>       
+                </div>
                 {/** */}
               </div>
               <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-warning"
+                  onClick={() => this.CleanCreateForm()}
+                >
+                  Limpiar campos
+                </button>
                 <button
                   type="button"
                   className="btn btn-secondary"
@@ -423,14 +447,18 @@ sendSave(){
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="btn btn-primary" onClick={()=>this.sendSave()}>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={() => this.sendSave()}
+                >
                   Guardar
                 </button>
               </div>
             </div>
           </div>
         </div>
-     
+
         {/*----------------Tabla----------------*/}
         <CustomTable
           tableHeaders={this.header}

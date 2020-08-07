@@ -11,7 +11,7 @@ import "sweetalert2/src/sweetalert2.scss";
 import moment from "moment";
 //import Datatable from "react-bs-datatable";
 import { css } from "emotion";
- 
+
 // Todo lo relacionado con la tabla en sí
 import {
   Pagination,
@@ -23,7 +23,6 @@ import {
   shouldTableUpdate,
 } from "react-bs-datatable";
 
- 
 const customLabels = {
   first: "<<",
   last: ">>",
@@ -148,7 +147,6 @@ const CustomTable = React.memo((props) => {
 }, shouldTableUpdate);
 
 //Lo relacionado con las notificaciones Toast
-
 const Toast = Swal.mixin({
   toast: true,
   position: "top-end",
@@ -160,22 +158,6 @@ const Toast = Swal.mixin({
     toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Funciones CRUD
 function onDelete(id) {
@@ -213,14 +195,19 @@ function sendDelete(idProducto) {
     });
 }
 
- 
-
 class menuComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       listProducts: [],
-      campName: "felipe",
+      //update variables
+      nombre: "",
+      descripcion: "",
+      unidades: "",
+      valor: "",
+      estado: "",
+      imagen: "",
+      categoria_id_categoria: "",
     };
   }
 
@@ -236,8 +223,8 @@ class menuComponent extends React.Component {
               className="btn-sm btn-warning"
               data-toggle="modal"
               data-target="#exampleModalUpdate"
-              onClick={(e) =>  this.EditRow(row, e)}
-            >  
+              onClick={(e) => this.EditRow(row, e)}
+            >
               <i className="fas fa-edit"></i>
             </button>
             <button
@@ -254,13 +241,15 @@ class menuComponent extends React.Component {
 
   EditRow(row, e) {
     this.setState({
-      campName: row.idProducto,
+      idProducto: row.idProducto,
+      nombre: row.nombre,
+      descripcion: row.descripcion,
+      unidades: row.unidades,
+      valor: row.valor,
+      imagen: row.imagen,
       //{this.state.campName}  esto va en el modal
     });
   }
-  
-
-
 
   //funciones Toast
   alert() {
@@ -269,9 +258,6 @@ class menuComponent extends React.Component {
       title: "Creado con éxito",
     });
   }
-  
-  
-  
 
   //Funciones del render
   componentDidMount() {
@@ -305,7 +291,7 @@ class menuComponent extends React.Component {
             data-toggle="modal"
             data-target="#exampleModalCenter"
           >
-            Crear nuevo producto       
+            Crear nuevo producto
           </button>
         </div>
 
@@ -496,9 +482,9 @@ class menuComponent extends React.Component {
           <div className="modal-dialog modal-dialog modal-lg" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLongTitle"
-                >
-                  Modal Editar 
+                <h5 className="modal-title" id="exampleModalLongTitle">
+                 
+                 {/*Modal Editar  */}  
                 </h5>
                 <button
                   type="button"
@@ -512,42 +498,90 @@ class menuComponent extends React.Component {
               <div className="modal-body">
                 {/** */}
 
-                <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-              
-                  </label>
-       
-
-                  <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-                    idProducto
-                  </label>
-                  <div className="col-sm-10">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
-                      value={this.state.campName}
-                      onChange={(value) =>
-                        this.setState({ campName: value.target.value })
-                      }
-                    />
-                    
+                <form role="form">
+                  <div className="card-body">
+                    <div className="form-group">
+                      <label htmlFor="editNombreModal">Nombre</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="editNombreModal"
+                        placeholder="Ingrese un nombre"
+                        value={this.state.nombre}
+                        onChange={(value) =>
+                          this.setState({ nombre: value.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="editNombreModal">Descripción</label>
+                      <textarea className="form-control" rows="3" 
+                       placeholder="Escriba una descripción..." 
+                       value={this.state.descripcion}
+                       onChange={(value) =>
+                         this.setState({ descripcion: value.target.value })
+                       }
+                       >
+                      
+                      </textarea>
+                    </div>            
+                    <div className="form-group">
+                      <label htmlFor="editUnidadesModal">Unidades</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="editUnidadesModal"
+                        placeholder="Ingrese una cantidad"
+                        value={this.state.valor}
+                        onChange={(value) =>
+                          this.setState({ valor: value.target.value })
+                        }
+                      />
+                    </div>            
+                    <div className="form-group">
+                      <label htmlFor="editValorModal">Valor</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="editValorModal"
+                        placeholder="Ingrese un valor"
+                        value={this.state.valor}
+                        onChange={(value) =>
+                          this.setState({ valor: value.target.value })
+                        }
+                      />
+                    </div>                   
+                    <div className="form-group">
+    
+                    <div className="form-group">
+                      <label htmlFor="exampleInputFile">File input</label>
+                      <div className="input-group">
+                        <div className="custom-file">
+                          <input
+                            type="file"
+                            className="custom-file-input"
+                            id="exampleInputFile"
+                          />
+                          <label
+                            className="custom-file-label"
+                            htmlFor="exampleInputFile"
+                          >
+                            Choose file
+                          </label>
+                        </div>
+                        <div className="input-group-append">
+                          <span className="input-group-text" id="upload">
+                            Upload
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                   
                   </div>
-                </div>
+                  {/* /.card-body */}
+                  </div>
+                </form>
 
-
-
-
-                </div>
-  
                 {/** */}
               </div>
               <div className="modal-footer">

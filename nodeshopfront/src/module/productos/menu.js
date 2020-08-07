@@ -159,48 +159,22 @@ const Toast = Swal.mixin({
   },
 });
 
-//Funciones CRUD
-function onDelete(id) {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You will not be able to recover this imaginary file!",
-    //  type: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "No, keep it",
-  }).then((result) => {
-    if (result.value) {
-      sendDelete(id);
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
-      Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
-    }
-  });
-}
-function sendDelete(idProducto) {
-  // url de backend
-  const baseUrl = "http://localhost:3000/producto/delete"; // parameter data post
-  // network
-  axios
-    .post(baseUrl, {
-      id: idProducto,
-    })
-    .then((response) => {
-      if (response.data.success) {
-        Swal.fire("Deleted!", "Your employee has been deleted.", "success");
-        this.loadProducts(); //para recargar
-      }
-    })
-    .catch((error) => {
-      alert("Error 325 ");
-    });
-}
-
 class menuComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       listProducts: [],
-      //update variables
+      // variables update
+      u_idProducto: "",
+      u_nombre: "",
+      u_descripcion: "",
+      u_unidades: "",
+      u_valor: "",
+      u_estado: "",
+      u_imagen: "",
+      u_categoria_id_categoria: "",
+      // variables crear
+      idProducto: "",
       nombre: "",
       descripcion: "",
       unidades: "",
@@ -221,15 +195,16 @@ class menuComponent extends React.Component {
           <div className="btn-group">
             <button
               className="btn-sm btn-warning"
-              data-toggle="modal"
-              data-target="#exampleModalUpdate"
-              onClick={(e) => this.EditRow(row, e)}
             >
-              <i className="fas fa-edit"></i>
+                   <Link className="btn fas fa-edit" to={"/edit/" + row.idProducto}>
+             
+            </Link>
+      
             </button>
+        
             <button
               className="btn-sm btn-danger"
-              onClick={(e) => onDelete(row.idProducto, e)}
+              onClick={(e) => this.onDelete(row.idProducto, e)}
             >
               <i className="fas fa-trash"></i>
             </button>
@@ -238,17 +213,82 @@ class menuComponent extends React.Component {
       ),
     },
   ];
+//Funciones Crud
+sendSave(){
+  const datapost = {
+    nombre : this.state.nombre,
+    descripcion : this.state.descripcion,
+    unidades : this.state.unidades,
+    valor : this.state.valor,
+    estado  : 1,
+    categoria_idcategoria  : 1,
+    file  : 1,
+  }
+  const baseUrl = "http://localhost:3000/producto"
+  axios.post(baseUrl,datapost) 
+  .then(response=>{
+    if (response.status===201) {
+      this.alert();
+      this.setState({ nombre: '' });
+      this.setState({ descripcion: '' });
+      this.setState({ unidades: '' });
+      this.setState({ valor: '' });
+      this.loadProducts(); //para recargar
+    }
+    else {
+      console.log(response.status);
+      alert("no funcko")
+    }
+  }).catch(error=>{
+    alert("Error 34 "+error)
+  })
+}
+
+
+
+
 
   EditRow(row, e) {
     this.setState({
-      idProducto: row.idProducto,
-      nombre: row.nombre,
-      descripcion: row.descripcion,
-      unidades: row.unidades,
-      valor: row.valor,
-      imagen: row.imagen,
-      //{this.state.campName}  esto va en el modal
+      u_idProducto: row.idProducto,
+      u_nombre: row.nombre,
+      u_descripcion: row.descripcion,
+      u_unidades: row.unidades,
+      u_valor: row.valor,
+      u_imagen: row.imagen,
     });
+  }
+  onDelete(id) {
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "Se eliminará el registro!",
+      //  type: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Si, eliminar!",
+      cancelButtonText: "No, mantenerlo",
+    }).then((result) => {
+      if (result.value) {
+        this.sendDelete(id);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelado", "Se ha cancelado su eliminación", "error");
+      }
+    });
+  }
+  sendDelete(idProducto) {
+    // url de backend
+    const baseUrl = "http://localhost:3000/producto"; // parameter data post
+    // network UPDATE `producto` SET `estado`=1  WHERE 1
+    axios
+      .delete(baseUrl + "?id=" + idProducto)
+      .then((response) => {
+        if (response.statusText === "OK") {
+          Swal.fire("Eliminado!", "Se ha eliminado el registro.", "success");
+          this.loadProducts(); //para recargar
+        }
+      })
+      .catch((error) => {
+        alert("Error 325 ");
+      });
   }
 
   //funciones Toast
@@ -267,7 +307,6 @@ class menuComponent extends React.Component {
   loadProducts() {
     axios
       .get("http://localhost:3000/producto")
-
       .then((res) => {
         if (res) {
           const data = res.data.body;
@@ -324,135 +363,56 @@ class menuComponent extends React.Component {
               <div className="modal-body">
                 {/** */}
 
+            
                 <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-                    idProducto
+                  <label  htmlFor="NombreCreate" className="col-sm-2 col-form-label">
+                    Nombre
                   </label>
                   <div className="col-sm-10">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
+                    <input type="text" className="form-control" id="inputNombreCreate" placeholder="Escriba un nombre"
+                      value={this.state.nombre} 
+                      onChange={(value)=> this.setState({nombre:value.target.value})}
                     />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-                    nombre
+                  <label  htmlFor="DescripcionCreate" className="col-sm-2 col-form-label">
+                    Descripción
                   </label>
                   <div className="col-sm-10">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
-                    />
+                    <textarea
+                        className="form-control"
+                        rows="3"
+                        placeholder="Escriba una descripción..."
+                        value={this.state.descripcion}
+                        onChange={(value) =>
+                          this.setState({ descripcion: value.target.value })
+                        }
+                      ></textarea>
                   </div>
-                </div>
+                </div>            
                 <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-                    descripcion
+                  <label  htmlFor="UnidadesCreate" className="col-sm-2 col-form-label">
+                    Unidades
                   </label>
                   <div className="col-sm-10">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
+                    <input type="text" className="form-control" id="inputUnidadesCreate"
+                      value={this.state.unidades} 
+                      onChange={(value)=> this.setState({unidades:value.target.value})}
                     />
                   </div>
-                </div>
+                </div>       
                 <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-                    unidades
+                  <label  htmlFor="ValorCreate" className="col-sm-2 col-form-label">
+                    Valor
                   </label>
                   <div className="col-sm-10">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
+                    <input type="text" className="form-control" id="inputValorCreate" placeholder="Escriba un nombre"
+                      value={this.state.valor} 
+                      onChange={(value)=> this.setState({valor:value.target.value})}
                     />
                   </div>
-                </div>
-                <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-                    valor
-                  </label>
-                  <div className="col-sm-10">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
-                    />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-                    estado
-                  </label>
-                  <div className="col-sm-10">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
-                    />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-                    imagen
-                  </label>
-                  <div className="col-sm-10">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
-                    />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <label
-                    htmlFor="inputEmail3"
-                    className="col-sm-2 col-form-label"
-                  >
-                    categoria_idcategoria
-                  </label>
-                  <div className="col-sm-10">
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="inputEmail3"
-                      placeholder="Email"
-                    />
-                  </div>
-                </div>
-
+                </div>       
                 {/** */}
               </div>
               <div className="modal-footer">
@@ -463,143 +423,14 @@ class menuComponent extends React.Component {
                 >
                   Cancelar
                 </button>
-                <button type="button" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" onClick={()=>this.sendSave()}>
                   Guardar
                 </button>
               </div>
             </div>
           </div>
         </div>
-        {/* Modal Editar*/}
-        <div
-          className="modal fade"
-          id="exampleModalUpdate"
-          tabIndex={-1}
-          role="dialog"
-          aria-labelledby="exampleModalUpdateTitle"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog modal-lg" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLongTitle">
-                 
-                 {/*Modal Editar  */}  
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                {/** */}
-
-                <form role="form">
-                  <div className="card-body">
-                    <div className="form-group">
-                      <label htmlFor="editNombreModal">Nombre</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="editNombreModal"
-                        placeholder="Ingrese un nombre"
-                        value={this.state.nombre}
-                        onChange={(value) =>
-                          this.setState({ nombre: value.target.value })
-                        }
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="editNombreModal">Descripción</label>
-                      <textarea className="form-control" rows="3" 
-                       placeholder="Escriba una descripción..." 
-                       value={this.state.descripcion}
-                       onChange={(value) =>
-                         this.setState({ descripcion: value.target.value })
-                       }
-                       >
-                      
-                      </textarea>
-                    </div>            
-                    <div className="form-group">
-                      <label htmlFor="editUnidadesModal">Unidades</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="editUnidadesModal"
-                        placeholder="Ingrese una cantidad"
-                        value={this.state.valor}
-                        onChange={(value) =>
-                          this.setState({ valor: value.target.value })
-                        }
-                      />
-                    </div>            
-                    <div className="form-group">
-                      <label htmlFor="editValorModal">Valor</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="editValorModal"
-                        placeholder="Ingrese un valor"
-                        value={this.state.valor}
-                        onChange={(value) =>
-                          this.setState({ valor: value.target.value })
-                        }
-                      />
-                    </div>                   
-                    <div className="form-group">
-    
-                    <div className="form-group">
-                      <label htmlFor="exampleInputFile">File input</label>
-                      <div className="input-group">
-                        <div className="custom-file">
-                          <input
-                            type="file"
-                            className="custom-file-input"
-                            id="exampleInputFile"
-                          />
-                          <label
-                            className="custom-file-label"
-                            htmlFor="exampleInputFile"
-                          >
-                            Choose file
-                          </label>
-                        </div>
-                        <div className="input-group-append">
-                          <span className="input-group-text" id="upload">
-                            Upload
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                   
-                  </div>
-                  {/* /.card-body */}
-                  </div>
-                </form>
-
-                {/** */}
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Cancelar
-                </button>
-                <button type="button" className="btn btn-primary">
-                  Guardar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
+     
         {/*----------------Tabla----------------*/}
         <CustomTable
           tableHeaders={this.header}

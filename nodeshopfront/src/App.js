@@ -16,6 +16,7 @@ import Footer from "./page-components/Footer";
 //Componentes funcionales
 import ShowProductos from "./module/productos/show";
 import MenuProductos from "./module/productos/menu";
+import EditarProductos from "./module/productos/edit";
 function App() {
   return (
     <Router>
@@ -35,7 +36,7 @@ function App() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/editar">
+                <Link className="nav-link" to="/otros2">
                   para probar el SPA 1
                 </Link>
               </li>
@@ -52,9 +53,10 @@ function App() {
                   <div className="card-body">
                     {/* Productos aqui se llamará un template */}
                     <Route path="/" exact component={ShowProductos} />
-                    <Route path="/editar" exact component={InfoBoxes} />
+                    <Route path="/otros2" exact component={InfoBoxes} />
                     <Route path="/otro" exact component={MainRow} />
                     <Route path="/menu" exact component={MenuProductos} />
+                    <Route path="/edit/:id" component={EditarProductos} />
                     {/* Productos aqui se llamará un template */}
                   </div>
                  

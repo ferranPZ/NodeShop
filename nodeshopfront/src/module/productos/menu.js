@@ -175,6 +175,14 @@ class menuComponent extends React.Component {
       categoria_idcategoria: "",
       //imagen modal
       profileImg: "dist/img/user2-160x160.jpg",
+      //validation
+      validationNombre: "",
+      validationDescripcion: "",
+      validationUnidades: "",
+      validationValor: "",
+      validationEstado: "",
+      validationFile: "",
+      validationCategoria: "",
     };
   }
 
@@ -212,8 +220,61 @@ class menuComponent extends React.Component {
     this.setState({ valor: "" });
     this.setState({ file: "" });
     this.setState({ profileImg: "dist/img/user2-160x160.jpg" });
+    //validaciones
+    this.setState({ validationNombre: "" });
+    this.setState({ validationDescripcion: "" });
+    this.setState({ validationUnidades: "" });
+    this.setState({ validationValor: "" });
+    this.setState({ validationEstado: "" });
+    this.setState({ validationFile: "" });
+    this.setState({ validationCategoria: "" });
   }
   //Funciones Crud
+
+  validationModal() {
+   
+    let validationOK = true;
+    if (this.state.nombre === "") {
+      this.setState({ validationNombre: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationNombre: "is-valid" });
+    }
+    if (this.state.descripcion === "") {
+      this.setState({ validationDescripcion: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationDescripcion: "is-valid" });
+    }
+    if (this.state.unidades === "") {
+      this.setState({ validationUnidades: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationUnidades: "is-valid" });
+    }
+    if (this.state.valor === "") {
+      this.setState({ validationValor: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationValor: "is-valid" });
+    }
+    if (this.state.categoria_idcategoria === "") {
+      this.setState({ validationCategoria: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationCategoria: "is-valid" });
+    }
+    if (this.state.file === "") {
+      this.setState({ validationFile: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationFile: "is-valid" });
+    }
+    if (validationOK === true) {
+      this.sendSave();
+    }
+  }
+
   sendSave() {
     const datapost = {
       nombre: this.state.nombre,
@@ -224,7 +285,7 @@ class menuComponent extends React.Component {
       categoria_idcategoria: this.state.categoria_idcategoria,
       file: this.state.file,
     };
-    console.log(datapost);
+   // console.log(datapost);
     const baseUrl = "http://localhost:3000/producto";
     axios
       .post(baseUrl, datapost)
@@ -237,6 +298,7 @@ class menuComponent extends React.Component {
           this.setState({ valor: "" });
           this.setState({ file: "" });
           this.setState({ categoria_id_categoria: "" });
+          this.setState({ profileImg: "dist/img/user2-160x160.jpg" });
           this.loadProducts(); //para recargar
         } else {
           console.log(response.status);
@@ -381,7 +443,7 @@ class menuComponent extends React.Component {
                     <div className="col-sm-12">
                       <input
                         type="text"
-                        className="form-control"
+                        className={`form-control ${this.state.validationNombre}`}
                         id="inputNombreCreate"
                         placeholder="Escriba un nombre"
                         value={this.state.nombre}
@@ -389,6 +451,12 @@ class menuComponent extends React.Component {
                           this.setState({ nombre: value.target.value })
                         }
                       />
+                      <span
+                        id="inputNombreCreate-error"
+                        className="error invalid-feedback"
+                      >
+                        Ingrese un nombre válido
+                      </span>
                     </div>
                   </div>
                   <div className="form-group row">
@@ -400,7 +468,7 @@ class menuComponent extends React.Component {
                     </label>
                     <div className="col-sm-12">
                       <textarea
-                        className="form-control"
+                        className={`form-control ${this.state.validationDescripcion}`}
                         rows="3"
                         placeholder="Escriba una descripción..."
                         value={this.state.descripcion}
@@ -408,6 +476,12 @@ class menuComponent extends React.Component {
                           this.setState({ descripcion: value.target.value })
                         }
                       ></textarea>
+                      <span
+                        id="inputDescripcionCreate-error"
+                        className="error invalid-feedback"
+                      >
+                        Ingrese una descripción
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -423,13 +497,19 @@ class menuComponent extends React.Component {
                       <div className="col-sm-10">
                         <input
                           type="number"
-                          className="form-control"
+                          className={`form-control ${this.state.validationUnidades}`}
                           id="inputUnidadesCreate"
                           value={this.state.unidades}
                           onChange={(value) =>
                             this.setState({ unidades: value.target.value })
                           }
                         />
+                        <span
+                          id="inputUnidadCreate-error"
+                          className="error invalid-feedback"
+                        >
+                          Ingrese una cantidad
+                        </span>
                       </div>
                     </div>
                     <div className="form-group row">
@@ -442,13 +522,19 @@ class menuComponent extends React.Component {
                       <div className="col-sm-10">
                         <input
                           type="file"
-                          className="form-control"
+                          className={`form-control ${this.state.validationFile}`}
                           id="inputImagenCreate"
-                          placeholder="Escriba un nombre"
+                          placeholder="Seleccione un archivo"
                           value={this.state.file}
                           accept="image/*"
                           onChange={this.imageHandler}
                         />
+                        <span
+                          id="inputImagenCreate-error"
+                          className="error invalid-feedback"
+                        >
+                          Ingrese una imagen
+                        </span>
                       </div>
                     </div>
                     <div className="form-group row">
@@ -461,20 +547,25 @@ class menuComponent extends React.Component {
                       <div className="col-sm-10">
                         <select
                           id="inputState"
-                          className="form-control"
+                          className={`form-control ${this.state.validationCategoria}`}
                           onChange={(value) =>
                             this.setState({
                               categoria_idcategoria: value.target.value,
                             })
                           }
                         >
-                          <option defaultValue>Choose...</option>
+                          <option value="">Seleccione una Categoría</option>
                           <option value="1">option 1</option>
                           <option value="2">option 2</option>
                           <option value="3">option 3</option>
                           <option value="4">option 4</option>
-                          <option value="5">option 5</option>
                         </select>
+                        <span
+                          id="inputCategoriaCreate-error"
+                          className="error invalid-feedback"
+                        >
+                          Seleccione una categoría
+                        </span>
                       </div>
                     </div>
                     <div className="form-group row">
@@ -487,19 +578,30 @@ class menuComponent extends React.Component {
                       <div className="col-sm-10">
                         <input
                           type="number"
-                          className="form-control"
+                          className={`form-control ${this.state.validationValor}`}
                           id="inputValorCreate"
                           value={this.state.valor}
                           onChange={(value) =>
                             this.setState({ valor: value.target.value })
                           }
                         />
+                        <span
+                          id="inputValorCreate-error"
+                          className="error invalid-feedback"
+                        >
+                          Ingrese un precio
+                        </span>
                       </div>
                     </div>
                   </div>
                   <div className="col-4">
                     <div>
-                      <img src={profileImg} alt="" id="" className="img mw-100" ></img>
+                      <img
+                        src={profileImg}
+                        alt=""
+                        id=""
+                        className="img mw-100"
+                      ></img>
                     </div>
                   </div>
                 </div>
@@ -522,7 +624,7 @@ class menuComponent extends React.Component {
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  onClick={() => this.sendSave()}
+                  onClick={() => this.validationModal()}
                 >
                   Guardar
                 </button>

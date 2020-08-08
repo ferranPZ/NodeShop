@@ -171,8 +171,10 @@ class menuComponent extends React.Component {
       unidades: "",
       valor: "",
       estado: "",
-      imagen: "",
-      categoria_id_categoria: "",
+      file: "",
+      categoria_idcategoria: "",
+      //imagen modal
+      profileImg: "dist/img/user2-160x160.jpg",
     };
   }
 
@@ -217,9 +219,10 @@ class menuComponent extends React.Component {
       unidades: this.state.unidades,
       valor: this.state.valor,
       estado: 1,
-      categoria_idcategoria: 1,
-      file: 1,
+      categoria_idcategoria: this.state.categoria_idcategoria,
+      file: this.state.file,
     };
+    console.log(datapost);
     const baseUrl = "http://localhost:3000/producto";
     axios
       .post(baseUrl, datapost)
@@ -230,6 +233,8 @@ class menuComponent extends React.Component {
           this.setState({ descripcion: "" });
           this.setState({ unidades: "" });
           this.setState({ valor: "" });
+          this.setState({ file: "" });
+          this.setState({ categoria_id_categoria: "" });
           this.loadProducts(); //para recargar
         } else {
           console.log(response.status);
@@ -309,7 +314,21 @@ class menuComponent extends React.Component {
       });
   }
 
+  imageHandler = (e) => {
+    this.setState({ file: e.target.value });
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        this.setState({ profileImg: reader.result });
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
   render() {
+    const { profileImg } = this.state;
     return (
       <div>
         <div className="card-body" style={{ height: "10px" }}>
@@ -322,7 +341,6 @@ class menuComponent extends React.Component {
             Crear nuevo producto
           </button>
         </div>
-
         {/*----------------Modal----------------*/}
 
         {/* Modal Crear*/}
@@ -338,7 +356,7 @@ class menuComponent extends React.Component {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLongTitle">
-                  Modal crear
+                  Añadir productos
                 </h5>
                 <button
                   type="button"
@@ -350,87 +368,139 @@ class menuComponent extends React.Component {
                 </button>
               </div>
               <div className="modal-body">
-                {/** */}
-
-                <div className="form-group row">
-                  <label
-                    htmlFor="NombreCreate"
-                    className="col-sm-2 col-form-label"
-                  >
-                    Nombre
-                  </label>
-                  <div className="col-sm-10">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="inputNombreCreate"
-                      placeholder="Escriba un nombre"
-                      value={this.state.nombre}
-                      onChange={(value) =>
-                        this.setState({ nombre: value.target.value })
-                      }
-                    />
+                <div className="col-12">
+                  <div className="form-group row">
+                    <label
+                      htmlFor="NombreCreate"
+                      className="col-sm-2 col-form-label"
+                    >
+                      Nombre
+                    </label>
+                    <div className="col-sm-12">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inputNombreCreate"
+                        placeholder="Escriba un nombre"
+                        value={this.state.nombre}
+                        onChange={(value) =>
+                          this.setState({ nombre: value.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group row">
+                    <label
+                      htmlFor="DescripcionCreate"
+                      className="col-sm-2 col-form-label"
+                    >
+                      Descripción
+                    </label>
+                    <div className="col-sm-12">
+                      <textarea
+                        className="form-control"
+                        rows="3"
+                        placeholder="Escriba una descripción..."
+                        value={this.state.descripcion}
+                        onChange={(value) =>
+                          this.setState({ descripcion: value.target.value })
+                        }
+                      ></textarea>
+                    </div>
                   </div>
                 </div>
-                <div className="form-group row">
-                  <label
-                    htmlFor="DescripcionCreate"
-                    className="col-sm-2 col-form-label"
-                  >
-                    Descripción
-                  </label>
-                  <div className="col-sm-10">
-                    <textarea
-                      className="form-control"
-                      rows="3"
-                      placeholder="Escriba una descripción..."
-                      value={this.state.descripcion}
-                      onChange={(value) =>
-                        this.setState({ descripcion: value.target.value })
-                      }
-                    ></textarea>
+                <div className="row">
+                  <div className="col-8">
+                    <div className="form-group row">
+                      <label
+                        htmlFor="UnidadesCreate"
+                        className="col-sm-2 col-form-labels"
+                      >
+                        Unidades
+                      </label>
+                      <div className="col-sm-10">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="inputUnidadesCreate"
+                          value={this.state.unidades}
+                          onChange={(value) =>
+                            this.setState({ unidades: value.target.value })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label
+                        htmlFor="ValorCreate"
+                        className="col-sm-2 col-form-label"
+                      >
+                        Imagen
+                      </label>
+                      <div className="col-sm-10">
+                        <input
+                          type="file"
+                          className="form-control"
+                          id="inputImagenCreate"
+                          placeholder="Escriba un nombre"
+                          value={this.state.file}
+                          accept="image/*"
+                          onChange={this.imageHandler}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label
+                        htmlFor="UnidadesCreate"
+                        className="col-sm-2 col-form-label"
+                      >
+                        Categoría
+                      </label>
+                      <div className="col-sm-10">
+                        <select
+                          id="inputState"
+                          className="form-control"
+                          onChange={(value) =>
+                            this.setState({
+                              categoria_idcategoria: value.target.value,
+                            })
+                          }
+                        >
+                          <option defaultValue>Choose...</option>
+                          <option value="1">option 1</option>
+                          <option value="2">option 2</option>
+                          <option value="3">option 3</option>
+                          <option value="4">option 4</option>
+                          <option value="5">option 5</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label
+                        htmlFor="ValorCreate"
+                        className="col-sm-2 col-form-label"
+                      >
+                        Precio
+                      </label>
+                      <div className="col-sm-10">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="inputValorCreate"
+                          value={this.state.valor}
+                          onChange={(value) =>
+                            this.setState({ valor: value.target.value })
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-4">
+                    <div>
+                      <img src={profileImg} alt="" id="" className="img mw-100" ></img>
+                    </div>
                   </div>
                 </div>
-                <div className="form-group row">
-                  <label
-                    htmlFor="UnidadesCreate"
-                    className="col-sm-2 col-form-label"
-                  >
-                    Unidades
-                  </label>
-                  <div className="col-sm-10">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="inputUnidadesCreate"
-                      value={this.state.unidades}
-                      onChange={(value) =>
-                        this.setState({ unidades: value.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <label
-                    htmlFor="ValorCreate"
-                    className="col-sm-2 col-form-label"
-                  >
-                    Valor
-                  </label>
-                  <div className="col-sm-10">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="inputValorCreate"
-                      placeholder="Escriba un nombre"
-                      value={this.state.valor}
-                      onChange={(value) =>
-                        this.setState({ valor: value.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-                {/** */}
               </div>
               <div className="modal-footer">
                 <button

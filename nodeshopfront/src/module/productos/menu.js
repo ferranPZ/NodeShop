@@ -291,7 +291,7 @@ class menuComponent extends React.Component {
       .post(baseUrl, datapost)
       .then((response) => {
         if (response.status === 201) {
-          this.alert();
+          Swal.fire("Creado!", "Se ha creado el registro.", "success");
           this.setState({ nombre: "" });
           this.setState({ descripcion: "" });
           this.setState({ unidades: "" });
@@ -300,9 +300,10 @@ class menuComponent extends React.Component {
           this.setState({ categoria_id_categoria: "" });
           this.setState({ profileImg: "dist/img/user2-160x160.jpg" });
           this.loadProducts(); //para recargar
+          this.CleanCreateForm();
         } else {
           console.log(response.status);
-          alert("no funcko");
+          Swal.fire("Error!", "Se ha producido un error.", "error");
         }
       })
       .catch((error) => {
@@ -352,7 +353,7 @@ class menuComponent extends React.Component {
       });
   }
   //funciones Toast
-  alert() {
+  Toast() {
     Toast.fire({
       icon: "success",
       title: "Creado con éxito",

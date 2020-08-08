@@ -210,6 +210,8 @@ class menuComponent extends React.Component {
     this.setState({ descripcion: "" });
     this.setState({ unidades: "" });
     this.setState({ valor: "" });
+    this.setState({ file: "" });
+    this.setState({ profileImg: "dist/img/user2-160x160.jpg" });
   }
   //Funciones Crud
   sendSave() {

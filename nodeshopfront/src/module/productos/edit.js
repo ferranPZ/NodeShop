@@ -6,7 +6,7 @@ import axios from "axios";
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
-
+import { withRouter } from "react-router-dom";
 const baseUrl = "http://localhost:3000";
 
 class EditComponent extends React.Component {
@@ -14,6 +14,7 @@ class EditComponent extends React.Component {
     super(props);
     this.state = {
       dataProducto: {},
+      dataCategoria: {},
       idProducto: "",
       nombre: "",
       descripcion: "",
@@ -22,6 +23,7 @@ class EditComponent extends React.Component {
       estado: "",
       file: "",
       categoria_idcategoria: "",
+      stringCategoria: "",
       //imagen modal
       profileImg: "../dist/img/user2-160x160.jpg",
       //validation
@@ -34,12 +36,9 @@ class EditComponent extends React.Component {
       validationCategoria: "",
     };
   }
-
   imageHandler = (e) => {
     this.setState({ file: e.target.value });
-
     const reader = new FileReader();
-
     reader.onload = () => {
       if (reader.readyState === 2) {
         this.setState({ profileImg: reader.result });
@@ -49,37 +48,84 @@ class EditComponent extends React.Component {
     reader.readAsDataURL(e.target.files[0]);
   };
   validationModal() {
-    this.sendUpdate();
+    console.log(this.state.nombre);
+    let validationOK = true;
+    if (this.state.nombre === "") {
+      this.setState({ validationNombre: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationNombre: "is-valid" });
+    }
+    if (this.state.descripcion === "") {
+      this.setState({ validationDescripcion: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationDescripcion: "is-valid" });
+    }
+    if (this.state.unidades === "") {
+      this.setState({ validationUnidades: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationUnidades: "is-valid" });
+    }
+    if (this.state.valor === "") {
+      this.setState({ validationValor: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationValor: "is-valid" });
+    }
+    if (this.state.categoria_idcategoria === "") {
+      this.setState({ validationCategoria: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationCategoria: "is-valid" });
+    }
+    if (this.state.file === "") {
+      this.setState({ validationFile: "is-invalid" });
+      validationOK = false;
+    } else {
+      this.setState({ validationFile: "is-valid" });
+    }
+    if (validationOK === true) {
+      this.sendUpdate();
+    }
   }
-
   componentDidMount() {
     let idProducto = this.props.match.params.id;
     const url = baseUrl + "/producto?id=" + idProducto;
+    const url2 = baseUrl + "/categoria";
+    const requestOne = axios.get(url);
+    const requestTwo = axios.get(url2);
     axios
-      .get(url)
-      .then((res) => {
-        if (res.status === 200) {
-          const data = res.data.body[0];
-
-          this.setState({
-            dataUsuario: data,
-            idProducto: data.idProducto,
-            nombre: data.nombre,
-            descripcion: data.descripcion,
-            unidades: data.unidades,
-            valor: data.valor,
-            file: data.file,
-            categoria_idcategoria: data.categoria_idcategoria,
-          });
-        } else {
-          alert("Error web service");
-        }
-      })
-      .catch((error) => {
-        alert("Error server " + error);
+      .all([requestOne, requestTwo])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseTwo = responses[1];
+          if (responseOne.status === 200 && responseTwo.status === 200) {
+            const data = responseOne.data.body[0];
+            const data2 = responseTwo.data.body[0];
+            this.setState({
+              dataProducto: data,
+              dataCategoria: data2,
+              idProducto: data.idProducto,
+              nombre: data.nombre,
+              descripcion: data.descripcion,
+              unidades: data.unidades,
+              valor: data.valor,
+              file: data.file,
+              categoria_idcategoria: data.categoria_idcategoria,
+              stringCategoria: data2.nombre,
+            });
+          } else {
+            alert("Error web service");
+          }
+        })
+      )
+      .catch((errors) => {
+        alert("Error server " + errors);
       });
   }
-
   render() {
     const { profileImg } = this.state;
     return (
@@ -87,7 +133,6 @@ class EditComponent extends React.Component {
         <div className="card-header">
           <h3 className="card-title">Editar productos</h3>
         </div>
-
         <div className="card-body">
           <div className="col-12">
             <div className="form-group row">
@@ -177,19 +222,25 @@ class EditComponent extends React.Component {
                 <div className="col-sm-10">
                   <select
                     id="inputState"
-                    className={`form-control ${this.state.validationCategoria}`}
+                    className="form-control"
                     onChange={(value) =>
                       this.setState({
                         categoria_idcategoria: value.target.value,
                       })
                     }
                   >
-                    <option value="">Seleccione una Categoría</option>
-                    <option value="1">option 1</option>
-                    <option value="2">option 2</option>
-                    <option value="3">option 3</option>
-                    <option value="4">option 4</option>
+                    <option
+                      defaultValue={
+                        this.state.dataProducto.categoria_idcategoria
+                      }
+                    >
+                      {this.state.stringCategoria}
+                    </option>
+                    <option value="1">Admin</option>
+                    <option value="2">Project Manager</option>
+                    <option value="3">Programer</option>
                   </select>
+
                   <span
                     id="inputCategoriaCreate-error"
                     className="error invalid-feedback"
@@ -224,7 +275,6 @@ class EditComponent extends React.Component {
                 </div>
               </div>
             </div>
-
             <div className="col-12">
               <div className="col-5">
                 <div className="form-group row">
@@ -266,7 +316,6 @@ class EditComponent extends React.Component {
             </div>
           </div>
         </div>
-
         <div className="card-footer">
           <button
             type="button"
@@ -286,12 +335,13 @@ class EditComponent extends React.Component {
       </div>
     );
   }
-
+  redireccionar() {
+    this.props.history.push("/menu");
+  }
   sendUpdate() {
- 
     // url de backend
-    const baseUrl = "http://localhost:3000/producto?id=" + this.state.idProducto;
-    console.log(baseUrl);
+    const baseUrl =
+      "http://localhost:3000/producto?id=" + this.state.idProducto;
     // parameter data post
     const datapost = {
       idProducto: this.state.idProducto,
@@ -301,33 +351,23 @@ class EditComponent extends React.Component {
       valor: this.state.valor,
       file: this.state.file,
       categoria_idcategoria: this.state.categoria_idcategoria,
-  
     };
-    console.log(datapost);
     axios
       .patch(baseUrl, datapost)
       .then((response) => {
-        if (response.status===200) {
-      
-          
-          Swal.fire({
-            title: 'Te Han Hackeado',
-            width: 600,
-            padding: '3em',
-            background: '#fff url(/images/trees.png)',
-            backdrop: `
-              rgba(0,0,123,0.4)
-              url("https://media1.tenor.com/images/7fb90fa4f893a30e3b67485a9d937a93/tenor.gif?itemid=10106219")
-              left top
-              no-repeat
-            `
-          })
-
-
-
-
-
-
+        if (response.status === 200) {
+          Swal.queue([
+            {
+              type: "success",
+              title: "Éxito",
+              confirmButtonText: "Aceptar",
+              text: "Se ha actualizado correctamente",
+              showLoaderOnConfirm: true,
+              preConfirm: () => {
+                return this.redireccionar();
+              },
+            },
+          ]);
         } else {
           alert("Error");
         }

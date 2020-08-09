@@ -145,7 +145,6 @@ const CustomTable = React.memo((props) => {
     </>
   );
 }, shouldTableUpdate);
-
 //Lo relacionado con las notificaciones Toast
 const Toast = Swal.mixin({
   toast: true,
@@ -158,7 +157,6 @@ const Toast = Swal.mixin({
     toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
-
 class menuComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -185,7 +183,6 @@ class menuComponent extends React.Component {
       validationCategoria: "",
     };
   }
-
   header = [
     { title: "Nombre", prop: "nombre", sortable: true, filterable: true },
     { title: "Descripcion", prop: "descripcion" },
@@ -212,7 +209,6 @@ class menuComponent extends React.Component {
       ),
     },
   ];
-
   CleanCreateForm() {
     this.setState({ nombre: "" });
     this.setState({ descripcion: "" });
@@ -230,9 +226,7 @@ class menuComponent extends React.Component {
     this.setState({ validationCategoria: "" });
   }
   //Funciones Crud
-
   validationModal() {
-   
     let validationOK = true;
     if (this.state.nombre === "") {
       this.setState({ validationNombre: "is-invalid" });
@@ -285,7 +279,7 @@ class menuComponent extends React.Component {
       categoria_idcategoria: this.state.categoria_idcategoria,
       file: this.state.file,
     };
-   // console.log(datapost);
+    // console.log(datapost);
     const baseUrl = "http://localhost:3000/producto";
     axios
       .post(baseUrl, datapost)
@@ -378,12 +372,9 @@ class menuComponent extends React.Component {
         alert("Error server " + error);
       });
   }
-
   imageHandler = (e) => {
     this.setState({ file: e.target.value });
-
     const reader = new FileReader();
-
     reader.onload = () => {
       if (reader.readyState === 2) {
         this.setState({ profileImg: reader.result });
@@ -391,7 +382,6 @@ class menuComponent extends React.Component {
     };
     reader.readAsDataURL(e.target.files[0]);
   };
-
   render() {
     const { profileImg } = this.state;
     return (
@@ -648,5 +638,4 @@ class menuComponent extends React.Component {
     );
   }
 }
-
 export default menuComponent;

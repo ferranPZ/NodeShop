@@ -1,5 +1,6 @@
 const express = require('express');
-
+//middleware para errores
+const errors = require('./network/errors');
 //documentacion de api
 const swaggerUi = require('swagger-ui-express')
 const swagerDoc = require('./swagger.json');
@@ -20,7 +21,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swagerDoc))
-
+app.use(errors);
 
 router(app);
 

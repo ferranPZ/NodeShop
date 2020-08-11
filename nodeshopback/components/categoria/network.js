@@ -1,16 +1,19 @@
 const express = require("express");
-const multer = require("multer");
+
 
 const config = require("../../config").api;
 const response = require("../../network/response");
 const controller = require("./controller");
 const router = express.Router();
 
-const upload = multer({
-  dest: "public/" + config.filesRoute + "/",
-});
 
-router.get("/", function (req, res) {
+router.get('/',get);
+router.post('/',upsert);
+router.put('/',upsert);
+router.delete('/',remove);
+
+
+function get(req, res) {
   const filter_product = req.query.id || null;
   controller
     .getCategoria(filter_product)
@@ -20,6 +23,23 @@ router.get("/", function (req, res) {
     .catch((e) => {
       response.error(req, res, "Unexpected Error", 500, e);
     });
-});
+}
+
+
+function upsert(req, res) { 
+    controller.upsert(req)
+        .then((details) => {
+            response.success(req, res, "Post existoso", 201, details);    
+        })
+        .catch(e => {
+            response.error(req, res, 'Informacion invalida', 400, 'Error en el controlaor');
+        });
+}
+
+
+
+function remove(req,res,next) {
+  
+}
 
 module.exports = router;

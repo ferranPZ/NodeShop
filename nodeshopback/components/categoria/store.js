@@ -51,6 +51,40 @@ function list(id_categoria) {
   });
 }
 
+function insert(table, data) {
+  return new Promise((resolve, reject) => {
+      connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+      })
+  })
+}
+
+function update(table, data) {
+  console.log("data:",data)
+  return new Promise((resolve, reject) => {
+    connection.query(`UPDATE ${table} SET ? WHERE idcategoria=?`, [data, data.idcategoria], (err, result) => {
+      if (err) return reject(err);
+          resolve(result);
+      })
+  })
+}
+
+function upsert(table, data) {
+  if (data && data.idcategoria) {
+      return update(table, data);
+  } else {
+      return insert(table, data);
+  }
+}
+
+function remove() {
+  
+}
+
+
 module.exports = {
   list,
+  upsert,
+  remove
 };

@@ -5,7 +5,7 @@ const statusMessages = {
     '500': 'Internal error'
 }
 
-exports.success = function (req, res, message, status) {
+exports.success = function (req, res, message, status, details) {
     let statusCode = status;
     let statusMessage = message;
     

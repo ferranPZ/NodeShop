@@ -25,6 +25,7 @@ router.get('/', function (req, res) {
 
 
 router.post('/', upload.single('file'), function (req, res) { 
+    console.log(req.file)
     controller.addProduct(req.body.nombre, req.body.descripcion, req.body.unidades,req.body.valor,req.body.categoria_idcategoria, req.file)
         .then((fullMessage) => {
             response.success(req, res, fullMessage, 201);    

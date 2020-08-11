@@ -34,6 +34,9 @@ class EditComponent extends React.Component {
       validationEstado: "",
       validationFile: "",
       validationCategoria: "",
+      //
+      categoriaSelectName: "",
+      categoriaSelectId: "",
     };
   }
   imageHandler = (e) => {
@@ -113,9 +116,12 @@ class EditComponent extends React.Component {
               unidades: data.unidades,
               valor: data.valor,
               file: data.file,
+              profileImg:  data.file,
               categoria_idcategoria: data.categoria_idcategoria,
               stringCategoria: data2.nombre,
             });
+            console.log(data);
+            console.log(data.file);
           } else {
             alert("Error web service");
           }
@@ -127,6 +133,27 @@ class EditComponent extends React.Component {
   }
   render() {
     const { profileImg } = this.state;
+
+    const options = [];
+    for (let j = 0; j < this.state.dataCategoria.length; j++) {
+      if (
+        this.state.categoria_idcategoria ===
+        this.state.dataCategoria[j].idcategoria
+      ) {
+        this.state.categoriaSelectName = this.state.dataCategoria[j].nombre;
+        this.state.categoriaSelectId = this.state.dataCategoria[j].idcategoria;
+      } else {
+        options.push(
+          <option
+            value={this.state.dataCategoria[j].idcategoria}
+            key={this.state.dataCategoria[j].idcategoria}
+          >
+            {this.state.dataCategoria[j].nombre}
+          </option>
+        );
+      }
+    }
+
     return (
       <div className="card card-info">
         <div className="card-header">
@@ -228,7 +255,14 @@ class EditComponent extends React.Component {
                       })
                     }
                   >
-                    {this.createOptions()}
+                    <option
+                      defaultValue={this.state.dataCategoria.idcategoria}
+                      value={this.state.categoriaSelectId}
+                      key={this.state.categoriaSelectId}
+                    >
+                      {this.state.categoriaSelectName}
+                    </option>
+                    {options}
                   </select>
                   <span
                     id="inputCategoriaCreate-error"
@@ -372,13 +406,15 @@ class EditComponent extends React.Component {
         this.state.categoria_idcategoria ===
         this.state.dataCategoria[j].idcategoria
       ) {
-        console.log("prod "+this.state.categoria_idcategoria) 
-        console.log(this.state.dataCategoria[j].nombre) 
+        this.state.categoriaSelectName = this.state.dataCategoria[j].nombre;
+       
         options.push(
-          <option defaultValue={this.state.dataCategoria[j].idcategoria}
+          <option
+            defaultValue={this.state.dataCategoria[j].idcategoria}
+            key={this.state.dataCategoria[j].idcategoria}
           >
-          {this.state.dataCategoria[j].nombre}
-        </option>
+            {this.state.dataCategoria[j].nombre}
+          </option>
         );
       } else {
         options.push(

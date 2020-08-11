@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import axios from "axios";
 
-
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import { withRouter } from "react-router-dom";
@@ -15,7 +14,7 @@ class EditComponent extends React.Component {
     super(props);
     this.state = {
       dataProducto: {},
-      dataCategoria: {},
+      dataCategoria: [],
       idProducto: "",
       nombre: "",
       descripcion: "",
@@ -49,7 +48,6 @@ class EditComponent extends React.Component {
     reader.readAsDataURL(e.target.files[0]);
   };
   validationModal() {
-    console.log(this.state.nombre);
     let validationOK = true;
     if (this.state.nombre === "") {
       this.setState({ validationNombre: "is-invalid" });
@@ -105,10 +103,10 @@ class EditComponent extends React.Component {
           const responseTwo = responses[1];
           if (responseOne.status === 200 && responseTwo.status === 200) {
             const data = responseOne.data.body[0];
-            const data2 = responseTwo.data.body[0];
+            const data2 = responseTwo.data;
             this.setState({
               dataProducto: data,
-              dataCategoria: data2,
+              dataCategoria: data2.body,
               idProducto: data.idProducto,
               nombre: data.nombre,
               descripcion: data.descripcion,
@@ -230,18 +228,8 @@ class EditComponent extends React.Component {
                       })
                     }
                   >
-                    <option
-                      defaultValue={
-                        this.state.dataProducto.categoria_idcategoria
-                      }
-                    >
-                      {this.state.stringCategoria}
-                    </option>
-                    <option value="1">Admin</option>
-                    <option value="2">Project Manager</option>
-                    <option value="3">Programer</option>
+                    {this.createOptions()}
                   </select>
-
                   <span
                     id="inputCategoriaCreate-error"
                     className="error invalid-feedback"
@@ -377,6 +365,34 @@ class EditComponent extends React.Component {
         alert("Error 325 ");
       });
   }
+  createOptions = () => {
+    let options = [];
+    for (let j = 0; j < this.state.dataCategoria.length; j++) {
+      if (
+        this.state.categoria_idcategoria ===
+        this.state.dataCategoria[j].idcategoria
+      ) {
+        console.log("prod "+this.state.categoria_idcategoria) 
+        console.log(this.state.dataCategoria[j].nombre) 
+        options.push(
+          <option defaultValue={this.state.dataCategoria[j].idcategoria}
+          >
+          {this.state.dataCategoria[j].nombre}
+        </option>
+        );
+      } else {
+        options.push(
+          <option
+            value={this.state.dataCategoria[j].idcategoria}
+            key={this.state.dataCategoria[j].idcategoria}
+          >
+            {this.state.dataCategoria[j].nombre}
+          </option>
+        );
+      }
+    }
+    return options;
+  };
 }
 
 export default EditComponent;

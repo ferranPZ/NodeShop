@@ -1,12 +1,10 @@
 import React from "react";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import axios from "axios";
-
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
-import { withRouter } from "react-router-dom";
+//import { withRouter } from "react-router-dom";
 const baseUrl = "http://localhost:3000";
 
 class EditComponent extends React.Component {
@@ -21,11 +19,12 @@ class EditComponent extends React.Component {
       unidades: "",
       valor: "",
       estado: "",
-      file: "",
       categoria_idcategoria: "",
       stringCategoria: "",
       //imagen modal
-      profileImg: "../dist/img/user2-160x160.jpg",
+      file: null,
+      profileImg: "dist/img/user2-160x160.jpg",
+      fileName: "",
       //validation
       validationNombre: "",
       validationDescripcion: "",
@@ -38,18 +37,19 @@ class EditComponent extends React.Component {
       categoriaSelectName: "",
       categoriaSelectId: "",
     };
+    this.imageHandler = this.imageHandler.bind(this);
   }
-  imageHandler = (e) => {
-    this.setState({ file: e.target.value });
+  imageHandler(e) {
+    this.setState({ fileName: e.target.value });
+    this.setState({ file: e.target.files[0] });
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
         this.setState({ profileImg: reader.result });
-        this.setState({ file: reader.result });
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-  };
+  }
   validationModal() {
     let validationOK = true;
     if (this.state.nombre === "") {
@@ -116,12 +116,10 @@ class EditComponent extends React.Component {
               unidades: data.unidades,
               valor: data.valor,
               file: data.file,
-              profileImg:  data.file,
+              profileImg: data.file,
               categoria_idcategoria: data.categoria_idcategoria,
               stringCategoria: data2.nombre,
             });
-            console.log(data);
-            console.log(data.file);
           } else {
             alert("Error web service");
           }
@@ -133,7 +131,6 @@ class EditComponent extends React.Component {
   }
   render() {
     const { profileImg } = this.state;
-
     const options = [];
     for (let j = 0; j < this.state.dataCategoria.length; j++) {
       if (
@@ -153,7 +150,6 @@ class EditComponent extends React.Component {
         );
       }
     }
-
     return (
       <div className="card card-info">
         <div className="card-header">
@@ -220,24 +216,24 @@ class EditComponent extends React.Component {
                   Unidades
                 </label>
                 <div className="col-sm-10">
-                  <input
-                    type="number"
-                    className={`form-control ${this.state.validationUnidades}`}
-                    id="inputUnidadesCreate"
-                    value={this.state.unidades}
-                    onChange={(value) =>
-                      this.setState({ unidades: value.target.value })
-                    }
-                  />
+                <input
+                        type="text"
+                        className={`form-control ${this.state.validationUnidades}`}
+                        id="inputUnidadCreate"
+                         
+                        value={this.state.unidades}
+                        onChange={(value) =>
+                          this.setState({ unidades: value.target.value })
+                        }
+                      />
                   <span
-                    id="inputUnidadCreate-error"
-                    className="error invalid-feedback"
-                  >
-                    Ingrese una cantidad
-                  </span>
+                          id="inputUnidadCreate-error"
+                          className="error invalid-feedback"
+                        >
+                          Escriba una cantidad
+                        </span>
                 </div>
               </div>
-
               <div className="form-group row">
                 <label
                   htmlFor="UnidadesCreate"
@@ -362,21 +358,23 @@ class EditComponent extends React.Component {
     this.props.history.push("/menu");
   }
   sendUpdate() {
-    // url de backend
     const baseUrl =
       "http://localhost:3000/producto?id=" + this.state.idProducto;
     // parameter data post
-    const datapost = {
-      idProducto: this.state.idProducto,
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      unidades: this.state.unidades,
-      valor: this.state.valor,
-      file: this.state.file,
-      categoria_idcategoria: this.state.categoria_idcategoria,
+    const formData = new FormData();
+    formData.append("nombre", this.state.nombre);
+    formData.append("descripcion", this.state.descripcion);
+    formData.append("unidades", this.state.unidades);
+    formData.append("valor", this.state.valor);
+    formData.append("categoria_idcategoria", this.state.categoria_idcategoria);
+    formData.append("file", this.state.file);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
     };
     axios
-      .patch(baseUrl, datapost)
+    .patch(baseUrl, formData, config)
       .then((response) => {
         if (response.status === 200) {
           Swal.queue([
@@ -403,25 +401,16 @@ class EditComponent extends React.Component {
     let options = [];
     for (let j = 0; j < this.state.dataCategoria.length; j++) {
       if (
-        this.state.categoria_idcategoria ===
-        this.state.dataCategoria[j].idcategoria
-      ) {
+        this.state.categoria_idcategoria === this.state.dataCategoria[j].idcategoria) {
         this.state.categoriaSelectName = this.state.dataCategoria[j].nombre;
-       
         options.push(
-          <option
-            defaultValue={this.state.dataCategoria[j].idcategoria}
-            key={this.state.dataCategoria[j].idcategoria}
-          >
+          <option defaultValue={this.state.dataCategoria[j].idcategoria} key={this.state.dataCategoria[j].idcategoria}>
             {this.state.dataCategoria[j].nombre}
           </option>
         );
       } else {
         options.push(
-          <option
-            value={this.state.dataCategoria[j].idcategoria}
-            key={this.state.dataCategoria[j].idcategoria}
-          >
+          <option value={this.state.dataCategoria[j].idcategoria} key={this.state.dataCategoria[j].idcategoria} >
             {this.state.dataCategoria[j].nombre}
           </option>
         );
@@ -430,5 +419,4 @@ class EditComponent extends React.Component {
     return options;
   };
 }
-
 export default EditComponent;

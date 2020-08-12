@@ -1,17 +1,12 @@
 import React from "react";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
-
 import moment from "moment";
-//import Datatable from "react-bs-datatable";
-import { css } from "emotion";
-
+//import { css } from "emotion";
 // Todo lo relacionado con la tabla en sí
 import {
   Pagination,
@@ -31,7 +26,7 @@ const customLabels = {
   show: "Mostrar",
   entries: "filas",
   noResults: "No existen resultados",
-  filterPlaceholder: "ingresar texto",
+  filterPlaceholder: "Ingresar texto",
 };
 const onSortFunction = {
   date(columnValue) {
@@ -169,10 +164,11 @@ class menuComponent extends React.Component {
       unidades: "",
       valor: "",
       estado: "",
-      file: "",
       categoria_idcategoria: "",
       //imagen modal
+      file: null,
       profileImg: "dist/img/user2-160x160.jpg",
+      fileName: "",
       //validation
       validationNombre: "",
       validationDescripcion: "",
@@ -182,6 +178,7 @@ class menuComponent extends React.Component {
       validationFile: "",
       validationCategoria: "",
     };
+    this.imageHandler = this.imageHandler.bind(this);
   }
   header = [
     { title: "Nombre", prop: "nombre", sortable: true, filterable: true },
@@ -214,7 +211,8 @@ class menuComponent extends React.Component {
     this.setState({ descripcion: "" });
     this.setState({ unidades: "" });
     this.setState({ valor: "" });
-    this.setState({ file: "" });
+    this.setState({ file: null });
+    this.setState({ fileName: "" });
     this.setState({ profileImg: "dist/img/user2-160x160.jpg" });
     //validaciones
     this.setState({ validationNombre: "" });
@@ -268,31 +266,25 @@ class menuComponent extends React.Component {
       this.sendSave();
     }
   }
-
   sendSave() {
-    const datapost = {
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      unidades: this.state.unidades,
-      valor: this.state.valor,
-      estado: 1,
-      categoria_idcategoria: this.state.categoria_idcategoria,
-      file: this.state.file,
+    const formData = new FormData();
+    formData.append("nombre", this.state.nombre);
+    formData.append("descripcion", this.state.descripcion);
+    formData.append("unidades", this.state.unidades);
+    formData.append("valor", this.state.valor);
+    formData.append("categoria_idcategoria", this.state.categoria_idcategoria);
+    formData.append("file", this.state.file);
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
     };
-    // console.log(datapost);
     const baseUrl = "http://localhost:3000/producto";
     axios
-      .post(baseUrl, datapost)
+      .post(baseUrl, formData, config)
       .then((response) => {
         if (response.status === 201) {
           Swal.fire("Creado!", "Se ha creado el registro.", "success");
-          this.setState({ nombre: "" });
-          this.setState({ descripcion: "" });
-          this.setState({ unidades: "" });
-          this.setState({ valor: "" });
-          this.setState({ file: "" });
-          this.setState({ categoria_id_categoria: "" });
-          this.setState({ profileImg: "dist/img/user2-160x160.jpg" });
           this.loadProducts(); //para recargar
           this.CleanCreateForm();
         } else {
@@ -372,8 +364,9 @@ class menuComponent extends React.Component {
         alert("Error server " + error);
       });
   }
-  imageHandler = (e) => {
-    this.setState({ file: e.target.value });
+  imageHandler(e) {
+    this.setState({ fileName: e.target.value });
+    this.setState({ file: e.target.files[0] });
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -381,7 +374,7 @@ class menuComponent extends React.Component {
       }
     };
     reader.readAsDataURL(e.target.files[0]);
-  };
+  }
   render() {
     const { profileImg } = this.state;
     return (
@@ -514,12 +507,12 @@ class menuComponent extends React.Component {
                         <input
                           type="file"
                           className={`form-control ${this.state.validationFile}`}
-                          id="inputImagenCreate"
-                          placeholder="Seleccione un archivo"
-                          value={this.state.file}
-                          accept="image/*"
+                          name="myImage"
+                          value={this.state.fileName}
                           onChange={this.imageHandler}
+                          accept="image/*"
                         />
+
                         <span
                           id="inputImagenCreate-error"
                           className="error invalid-feedback"

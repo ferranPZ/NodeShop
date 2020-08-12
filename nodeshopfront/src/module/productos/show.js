@@ -1,10 +1,8 @@
 import React from "react";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-
 import axios from "axios";
- 
+
 class tableComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -12,15 +10,12 @@ class tableComponent extends React.Component {
       listProducts: [],
     };
   }
-
   componentDidMount() {
     this.loadProducts();
   }
-
   loadProducts() {
     axios
       .get("http://localhost:3000/producto")
-
       .then((res) => {
         if (res) {
           const data = res.data.body;
@@ -33,35 +28,32 @@ class tableComponent extends React.Component {
         alert("Error server " + error);
       });
   }
-
   render() {
-    return<div className="card">
-    <div className="card-header">
-      <h5 className="card-title">Productos</h5>
-      <div className="card-tools">
-        <button
-          type="button"
-          className="btn btn-tool"
-          data-card-widget="collapse"
-        >
-          <i className="fas fa-minus" />
-        </button>
-        <button
-          type="button"
-          className="btn btn-tool"
-          data-card-widget="remove"
-        >
-          <i className="fas fa-times" />
-        </button>
+    return (
+      <div className="card">
+        <div className="card-header">
+          <h5 className="card-title">Productos</h5>
+          <div className="card-tools">
+            <button
+              type="button"
+              className="btn btn-tool"
+              data-card-widget="collapse"
+            >
+              <i className="fas fa-minus" />
+            </button>
+            <button
+              type="button"
+              className="btn btn-tool"
+              data-card-widget="remove"
+            >
+              <i className="fas fa-times" />
+            </button>
+          </div>
+        </div>
+        <div className="row">{this.loadFillData()}</div>
       </div>
-    </div><div className="row">
-      
-      
-      {this.loadFillData()}
-    </div>
-    </div>;
+    );
   }
-
   loadFillData() {
     return this.state.listProducts.map((data, index) => {
       return (
@@ -74,6 +66,7 @@ class tableComponent extends React.Component {
             </h3>
             <div className="image-container d-flex flex-column justify-content-center">
               <a href="/products/65582-lenovo-ideapad-l340-15irh-gaming-81lk000bcl">
+              <img src={`http://localhost:3000/producto`} className="img-fluid" />
                 <img
                   src={data.imagen}
                   alt={data.nombre}
@@ -85,9 +78,7 @@ class tableComponent extends React.Component {
             <div className="description-container">
               <dl>
                 <dt>Procesador</dt>
-                <dd>
-                {data.descripcion}
-                </dd>
+                <dd>{data.descripcion}</dd>
                 <dt>RAM</dt>
                 <dd>8 GB DDR4 (2400 MHz)</dd>
                 <dt>Pantalla</dt>
@@ -116,7 +107,7 @@ class tableComponent extends React.Component {
             <div className="d-flex flex-row justify-content-between align-items-center mt-auto pt-2">
               <div className="price flex-grow">
                 <a href="/products/65582-lenovo-ideapad-l340-15irh-gaming-81lk000bcl">
-                ${data.valor}
+                  ${data.valor}
                 </a>
               </div>
             </div>

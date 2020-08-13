@@ -4,6 +4,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 //import { withRouter } from "react-router-dom";
 const baseUrl = "http://localhost:3000";
 
@@ -23,8 +25,9 @@ class EditComponent extends React.Component {
       stringCategoria: "",
       //imagen modal
       file: null,
-      profileImg: "dist/img/user2-160x160.jpg",
+      profileImg: "../dist/img/user2-160x160.jpg",
       fileName: "",
+      changeImage:false,
       //validation
       validationNombre: "",
       validationDescripcion: "",
@@ -36,16 +39,19 @@ class EditComponent extends React.Component {
       //
       categoriaSelectName: "",
       categoriaSelectId: "",
+
     };
     this.imageHandler = this.imageHandler.bind(this);
   }
   imageHandler(e) {
+    this.setState({ changeImage: true });
     this.setState({ fileName: e.target.value });
     this.setState({ file: e.target.files[0] });
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
         this.setState({ profileImg: reader.result });
+        
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -115,8 +121,8 @@ class EditComponent extends React.Component {
               descripcion: data.descripcion,
               unidades: data.unidades,
               valor: data.valor,
-              file: data.file,
-              profileImg: data.file,
+              file: data.imagen,
+
               categoria_idcategoria: data.categoria_idcategoria,
               stringCategoria: data2.nombre,
             });
@@ -150,6 +156,35 @@ class EditComponent extends React.Component {
         );
       }
     }
+    const images = [];
+
+    if (this.state.file === null) {
+    } else if (this.state.file === "default") {
+      images.push(
+        <div key={1}>
+          <img src={profileImg} alt="" id="" className="img mw-100"></img>
+        </div>
+      );
+    } else if(!this.state.changeImage){
+      images.push(
+        <div key={1}>
+          <img
+            src={`http://localhost:3000/app/files/${this.state.file}`}
+            className="img-fluid"
+            alt={this.state.nombre}
+            width={300}
+            height={300}
+          />
+        </div>
+      );
+    }else{
+      images.push(
+        <div key={1}>
+          <img src={profileImg} alt="" id="" className="img mw-100"></img>
+        </div>
+          );
+    }
+
     return (
       <div className="card card-info">
         <div className="card-header">
@@ -216,22 +251,21 @@ class EditComponent extends React.Component {
                   Unidades
                 </label>
                 <div className="col-sm-10">
-                <input
-                        type="text"
-                        className={`form-control ${this.state.validationUnidades}`}
-                        id="inputUnidadCreate"
-                         
-                        value={this.state.unidades}
-                        onChange={(value) =>
-                          this.setState({ unidades: value.target.value })
-                        }
-                      />
+                  <input
+                    type="text"
+                    className={`form-control ${this.state.validationUnidades}`}
+                    id="inputUnidadCreate"
+                    value={this.state.unidades}
+                    onChange={(value) =>
+                      this.setState({ unidades: value.target.value })
+                    }
+                  />
                   <span
-                          id="inputUnidadCreate-error"
-                          className="error invalid-feedback"
-                        >
-                          Escriba una cantidad
-                        </span>
+                    id="inputUnidadCreate-error"
+                    className="error invalid-feedback"
+                  >
+                    Escriba una cantidad
+                  </span>
                 </div>
               </div>
               <div className="form-group row">
@@ -322,27 +356,15 @@ class EditComponent extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-5">
-                <div>
-                  <img
-                    src={profileImg}
-                    alt=""
-                    id=""
-                    className="img mw-100"
-                  ></img>
-                </div>
-              </div>
+              <div className="col-5">{images}</div>
             </div>
           </div>
         </div>
         <div className="card-footer">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            data-dismiss="modal"
-          >
-            Cancelar
-          </button>
+     
+          <Link className="nav-link" to="/menu">
+                        Gestionar Productos
+                      </Link>
           <button
             type="submit"
             className="btn btn-primary"
@@ -374,7 +396,7 @@ class EditComponent extends React.Component {
       },
     };
     axios
-    .patch(baseUrl, formData, config)
+      .patch(baseUrl, formData, config)
       .then((response) => {
         if (response.status === 200) {
           Swal.queue([
@@ -397,26 +419,5 @@ class EditComponent extends React.Component {
         alert("Error 325 ");
       });
   }
-  createOptions = () => {
-    let options = [];
-    for (let j = 0; j < this.state.dataCategoria.length; j++) {
-      if (
-        this.state.categoria_idcategoria === this.state.dataCategoria[j].idcategoria) {
-        this.state.categoriaSelectName = this.state.dataCategoria[j].nombre;
-        options.push(
-          <option defaultValue={this.state.dataCategoria[j].idcategoria} key={this.state.dataCategoria[j].idcategoria}>
-            {this.state.dataCategoria[j].nombre}
-          </option>
-        );
-      } else {
-        options.push(
-          <option value={this.state.dataCategoria[j].idcategoria} key={this.state.dataCategoria[j].idcategoria} >
-            {this.state.dataCategoria[j].nombre}
-          </option>
-        );
-      }
-    }
-    return options;
-  };
 }
 export default EditComponent;

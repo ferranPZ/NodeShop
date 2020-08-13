@@ -152,11 +152,13 @@ const Toast = Swal.mixin({
     toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
+const baseUrl = "http://localhost:3000";
 class menuComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       listProducts: [],
+      dataCategoria: [],
       // variables crear
       idProducto: "",
       nombre: "",
@@ -256,12 +258,7 @@ class menuComponent extends React.Component {
     } else {
       this.setState({ validationCategoria: "is-valid" });
     }
-    if (this.state.file === "") {
-      this.setState({ validationFile: "is-invalid" });
-      validationOK = false;
-    } else {
-      this.setState({ validationFile: "is-valid" });
-    }
+
     if (validationOK === true) {
       this.sendSave();
     }
@@ -350,18 +347,27 @@ class menuComponent extends React.Component {
     this.loadProducts();
   }
   loadProducts() {
+    const url = baseUrl + "/producto";
+    const url2 = baseUrl + "/categoria";
+    const requestOne = axios.get(url);
+    const requestTwo = axios.get(url2);
     axios
-      .get("http://localhost:3000/producto")
-      .then((res) => {
-        if (res) {
-          const data = res.data.body;
-          this.setState({ listProducts: data });
-        } else {
-          alert("Error web service");
-        }
-      })
-      .catch((error) => {
-        alert("Error server " + error);
+      .all([requestOne, requestTwo])
+      .then(
+        axios.spread((...responses) => {
+          const responseOne = responses[0];
+          const responseTwo = responses[1];
+          if (responseOne.status === 200 && responseTwo.status === 200) {
+            const data = responseOne.data.body;
+            const data2 = responseTwo.data;
+            this.setState({ listProducts: data, dataCategoria: data2.body });
+          } else {
+            alert("Error web service");
+          }
+        })
+      )
+      .catch((errors) => {
+        alert("Error server " + errors);
       });
   }
   imageHandler(e) {
@@ -377,6 +383,19 @@ class menuComponent extends React.Component {
   }
   render() {
     const { profileImg } = this.state;
+
+    const options = [];
+    for (let j = 0; j < this.state.dataCategoria.length; j++) {
+      options.push(
+        <option
+          value={this.state.dataCategoria[j].idcategoria}
+          key={this.state.dataCategoria[j].idcategoria}
+        >
+          {this.state.dataCategoria[j].nombre}
+        </option>
+      );
+    }
+
     return (
       <div>
         <div className="card-body" style={{ height: "10px" }}>
@@ -539,10 +558,7 @@ class menuComponent extends React.Component {
                           }
                         >
                           <option value="">Seleccione una Categoría</option>
-                          <option value="1">option 1</option>
-                          <option value="2">option 2</option>
-                          <option value="3">option 3</option>
-                          <option value="4">option 4</option>
+                          {options}
                         </select>
                         <span
                           id="inputCategoriaCreate-error"

@@ -66,13 +66,13 @@ class tableComponent extends React.Component {
             </h3>
             <div className="image-container d-flex flex-column justify-content-center">
               <a href="/products/65582-lenovo-ideapad-l340-15irh-gaming-81lk000bcl">
-              <img src={`http://localhost:3000/producto`} className="img-fluid" />
-                <img
-                  src={data.imagen}
-                  alt={data.nombre}
-                  width={300}
-                  height={300}
-                />
+              <img src={`http://localhost:3000/app/files/${data.imagen}`} 
+              className="img-fluid"
+              alt={data.nombre}
+              width={300}
+              height={300}
+              />
+    
               </a>
             </div>
             <div className="description-container">

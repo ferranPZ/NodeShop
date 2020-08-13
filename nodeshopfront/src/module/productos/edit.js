@@ -27,7 +27,7 @@ class EditComponent extends React.Component {
       file: null,
       profileImg: "../dist/img/user2-160x160.jpg",
       fileName: "",
-      changeImage:false,
+      changeImage: false,
       //validation
       validationNombre: "",
       validationDescripcion: "",
@@ -39,7 +39,6 @@ class EditComponent extends React.Component {
       //
       categoriaSelectName: "",
       categoriaSelectId: "",
-
     };
     this.imageHandler = this.imageHandler.bind(this);
   }
@@ -51,7 +50,6 @@ class EditComponent extends React.Component {
     reader.onload = () => {
       if (reader.readyState === 2) {
         this.setState({ profileImg: reader.result });
-        
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -165,7 +163,7 @@ class EditComponent extends React.Component {
           <img src={profileImg} alt="" id="" className="img mw-100"></img>
         </div>
       );
-    } else if(!this.state.changeImage){
+    } else if (!this.state.changeImage) {
       images.push(
         <div key={1}>
           <img
@@ -177,12 +175,12 @@ class EditComponent extends React.Component {
           />
         </div>
       );
-    }else{
+    } else {
       images.push(
         <div key={1}>
           <img src={profileImg} alt="" id="" className="img mw-100"></img>
         </div>
-          );
+      );
     }
 
     return (
@@ -361,10 +359,10 @@ class EditComponent extends React.Component {
           </div>
         </div>
         <div className="card-footer">
-     
-          <Link className="nav-link" to="/menu">
-                        Gestionar Productos
-                      </Link>
+        <div className="btn-group">
+          <Link className="btn btn-secondary" to="/menu">
+            Volver al menú
+          </Link>
           <button
             type="submit"
             className="btn btn-primary"
@@ -372,6 +370,7 @@ class EditComponent extends React.Component {
           >
             Guardar
           </button>
+          </div>
         </div>
       </div>
     );
@@ -389,7 +388,9 @@ class EditComponent extends React.Component {
     formData.append("unidades", this.state.unidades);
     formData.append("valor", this.state.valor);
     formData.append("categoria_idcategoria", this.state.categoria_idcategoria);
+    if(this.state.changeImage){ 
     formData.append("file", this.state.file);
+    }
     const config = {
       headers: {
         "content-type": "multipart/form-data",

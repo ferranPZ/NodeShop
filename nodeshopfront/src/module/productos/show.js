@@ -30,6 +30,16 @@ class tableComponent extends React.Component {
   }
   render() {
     return (
+<div>
+
+
+
+
+
+
+  
+</div>
+      /*
       <div className="card">
         <div className="card-header">
           <h5 className="card-title">Productos</h5>
@@ -52,6 +62,8 @@ class tableComponent extends React.Component {
         </div>
         <div className="row">{this.loadFillData()}</div>
       </div>
+*/
+
     );
   }
   loadFillData() {

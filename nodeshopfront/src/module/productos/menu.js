@@ -6,7 +6,7 @@ import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
 import moment from "moment";
-//import { css } from "emotion";
+import { css } from "emotion";
 // Todo lo relacionado con la tabla en sí
 import {
   Pagination,
@@ -152,6 +152,33 @@ const Toast = Swal.mixin({
     toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
+const classes = {
+  table: 'table table-bordered table-dark table-sm table-hover mt-3',
+  
+  theadCol: css`
+    .table-datatable__root & {
+      &.sortable:hover {
+        background: #FFA500;
+      }
+    }
+  `,
+  tbodyRow: css`
+    &:nth-of-type(even) {
+    }
+  `,
+  paginationOptsFormText: css`
+    &:first-of-type {
+      margin-right: 8px;
+    }
+    &:last-of-type {
+      margin-left: 8px;
+    }
+  `
+};
+
+
+
+
 const baseUrl = "http://localhost:3000";
 class menuComponent extends React.Component {
   constructor(props) {
@@ -184,21 +211,21 @@ class menuComponent extends React.Component {
   }
   header = [
     { title: "Nombre", prop: "nombre", sortable: true, filterable: true },
-    { title: "Descripcion", prop: "descripcion" },
+    { title: "Descripcion", prop: "descripcion", sortable: true },
+    { title: "Unidades", prop: "unidades", sortable: true },
+    { title: "Valor", prop: "valor", sortable: true },
+    { title: "categoria", prop: "catNombre", sortable: true },
     {
       title: "Acciones",
       cell: (row) => (
         <div>
           <div className="btn-group">
-            <button className="btn-sm btn-warning">
-              <Link
-                className="btn fas fa-edit"
-                to={"/edit/" + row.idProducto}
-              ></Link>
-            </button>
-
+            <Link
+              className="btn fas fa-edit btn-warning"
+              to={"/edit/" + row.idProducto}
+            ></Link>
             <button
-              className="btn-sm btn-danger"
+              className="btn  btn-danger"
               onClick={(e) => this.onDelete(row.idProducto, e)}
             >
               <i className="fas fa-trash"></i>
@@ -208,6 +235,7 @@ class menuComponent extends React.Component {
       ),
     },
   ];
+  
   CleanCreateForm() {
     this.setState({ nombre: "" });
     this.setState({ descripcion: "" });
@@ -285,7 +313,6 @@ class menuComponent extends React.Component {
           this.loadProducts(); //para recargar
           this.CleanCreateForm();
         } else {
-          console.log(response.status);
           Swal.fire("Error!", "Se ha producido un error.", "error");
         }
       })
@@ -321,6 +348,7 @@ class menuComponent extends React.Component {
   }
   sendDelete(idProducto) {
     // url de backend
+
     const baseUrl = "http://localhost:3000/producto"; // parameter data post
     // network UPDATE `producto` SET `estado`=1  WHERE 1
     axios
@@ -441,7 +469,7 @@ class menuComponent extends React.Component {
                       htmlFor="NombreCreate"
                       className="col-sm-2 col-form-label"
                     >
-                      Nombre
+                      Nombre {this.state.nombre}
                     </label>
                     <div className="col-sm-12">
                       <input
@@ -642,6 +670,7 @@ class menuComponent extends React.Component {
           initialSort={{ prop: "username", isAscending: true }}
           onSort={onSortFunction}
           labels={customLabels}
+          classes={classes}
         />
       </div>
     );

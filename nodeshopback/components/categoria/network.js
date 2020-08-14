@@ -40,7 +40,13 @@ function upsert(req, res) {
 
 
 function remove(req,res,next) {
-  
+  controller.remove(req)
+    .then((details) => {
+      response.success(req, res, "remove existoso", 201, details);    
+    })
+    .catch(e => {
+        response.error(req, res, 'Informacion invalida', 400, 'Error en el controlaor');
+    });
 }
 
 module.exports = router;

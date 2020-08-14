@@ -1,6 +1,7 @@
 const store = require("./store");
 const config = require("../../config");
 const response = require("../../network/response");
+const table = 'categoria';
 
 function getCategoria(id_categoria) {
   return new Promise(async (resolve, reject) => {
@@ -26,13 +27,31 @@ function upsert(req) {
       if (req.body.id) {
         
       }
-      resolve(store.upsert('categoria',data));
+      resolve(store.upsert(table,data));
     }
 
   });
 }
 
+
+function remove(req) {
+  return new Promise(async (resolve, reject) => {
+    if (!req.query.id) {
+      console.error('[messageController] Falta id en query');
+      reject('Los datos son incorrectos');
+    }else{
+      const user = {
+        estado : 0,
+        idcategoria : req.query.id
+      }
+      resolve(store.upsert(table,user));
+    }
+  });
+  
+}
+
 module.exports = {
   getCategoria,
   upsert,
+  remove
 };

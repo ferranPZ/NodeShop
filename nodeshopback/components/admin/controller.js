@@ -1,7 +1,7 @@
 const store = require("./store");
 const config = require("../../config");
 const response = require("../../network/response");
-const table = 'categoria';
+const table = 'admin';
 
 // function getCategoria(id_categoria) {
 //   return new Promise(async (resolve, reject) => {
@@ -10,27 +10,43 @@ const table = 'categoria';
 // }
 
 function upsert(req) {
+
   return new Promise(async (resolve, reject) => {
      //comprueba de que se hayan enviado los datos
-    if (!req.body.email || !req.body.nombre || !req.body.nombre || !req.body.password) {
+    if (!req.body.email || !req.body.nombre  || !req.body.password) {
       console.error('[messageController] Faltan datos');
       reject('Los datos son incorrectos');
       return false;
     }else{
-      let data = {
-        email:req.body.nombre,
-        nombre:req.body.descripcion,
-        descripcion:req.body.categoria_idcategoria || null,
+      let dataAdmin = {
+        idadmin	: req.body.id || null,
+        email:req.body.email,
+        nombre:req.body.nombre,
+        descripcion:req.body.descripcion,
         fotoperfil:req.body.file || null,
         estado:"1"
       }
+      let aux = "qsechotoyreloco";
+
+      
 
       //continuar aqui, consultar por id de admin recien creado y asignarla al admin_auth
 
-      if (req.body.id) {
-        
+      try {
+        let newAdmin = await store.upsert(table,dataAdmin);
+        if(newAdmin.insertId){
+          let dataAuth = {
+            admin_idadmin : aux,//getAdmin id
+            password: newAdmin.insertId
+          }
+          console.log(dataAuth);
+          resolve (store.upsert(table+"_auth",dataAdmin));
+          //averiguar porq no funciono inser de auth
+        }
+      } catch(err) {
+        // catches errors both in fetch and response.json
+        alert(err);
       }
-      resolve(store.upsert(table,data));
     }
 
   });
@@ -54,7 +70,7 @@ function upsert(req) {
 // }
 
 module.exports = {
-  getCategoria,
+  //getCategoria,
   upsert,
-  remove
+  //remove
 };

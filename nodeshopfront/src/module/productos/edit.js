@@ -4,8 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 //import { withRouter } from "react-router-dom";
 const baseUrl = "http://localhost:3000";
 

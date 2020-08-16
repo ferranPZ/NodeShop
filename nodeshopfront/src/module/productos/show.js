@@ -3,11 +3,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import axios from "axios";
 
+import ListaProductos from "./ListaProductos";
+import BarraBusqueda from "./BarraBusqueda";
+
 class tableComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       listProducts: [],
+      busquedaProductos: "",
+      searchCategory: false,
+      searchMouse: false,
     };
   }
   componentDidMount() {
@@ -29,104 +35,51 @@ class tableComponent extends React.Component {
       });
   }
   render() {
-    return (
-<div>
-
-
-
-
-
-
-  
-</div>
-      /*
-      <div className="card">
-        <div className="card-header">
-          <h5 className="card-title">Productos</h5>
-          <div className="card-tools">
-            <button
-              type="button"
-              className="btn btn-tool"
-              data-card-widget="collapse"
-            >
-              <i className="fas fa-minus" />
-            </button>
-            <button
-              type="button"
-              className="btn btn-tool"
-              data-card-widget="remove"
-            >
-              <i className="fas fa-times" />
-            </button>
-          </div>
-        </div>
-        <div className="row">{this.loadFillData()}</div>
-      </div>
-*/
-
-    );
+    return <div>{this.loadFillData()}</div>;
   }
+  handleInput = (e) => {
+    this.setState({ busquedaProductos: e.target.value });
+  };
+  handleChangeChk = (e) => {
+    if (this.state.searchCategory === true) {
+      this.setState({ searchCategory: false });
+    } else {
+      this.setState({ searchCategory: true });
+    }
+  };
+  handleChangeMouses = () => {
+    if (this.state.searchMouse === true) {
+      this.setState({ searchMouse: false });
+    } else {
+      this.setState({ searchMouse: true });
+    }
+  };
   loadFillData() {
-    return this.state.listProducts.map((data, index) => {
-      return (
-        <div className="col-md-6" key={index}>
-          <div className="d-flex flex-column px-5 mt-2 mb-3">
-            <h3>
-              <a href="/products/65582-lenovo-ideapad-l340-15irh-gaming-81lk000bcl">
-                {data.nombre}
-              </a>
-            </h3>
-            <div className="image-container d-flex flex-column justify-content-center">
-              <a href="/products/65582-lenovo-ideapad-l340-15irh-gaming-81lk000bcl">
-              <img src={`http://localhost:3000/app/files/${data.imagen}`} 
-              className="img-fluid"
-              alt={data.nombre}
-              width={300}
-              height={300}
-              />
-    
-              </a>
-            </div>
-            <div className="description-container">
-              <dl>
-                <dt>Procesador</dt>
-                <dd>{data.descripcion}</dd>
-                <dt>RAM</dt>
-                <dd>8 GB DDR4 (2400 MHz)</dd>
-                <dt>Pantalla</dt>
-                <dd>LED 15.6" (1920x1080) / 60 Hz</dd>
-                <dt>Almacenamiento</dt>
-                <dd>
-                  <ul>
-                    <p>SSD 256GB</p>
-                  </ul>
-                </dd>
-                <dt>Tarjetas de video</dt>
-                <dd>
-                  <ul>
-                    <p>Intel UHD Graphics 630 (Integrada)</p>
-                    <p>NVIDIA GeForce GTX 1050 (3 GB)</p>
-                  </ul>
-                </dd>
-                <dt>Unidades disponibles</dt>
-                <dd>
-                  <ul>
-                    <p>{data.unidades}</p>
-                  </ul>
-                </dd>
-              </dl>
-            </div>
-            <div className="d-flex flex-row justify-content-between align-items-center mt-auto pt-2">
-              <div className="price flex-grow">
-                <a href="/products/65582-lenovo-ideapad-l340-15irh-gaming-81lk000bcl">
-                  ${data.valor}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+    let filtradoProductos = this.state.listProducts.filter((producto) => {
+      if (this.state.searchCategory) {
+        return producto.catNombre
+          .toLowerCase()
+          .includes(this.state.busquedaProductos.toLowerCase());
+      } else {
+        return producto.nombre
+          .toLowerCase()
+          .includes(this.state.busquedaProductos.toLowerCase());
+      }
     });
+    return (
+      <div>
+     {/*    <input type="checkbox" onChange={this.handleChangeChk} /> Buscar x
+        categoría*/} 
+        <BarraBusqueda handleInput={this.handleInput} />
+        <input type="checkbox" onChange={this.handleChangeMouses} /> Solo Mouses
+        {/* */}
+        <ListaProductos
+          filtradoProductos={filtradoProductos}
+          Mouse={this.state.searchMouse}
+        />
+        {/* */}
+      </div>
+    );
   }
 }
 

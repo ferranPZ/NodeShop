@@ -13,7 +13,7 @@ class tableComponent extends React.Component {
       listProducts: [],
       busquedaProductos: "",
       searchCategory: false,
-      searchMouse: false,
+      searchFilterCategory: "",
     };
   }
   componentDidMount() {
@@ -47,13 +47,19 @@ class tableComponent extends React.Component {
       this.setState({ searchCategory: true });
     }
   };
-  handleChangeMouses = () => {
-    if (this.state.searchMouse === true) {
-      this.setState({ searchMouse: false });
-    } else {
-      this.setState({ searchMouse: true });
-    }
+  handleChangeAll = () => {
+    this.setState({ searchFilterCategory: "" });
   };
+  handleChangeMouses = () => {
+    this.setState({ searchFilterCategory: "Mouse" });
+  };
+  handleChangeTeclados = () => {
+    this.setState({ searchFilterCategory: "Teclado" });
+  };
+  handleChangePantallas = () => {
+    this.setState({ searchFilterCategory: "Pantalla" });
+  };
+
   loadFillData() {
     let filtradoProductos = this.state.listProducts.filter((producto) => {
       if (this.state.searchCategory) {
@@ -68,14 +74,68 @@ class tableComponent extends React.Component {
     });
     return (
       <div>
-     {/*    <input type="checkbox" onChange={this.handleChangeChk} /> Buscar x
-        categoría*/} 
         <BarraBusqueda handleInput={this.handleInput} />
-        <input type="checkbox" onChange={this.handleChangeMouses} /> Solo Mouses
+
+        <div className="py-2">
+          <label className="mr-3">Filtrar por categoría: </label>
+          <div className="icheck-primary d-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio1"
+              defaultValue="option1"
+              onChange={this.handleChangeAll}
+            />
+            <label className="form-check-label mx-2" htmlFor="inlineRadio1">
+              Mostrar todos
+            </label>
+          </div>
+          <div className="icheck-primary d-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio2"
+              defaultValue="option2"
+              onChange={this.handleChangeMouses}
+            />
+            <label className="form-check-label mx-2" htmlFor="inlineRadio2">
+              Mouses
+            </label>
+          </div>
+          <div className="icheck-primary d-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio3"
+              defaultValue="option3"
+              onChange={this.handleChangeTeclados}
+            />
+            <label className="form-check-label mx-2" htmlFor="inlineRadio3">
+              Teclados
+            </label>
+          </div>
+          <div className="icheck-primary d-inline">
+            <input
+              className="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio4"
+              defaultValue="option4"
+              onChange={this.handleChangePantallas}
+            />
+            <label className="form-check-label mx-2" htmlFor="inlineRadio4">
+              Pantallas
+            </label>
+          </div>
+        </div>
+
         {/* */}
         <ListaProductos
           filtradoProductos={filtradoProductos}
-          Mouse={this.state.searchMouse}
+          searchFilterCategory={this.state.searchFilterCategory}
         />
         {/* */}
       </div>

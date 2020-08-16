@@ -2,7 +2,7 @@ import React from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-
+import "icheck-bootstrap";
 //SPA <Router></Router>
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 

@@ -469,7 +469,7 @@ class menuComponent extends React.Component {
                       htmlFor="NombreCreate"
                       className="col-sm-2 col-form-label"
                     >
-                      Nombre {this.state.nombre}
+                      Nombre  
                     </label>
                     <div className="col-sm-12">
                       <input

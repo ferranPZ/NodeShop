@@ -86,6 +86,7 @@ class tableComponent extends React.Component {
               id="inlineRadio1"
               defaultValue="option1"
               onChange={this.handleChangeAll}
+              defaultChecked
             />
             <label className="form-check-label mx-2" htmlFor="inlineRadio1">
               Mostrar todos

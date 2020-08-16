@@ -220,9 +220,11 @@ class menuComponent extends React.Component {
       cell: (row) => (
         <div>
           <div className="btn-group">
+           
             <Link
               className="btn fas fa-edit btn-warning"
               to={"/edit/" + row.idProducto}
+              
             ></Link>
             <button
               className="btn  btn-danger"

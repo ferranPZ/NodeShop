@@ -18,6 +18,7 @@ function upsert(req) {
       reject('Los datos son incorrectos');
       return false;
     }else{
+      console.error('1');
       let dataAdmin = {
         idadmin	: req.body.id || null,
         email:req.body.email,
@@ -30,18 +31,18 @@ function upsert(req) {
 
       
 
-      //continuar aqui, consultar por id de admin recien creado y asignarla al admin_auth
+      //consulta por id de admin recien creado y asignarla al admin_auth
 
       try {
         let newAdmin = await store.upsert(table,dataAdmin);
         if(newAdmin.insertId){
           let dataAuth = {
-            admin_idadmin : aux,//getAdmin id
-            password: newAdmin.insertId
+            admin_idadmin : newAdmin.insertId,//getAdmin id
+            password: req.body.password
           }
           console.log(dataAuth);
           resolve (store.upsert(table+"_auth",dataAdmin));
-          //averiguar porq no funciono inser de auth
+          //averiguar porq no funciono insert de auth
         }
       } catch(err) {
         // catches errors both in fetch and response.json

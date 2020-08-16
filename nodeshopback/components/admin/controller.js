@@ -18,7 +18,6 @@ function upsert(req) {
       reject('Los datos son incorrectos');
       return false;
     }else{
-      console.error('1');
       let dataAdmin = {
         idadmin	: req.body.id || null,
         email:req.body.email,

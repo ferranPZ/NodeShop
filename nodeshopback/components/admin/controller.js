@@ -26,7 +26,7 @@ function upsert(req) {
         fotoperfil:req.body.file || null,
         estado:"1"
       }
-      let aux = "qsechotoyreloco";
+      let aux = "qsechotoyrelocoqweqweweqw";
 
       
 

@@ -33,7 +33,7 @@ function upsert(req) {
       //consulta por id de admin recien creado y asignarla al admin_auth, asi es
 
       try {
-        let borrar
+        let borrar = 0;
         let newAdmin = await store.upsert(table,dataAdmin);
         if(newAdmin.insertId){
           let dataAuth = {

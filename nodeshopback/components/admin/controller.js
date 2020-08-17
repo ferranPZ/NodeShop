@@ -33,7 +33,6 @@ function upsert(req) {
       //consulta por id de admin recien creado y asignarla al admin_auth, asi es
 
       try {
-        let borrar = 0;
         let newAdmin = await store.upsert(table,dataAdmin);
         if(newAdmin.insertId){
           console.log("/////////////////////////////////////////auth//////////////////////////////////////////")
@@ -43,10 +42,13 @@ function upsert(req) {
           }
           console.log(dataAuth);
           resolve (store.upsert(table+"_auth",dataAuth));
+        }else{
+          reject('no se logró crear una autenticación para este usuario');
         }
+
       } catch(err) {
         // catches errors both in fetch and response.json
-        alert(err);
+        console.error(err);
       }
     }
 

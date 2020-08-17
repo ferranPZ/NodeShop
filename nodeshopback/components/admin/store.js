@@ -63,7 +63,7 @@ function insert(table, data) {
 function update(table, data) {
   console.log("data:",data)
   return new Promise((resolve, reject) => {
-    connection.query(`UPDATE ${table} SET ? WHERE idcategoria=?`, [data, data.idcategoria], (err, result) => {
+    connection.query(`UPDATE ${table} SET ? WHERE idadmin=?`, [data, data.idadmin], (err, result) => {
       if (err) return reject(err);
           resolve(result);
       })

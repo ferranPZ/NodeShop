@@ -2,7 +2,7 @@ import React from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-
+import "icheck-bootstrap";
 //SPA <Router></Router>
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
@@ -17,6 +17,7 @@ import Footer from "./page-components/Footer";
 import ShowProductos from "./module/productos/show";
 import MenuProductos from "./module/productos/menu";
 import EditarProductos from "./module/productos/edit";
+import Details from "./module/productos/details";
 function App() {
   return (
     <Router>
@@ -57,6 +58,7 @@ function App() {
                     <Route path="/otro" exact component={MainRow} />
                     <Route path="/menu" exact component={MenuProductos} />
                     <Route path="/edit/:id" component={EditarProductos} />
+                    <Route path="/details/:id" component={Details} />
                     {/* Productos aqui se llamará un template */}
                   </div>
                  

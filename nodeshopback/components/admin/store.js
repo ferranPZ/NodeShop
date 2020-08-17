@@ -72,11 +72,13 @@ function update(table, data) {
 
 // cambiar idcategoria por id para hacerlo funcional con todos los componentes
 function upsert(table, data) {
-  console.log("entro en upsert, data:",data)
-  console.log("entro en upsert, table:",table)
-  if (data && data.idcategoria) {
+  //console.log("entro en upsert, data:",data)
+  //console.log("entro en upsert, table:",table)
+  if (data && data.idadmin) {
+     console.log("update////////////////")
       return update(table, data);
   } else {
+    console.log("isnert////////////////")
       return insert(table, data);
   }
 }

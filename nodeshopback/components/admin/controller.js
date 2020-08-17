@@ -36,13 +36,13 @@ function upsert(req) {
         let borrar = 0;
         let newAdmin = await store.upsert(table,dataAdmin);
         if(newAdmin.insertId){
+          console.log("/////////////////////////////////////////auth//////////////////////////////////////////")
           let dataAuth = {
             admin_idadmin : newAdmin.insertId,//getAdmin id
             password: req.body.password
           }
           console.log(dataAuth);
-          resolve (store.upsert(table+"_auth",dataAdmin));
-          //averiguar porq no funciono insert de auth
+          resolve (store.upsert(table+"_auth",dataAuth));
         }
       } catch(err) {
         // catches errors both in fetch and response.json

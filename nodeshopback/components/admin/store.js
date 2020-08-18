@@ -1,41 +1,14 @@
-const mysql = require("mysql");
-const config = require("../../config");
+const connection = require('../../bdd/mysql').connection; 
 
-const dbconfig = {
-  host: config.mysql.host,
-  user: config.mysql.user,
-  password: config.mysql.password,
-  database: config.mysql.database,
-};
-
-let connection;
-
-function handleCon() {
-  connection = mysql.createConnection(dbconfig);
-  connection.connect((error) => {
-    if (error) {
-      console.log("[db error]:", error);
-      setTimeout(handleCon, 2000);
-    } else {
-      console.log("Conectado a la BD");
-    }
-  });
-  connection.on("error", (error) => {
-    console.log("[db error]:", error);
-    if (error.code === "PROTOCOL_CONNECTION_LOST") {
-      handleCon();
-    } else {
-      throw error;
-    }
-  });
-}
-
-handleCon();
 
 function list(table) {
+  console.log("entro en list")
   let query = `SELECT * FROM ${table} WHERE estado='1'`;
+  console.log("entro en list 22 2")
   return new Promise((resolve, reject) => {
+    console.log("entro en list 3333")
     connection.query(query, (err, data) => {
+      console.log("entro en list 4444")
       if (err) {
         reject(err);
       } else {
@@ -45,7 +18,7 @@ function list(table) {
   });
 }
 
-function get(table,id) {
+async function get(table,id) {
   let idKey = Object.keys(id)[0]
   let idVal = Object.values(id)[0]
 
@@ -59,6 +32,8 @@ function get(table,id) {
     });
   });
 }
+
+
 
 
 function insert(table, data) {

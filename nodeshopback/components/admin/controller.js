@@ -1,9 +1,11 @@
 const store = require("./store");
 const config = require("../../config");
 const response = require("../../network/response");
+const bcrypt = require("bcrypt");
 const table = 'admin';
 
 function list(req,res) {
+
   return new Promise(async (resolve, reject) => {
     resolve(store.list(table));
   });
@@ -52,7 +54,8 @@ function upsert(req,res) {
         if(newAdmin.insertId || req.body.id){
           let dataAuth = {
             id : newAdmin.insertId || req.body.id,//getAdmin id
-            password: req.body.password
+            password: req.body.password,//await bcrypt.hash(req.body.password,5),
+            estado:"1"
           }
           //console.log(dataAuth);
           resolve(store.upsert(table+"_auth",dataAuth));

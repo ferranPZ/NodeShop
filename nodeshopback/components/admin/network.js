@@ -12,6 +12,12 @@ router.get('/',liset);
 router.post('/',upsert);
 router.put('/',upsert);
 router.delete('/',remove);
+router.post('/',login)
+
+
+function login(req,res) {
+  controller.login()
+}
 
 function liset(req,res) {
     if (req.query.id){
@@ -23,6 +29,7 @@ function liset(req,res) {
 
 
 function list(req, res) {
+  console.log("entro en network list")
     controller.list(req,res)
       .then((data) => {
         response.success(req, res, data, 200);

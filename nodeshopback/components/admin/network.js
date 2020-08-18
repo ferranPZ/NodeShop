@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/',liset);
 router.post('/',upsert);
 router.put('/',upsert);
-// router.delete('/',remove);
+router.delete('/',remove);
 
 function liset(req,res) {
     if (req.query.id){
@@ -43,20 +43,9 @@ function get(req, res) {
     });
 }
 
-// function post(req, res) { 
-//     controller.upsert(req)
-//         .then((details) => {
-//             response.success(req, res, "Post existoso", 201, details);    
-//         })
-//         .catch(e => {
-//             response.error(req, res, 'Informacion invalida', 400, 'Error en el controlaor');
-//         });
-// }
-
 
 
 function upsert(req, res) { 
-    console.log(req)
     controller.upsert(req,res)
         .then((details) => {
             response.success(req, res, "Post existoso", 201, details);    
@@ -68,14 +57,14 @@ function upsert(req, res) {
 
 
 
-// function remove(req,res,next) {
-//   controller.remove(req)
-//     .then((details) => {
-//       response.success(req, res, "remove existoso", 201, details);    
-//     })
-//     .catch(e => {
-//         response.error(req, res, 'Informacion invalida', 400, 'Error en el controlaor');
-//     });
-// }
+function remove(req,res,next) {
+  controller.remove(req)
+    .then((details) => {
+      response.success(req, res, "remove existoso", 201, details);    
+    })
+    .catch(e => {
+        response.error(req, res, 'Informacion invalida', 400, 'Error en el controlaor');
+    });
+}
 
 module.exports = router;

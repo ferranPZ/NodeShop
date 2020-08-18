@@ -71,12 +71,17 @@ function insert(table, data) {
 }
 
 function update(table, data) {
-//  console.log("data:",data)
+  console.log("data desde update:",data)
   return new Promise((resolve, reject) => {
     connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, data.id], (err, result) => {
-      if (err) return reject(err);
-          resolve(result);
-      })
+      if (err){
+        return reject(err);
+      }else{
+
+        resolve(result);
+        
+      }
+    })
   })
 }
 
@@ -84,8 +89,8 @@ async function upsert(table, data) {
   console.log("aqui en upsert la data es: ",data)
   console.log("aqui en upsert la tabla es: ",table)
   let user = await get(table,{id:data.id})
-  console.log("user:",user)
-  if (user.length.length>0) {
+
+  if (user.length>0 || data.id) {
      console.log("update////////////////")
       return update(table, data);
   } else {

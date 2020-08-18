@@ -40,7 +40,6 @@ function upsert(req,res) {
         fotoperfil:req.body.file || null,
         estado:"1"
       }
-      let aux = "qsechotoyrelocoqweqweweqw";
 
       
 
@@ -48,10 +47,11 @@ function upsert(req,res) {
 
       try {
         let newAdmin = await store.upsert(table,dataAdmin);
-        if(newAdmin.insertId){
-          console.log("/////////////////////////////////////////auth//////////////////////////////////////////")
+        console.log(newAdmin)
+        //si fue insertado o actualizado, upsert auth
+        if(newAdmin.insertId || req.body.id){
           let dataAuth = {
-            id : newAdmin.insertId,//getAdmin id
+            id : newAdmin.insertId || req.body.id,//getAdmin id
             password: req.body.password
           }
           //console.log(dataAuth);
@@ -70,25 +70,29 @@ function upsert(req,res) {
 }
 
 
-// function remove(req) {
-//   return new Promise(async (resolve, reject) => {
-//     if (!req.query.id) {
-//       console.error('[messageController] Falta id en query');
-//       reject('Los datos son incorrectos');
-//     }else{
-//       const user = {
-//         estado : 0,
-//         idcategoria : req.query.id
-//       }
-//       resolve(store.upsert(table,user));
-//     }
-//   });
+async function remove(req) {
+  return new Promise(async (resolve, reject) => {
+    if (!req.query.id) {
+      console.error('[messageController] Falta id en query');
+      reject('Los datos son incorrectos');
+    }else{
+      const user = {
+        estado : 0,
+        id : req.query.id
+      }
+      let removed = await store.upsert(table,user)
+      if (removed.afectedrow!=0) {
+        resolve(store.upsert(table+"_auth",user))
+      } 
+      //resolve(store.upsert(table,user));
+    }
+  });
   
-// }
+}
 
 module.exports = {
   get,
   list,
   upsert,
-  //remove
+  remove
 };

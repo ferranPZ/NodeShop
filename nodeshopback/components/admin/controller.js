@@ -93,9 +93,11 @@ async function remove(req) {
   
 }
 
+
 module.exports = {
   get,
   list,
   upsert,
-  remove
+  remove,
+
 };

@@ -16,8 +16,15 @@ const mysql = {
 const product ={
     default_img: process.env.DEFAULT_IMG || 'default',
 }
+
+const jwt ={
+    secret: process.env.SECRET || 'secreto',
+}
+
+
 module.exports = {
     api,
     mysql,
-    product
+    product,
+    jwt
 };

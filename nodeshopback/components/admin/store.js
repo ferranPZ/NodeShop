@@ -65,7 +65,7 @@ async function upsert(table, data) {
   console.log("aqui en upsert la tabla es: ",table)
   let user = await get(table,{id:data.id})
 
-  if (user.length>0 || data.id) {
+  if (user.length>0 ) {
      console.log("update////////////////")
       return update(table, data);
   } else {
@@ -73,16 +73,37 @@ async function upsert(table, data) {
       return insert(table, data);
   }
 }
+//table: admin  | query: id: $id | join: 
+function query(table, where,join) {
 
-function remove() {
-  
+  let JoinSentence = "";
+  return new Promise((resolve,reject)=>{
+      if (join) {
+          let key = Object.keys(join);  //admin_auth
+          let val = Object.values(join);  //id
+          JoinSentence = `INNER JOIN ${key} ON ${table}.${val} = ${key}.id`
+      }
+      console.log("JOINN")
+      console.log(where.nombre)
+      console.log(`SELECT * FROM  ${table} ${JoinSentence} WHERE ?`,where);
+      var query = connection.query(`SELECT * FROM  ${table} ${JoinSentence} WHERE nombre = ? AND password = ?`,[where.nombre,where.password], (error,result)=>{
+
+          if (error) {
+              return reject(error)
+          }else{
+              resolve(result[0] || null)
+          }
+
+      });
+  })
 }
+
+
 
 
 module.exports = {
   list,
   upsert,
-  update,
-  remove,
-  get
+  get,
+  query
 };

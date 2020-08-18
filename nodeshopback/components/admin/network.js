@@ -12,12 +12,11 @@ router.get('/',liset);
 router.post('/',upsert);
 router.put('/',upsert);
 router.delete('/',remove);
-router.post('/',login)
 
 
-function login(req,res) {
-  controller.login()
-}
+
+
+
 
 function liset(req,res) {
     if (req.query.id){

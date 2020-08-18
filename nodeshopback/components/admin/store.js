@@ -32,14 +32,8 @@ function handleCon() {
 
 handleCon();
 
-function list(id_categoria) {
-  let query;
-  if (id_categoria) {
-    query = `SELECT * FROM categoria WHERE idcategoria=${id_categoria} AND estado='1'`;
-  } else {
-    query = `SELECT * FROM categoria WHERE estado='1'`;
-  }
-  console.log("Listando categoria");
+function list(table) {
+  let query = `SELECT * FROM ${table} WHERE estado='1'`;
   return new Promise((resolve, reject) => {
     connection.query(query, (err, data) => {
       if (err) {
@@ -51,6 +45,22 @@ function list(id_categoria) {
   });
 }
 
+function get(table,id) {
+  let idKey = Object.keys(id)[0]
+  let idVal = Object.values(id)[0]
+
+  return new Promise((resolve, reject) => {
+    connection.query(`SELECT * FROM ${table} WHERE ${idKey}=${idVal} AND estado='1'`, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
+
+
 function insert(table, data) {
   return new Promise((resolve, reject) => {
       connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
@@ -61,20 +71,21 @@ function insert(table, data) {
 }
 
 function update(table, data) {
-  console.log("data:",data)
+//  console.log("data:",data)
   return new Promise((resolve, reject) => {
-    connection.query(`UPDATE ${table} SET ? WHERE idadmin=?`, [data, data.idadmin], (err, result) => {
+    connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, data.id], (err, result) => {
       if (err) return reject(err);
           resolve(result);
       })
   })
 }
 
-// cambiar idcategoria por id para hacerlo funcional con todos los componentes
-function upsert(table, data) {
-  //console.log("entro en upsert, data:",data)
-  //console.log("entro en upsert, table:",table)
-  if (data && data.idadmin) {
+async function upsert(table, data) {
+  console.log("aqui en upsert la data es: ",data)
+  console.log("aqui en upsert la tabla es: ",table)
+  let user = await get(table,{id:data.id})
+  console.log("user:",user)
+  if (user.length.length>0) {
      console.log("update////////////////")
       return update(table, data);
   } else {
@@ -91,5 +102,7 @@ function remove() {
 module.exports = {
   list,
   upsert,
-  remove
+  update,
+  remove,
+  get
 };

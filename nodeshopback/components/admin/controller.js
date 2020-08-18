@@ -3,13 +3,27 @@ const config = require("../../config");
 const response = require("../../network/response");
 const table = 'admin';
 
-// function getCategoria(id_categoria) {
-//   return new Promise(async (resolve, reject) => {
-//     resolve(store.list(id_categoria));
-//   });
-// }
+function list(req,res) {
+  return new Promise(async (resolve, reject) => {
+    resolve(store.list(table));
+  });
+}
 
-function upsert(req) {
+
+
+function get(req,res) {
+  const data = {
+    id:req.query.id
+  }
+  return new Promise(async (resolve, reject) => {
+    resolve(store.get(table,data));
+  });
+}
+
+
+
+
+function upsert(req,res) {
 
   return new Promise(async (resolve, reject) => {
      //comprueba de que se hayan enviado los datos
@@ -19,7 +33,7 @@ function upsert(req) {
       return false;
     }else{
       let dataAdmin = {
-        idadmin	: req.body.id || null,
+        id	: req.body.id || null,
         email:req.body.email,
         nombre:req.body.nombre,
         descripcion:req.body.descripcion,
@@ -37,11 +51,11 @@ function upsert(req) {
         if(newAdmin.insertId){
           console.log("/////////////////////////////////////////auth//////////////////////////////////////////")
           let dataAuth = {
-            admin_idadmin : newAdmin.insertId,//getAdmin id
+            id : newAdmin.insertId,//getAdmin id
             password: req.body.password
           }
-          console.log(dataAuth);
-          resolve (store.upsert(table+"_auth",dataAuth));
+          //console.log(dataAuth);
+          resolve(store.upsert(table+"_auth",dataAuth));
         }else{
           reject('no se logró crear una autenticación para este usuario');
         }
@@ -73,7 +87,8 @@ function upsert(req) {
 // }
 
 module.exports = {
-  //getCategoria,
+  get,
+  list,
   upsert,
   //remove
 };

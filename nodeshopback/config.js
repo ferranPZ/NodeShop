@@ -7,10 +7,10 @@ const api = {
 };
 
 const mysql = {
-    host: process.env.MYSQL_HOST || 'localhost',
-    user:process.env.MYSQL_USER || 'root',
-    password:process.env.MYSQL_PASS || '',
-    database:process.env.MYSQL_DB || 'nstorepl',
+    host: process.env.MYSQL_HOST || 'remotemysql.com',
+    user:process.env.MYSQL_USER || 'oWJNbsYH6n',
+    password:process.env.MYSQL_PASS || 'iFD5UflnKR',
+    database:process.env.MYSQL_DB || 'oWJNbsYH6n',
 }
 
 const product ={

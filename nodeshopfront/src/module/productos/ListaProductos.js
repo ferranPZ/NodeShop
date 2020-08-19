@@ -12,7 +12,7 @@ function ListaProductos(props) {
     });
   } else if (props.searchFilterCategory === "Teclado") {
     filtradoCatgorizado = props.filtradoProductos.filter(function (productos) {
-      return productos.catNombre === "teclados";
+      return productos.catNombre === "Teclado";
     });
   } else if (props.searchFilterCategory === "Pantalla") {
     filtradoCatgorizado = props.filtradoProductos.filter(function (productos) {

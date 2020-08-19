@@ -6,8 +6,6 @@ import axios from "axios";
 import ListaProductos from "./ListaProductos";
 import BarraBusqueda from "./BarraBusqueda";
 
- 
-
 class tableComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +14,18 @@ class tableComponent extends React.Component {
       busquedaProductos: "",
       searchCategory: false,
       searchFilterCategory: "",
+      ExampleProducts: [
+        {
+          idProducto: "1",
+          nombre: "Ejemplo",
+          descripcion: "es un ejemplo",
+          unidades: "1",
+          valor: "1",
+          estado: "1",
+          imagen: "default",
+          catNombre: "Mouse",
+        },
+      ],
     };
   }
   componentDidMount() {
@@ -33,7 +43,9 @@ class tableComponent extends React.Component {
         }
       })
       .catch((error) => {
-        alert("Error server " + error);
+        alert("No hay conexion o no hay productos " + error);
+
+        this.setState({ listProducts: this.state.ExampleProducts });
       });
   }
   render() {

@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-
+const secure = require('./segure')
 const config = require('../../config').api;
 const response = require('../../network/response');
 const controller = require('./controller');
@@ -10,7 +10,12 @@ const upload = multer({
     dest: 'public/' + config.filesRoute + '/',
 });
 
-router.get('/', function (req, res) {
+router.get('/',get)
+router.post('/',secure('upsert'),upload.single('file'),insert)
+router.patch('/',secure('upsert'),upload.single('file'),update)
+router.delete('/', remove)
+
+function get(req, res) {
     //si se pasa por query(?idproduct=423471) devolvera solo ese productod de lo contrario los devolvera todos
     const filter_product = req.query.id || null;
     controller.getProduct(filter_product)
@@ -20,12 +25,12 @@ router.get('/', function (req, res) {
         .catch(e => {
             response.error(req, res, 'Unexpected Error', 500, e);
         });
-});
+}
 
 
 
-router.post('/', upload.single('file'), function (req, res) { 
-    console.log(req.file)
+function insert(req, res) { 
+
     controller.addProduct(req.body.nombre, req.body.descripcion, req.body.unidades,req.body.valor,req.body.categoria_idcategoria, req.file)
         .then((fullMessage) => {
             response.success(req, res, fullMessage, 201);    
@@ -34,10 +39,10 @@ router.post('/', upload.single('file'), function (req, res) {
             response.error(req, res, 'Informacion invalida', 400, 'Error en el controlaor');
         });
 
-});
+}
 
 
-router.patch('/',upload.single('file'), function (req, res) {
+function update(req, res) {
     const filter_product = req.query.id || null;
     controller.updateProduct(filter_product,req.body.nombre,req.body.descripcion,req.body.unidades,req.body.valor,req.body.categoria_idcategoria, req.file)
         .then((data) => {
@@ -46,9 +51,9 @@ router.patch('/',upload.single('file'), function (req, res) {
         .catch(e => {
             response.error(req, res, 'Error interno', 500, e);
         });
-});
+}
 
-router.delete('/', function(req, res) {
+function remove(req, res) {
     controller.deleteProduct(req.query.id)
         .then(() => {
             response.success(req, res, `Producto ${req.query.id} eliminado`, 200);
@@ -56,6 +61,7 @@ router.delete('/', function(req, res) {
         .catch(e => {
             response.error(req, res, 'Error interno', 500, e);
         });
-});
+}
 
 module.exports = router;
+

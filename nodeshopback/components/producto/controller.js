@@ -15,10 +15,12 @@ function addProduct(nombre,descripcion,unidades,valor,id_categoria,imagen) {
   return new Promise(async (resolve, reject) => {
     //comprueba de que se hayan enviado los datos
     if (!nombre || !descripcion || !unidades || !valor || !id_categoria) {
+
         console.error('[messageController] Faltan datos');
         reject('Los datos son incorrectos');
         return false;
     }
+
 
     //sanitizar datos!!
 
@@ -27,7 +29,7 @@ function addProduct(nombre,descripcion,unidades,valor,id_categoria,imagen) {
     if(imagen!==undefined){
       profile_pic=imagen.filename;
     }
-
+    console.log("todo buen ")
     resolve(store.add(nombre,descripcion,unidades,valor,id_categoria,profile_pic))
       
   });

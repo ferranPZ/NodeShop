@@ -22,8 +22,9 @@ function list(id_categoria) {
 
 function insert(table, data) {
   return new Promise((resolve, reject) => {
-      connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
+      let query = connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
           if (err) return reject(err);
+          //console.log("queryyy:",query)
           resolve(result);
       })
   })
@@ -40,9 +41,12 @@ function update(table, data) {
 }
 
 function upsert(table, data) {
+ 
   if (data && data.idcategoria) {
+    //console.log("entro a update")
       return update(table, data);
   } else {
+    //console.log("entro a insert")
       return insert(table, data);
   }
 }

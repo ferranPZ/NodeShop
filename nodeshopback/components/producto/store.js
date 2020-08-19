@@ -25,13 +25,16 @@ function list(id_product) {
 
 function add(nombre, descripcion, unidades, valor, id_categoria, profile_pic) {
   let query;
-  query = `INSERT INTO producto (idProducto, nombre, descripcion, unidades, valor, estado, imagen, categoria_idcategoria) VALUES (NULL, '${nombre}', '${descripcion}', '${unidades}', '${valor}', '1', '${profile_pic}', '${id_categoria}');`;
 
+  query = `INSERT INTO producto (idProducto, nombre, descripcion, unidades, valor, estado, imagen, categoria_idcategoria) VALUES (NULL, '${nombre}', '${descripcion}', '${unidades}', '${valor}', '1', '${profile_pic}', '${id_categoria}');`;
+  console.log("todo buen 2:",query)
   return new Promise((resolve, reject) => {
     connection.query(query, (err, data) => {
       if (err) {
+
         reject(err);
       } else {
+
         resolve(data);
       }
     });

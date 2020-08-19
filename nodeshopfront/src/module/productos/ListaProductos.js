@@ -1,9 +1,11 @@
 import React from "react";
 import Producto from "./Producto";
 
+import FirstComponents from "./comp/FirstComponents";
+
 function ListaProductos(props) {
   let filtradoCatgorizado = props.filtradoProductos;
-  
+
   if (props.searchFilterCategory === "Mouse") {
     filtradoCatgorizado = props.filtradoProductos.filter(function (productos) {
       return productos.catNombre === "Mouse";
@@ -18,6 +20,12 @@ function ListaProductos(props) {
     });
   }
 
+  return (
+    <div>
+      <FirstComponents filtradoProductos={filtradoCatgorizado} />
+    </div>
+  );
+  /*
   let productos = filtradoCatgorizado.map((producto, index) => {
     return (
       <Producto
@@ -32,6 +40,7 @@ function ListaProductos(props) {
       />
     );
   });
-  return <div className="row">{productos}</div>;
+  */
+  //return <div className="row">{productos}</div>;
 }
 export default ListaProductos;

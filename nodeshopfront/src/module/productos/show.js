@@ -6,6 +6,8 @@ import axios from "axios";
 import ListaProductos from "./ListaProductos";
 import BarraBusqueda from "./BarraBusqueda";
 
+ 
+
 class tableComponent extends React.Component {
   constructor(props) {
     super(props);

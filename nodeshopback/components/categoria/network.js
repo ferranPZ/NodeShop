@@ -1,16 +1,15 @@
 //express s s
 const express = require("express");
+const secure = require('./segure')
 
-
-const config = require("../../config").api;
 const response = require("../../network/response");
 const controller = require("./controller");
 const router = express.Router();
 
 
 router.get('/',get);
-router.post('/',upsert);
-router.put('/',upsert);
+router.post('/',secure('upsert'),upsert);
+router.put('/',secure('upsert'),upsert);
 router.delete('/',remove);
 
 

@@ -18,6 +18,7 @@ import ShowProductos from "./module/productos/show";
 import MenuProductos from "./module/productos/menu";
 import EditarProductos from "./module/productos/edit";
 import Details from "./module/productos/details";
+
 function App() {
   return (
     <Router>
@@ -49,19 +50,16 @@ function App() {
             </ol>
             <div className="row">
               <div className="col-md-12">
-               
-
-                  <div className="card-body">
-                    {/* Productos aqui se llamará un template */}
-                    <Route path="/" exact component={ShowProductos} />
-                    <Route path="/otros2" exact component={InfoBoxes} />
-                    <Route path="/otro" exact component={MainRow} />
-                    <Route path="/menu" exact component={MenuProductos} />
-                    <Route path="/edit/:id" component={EditarProductos} />
-                    <Route path="/details/:id" component={Details} />
-                    {/* Productos aqui se llamará un template */}
-                  </div>
-                 
+                <div className="card-body">
+                  {/* Productos aqui se llamará un template */}
+                  <Route path="/" exact component={ShowProductos} />
+                  <Route path="/otros2" exact component={InfoBoxes} />
+                  <Route path="/otro" exact component={MainRow} />
+                  <Route path="/menu" exact component={MenuProductos} />
+                  <Route path="/edit/:id" component={EditarProductos} />
+                  <Route path="/details/:id" component={Details} />
+                  {/* Productos aqui se llamará un template */}
+                </div>
               </div>
             </div>
             {/*  

@@ -49,6 +49,49 @@ class Aside extends PureComponent {
               >
                 {/* Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library */}
+
+                <li className="nav-item has-treeview mb-3">
+                  <a href="#" className="nav-link">
+                    <i className="nav-icon fas fa-user" />
+                    <p>
+                      Iniciar session
+                      <i className="fas fa-angle-left right" />
+                    </p>
+                  </a>
+                  <ul className="nav nav-treeview" style={{ display: "none" }}>
+                    <li className="nav-item">
+                      <div className="form-group">
+                        <p className="text-white">Correo</p>
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="exampleInputEmail1"
+                          placeholder="Enter email"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <p className="text-white">Contraseña</p>
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="exampleInputEmail1"
+                          placeholder="Enter email"
+                        />
+                      </div>
+                      <div>
+                        <button type="submit" className="btn btn-primary mb-2">
+                          Submit
+                        </button>
+                        <p className="mb-1">
+                          <a href="forgot-password.html">
+                            Olvidaste tu contraseña?
+                          </a>
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+
                 <li className="nav-item has-treeview menu-closed">
                   <a href="fake_url" className="nav-link active">
                     <i className="nav-icon fas fa-tachometer-alt" />

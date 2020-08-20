@@ -378,6 +378,7 @@ class EditComponent extends React.Component {
     this.props.history.push("/menu");
   }
   sendUpdate() {
+    
     const baseUrl =
       "http://localhost:3000/producto?id=" + this.state.idProducto;
     // parameter data post
@@ -393,6 +394,7 @@ class EditComponent extends React.Component {
     const config = {
       headers: {
         "content-type": "multipart/form-data",
+        "Authorization": "Bearer " +"eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MTIsImVtYWlsIjoiYW50aWd1b0BnbWFpbC5jb20iLCJub21icmUiOiJhbnRpZ3VvIiwiZGVzY3JpcGNpb24iOiJhbnRpZ3VvIiwiZm90b3BlcmZpbCI6bnVsbCwiZXN0YWRvIjoiMSIsInBhc3N3b3JkIjoiYW50aWd1byJ9.6cIrNaffQtRN52H2Zp4qR7K9zPeJ0qfpVPS5qTIHs5I"
       },
     };
     axios

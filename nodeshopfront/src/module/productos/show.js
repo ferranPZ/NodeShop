@@ -31,6 +31,13 @@ class tableComponent extends React.Component {
   componentDidMount() {
     this.loadProducts();
   }
+  getData() {
+    let data = sessionStorage.getItem('myData');
+    console.log(data);
+  }
+  deleteData(){
+    sessionStorage.removeItem('myData');
+  }
   loadProducts() {
     axios
       .get("http://localhost:3000/producto")
@@ -102,6 +109,9 @@ class tableComponent extends React.Component {
               onChange={this.handleChangeAll}
               defaultChecked
             />
+            
+                <button onClick={ () => this.getData()}>Datos de sesion x consola</button>
+                <button onClick={ () => this.deleteData()}>Borrar Datos de sesion</button>
             <label className="form-check-label mx-2" htmlFor="inlineRadio1">
               Mostrar todos
             </label>

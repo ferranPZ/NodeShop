@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-class Aside extends PureComponent {
+class Aside extends React.Component {
   constructor(props) {
     super(props);
 
@@ -49,6 +49,10 @@ class Aside extends PureComponent {
               >
                 {/* Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library */}
+
+                <li className="nav-item has-treeview mb-3">
+                  <button onClick={ () => this.setData()}>Set Data</button> 
+                </li>
 
                 <li className="nav-item has-treeview mb-3">
                   <a href="#" className="nav-link">
@@ -156,6 +160,13 @@ class Aside extends PureComponent {
       </div>
     );
   }
+
+  setData() {
+  
+    let obj = {name: 'Felipe', age:'26', email:'a@gmail.com' };
+    sessionStorage.setItem('myData', JSON.stringify(obj));
+  }
+ 
 }
 
 export default Aside;

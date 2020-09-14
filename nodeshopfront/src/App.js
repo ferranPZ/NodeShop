@@ -54,8 +54,8 @@ function App() {
                 <div className="card-body">
                   {/* Productos aqui se llamará un template */}
                   
-                  <Route path="/" exact component={ShowProductos} />
-                  <Route path="/home" exact component={Home} />
+                  <Route path="/productos" exact component={ShowProductos} />
+                  <Route path="/" exact component={Home} />
                   <Route path="/otros2" exact component={InfoBoxes} />
                   <Route path="/otro" exact component={MainRow} />
                   <Route path="/menu" exact component={MenuProductos} />

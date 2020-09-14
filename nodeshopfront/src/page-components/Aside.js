@@ -1,13 +1,66 @@
+//DEPENDENCES
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from 'axios';
+
+import config from '../config'
+
+
 class Aside extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      email:'',
+      pass:'',
+      loading:false,
+      error:null,
+
+    };
+  }
+
+  
+  handleOnSubmit = async (e)=>{ 
+
+    this.setState({
+        error:null,
+        loading:true
+    })
+
+    try {
+        const data = await axios.post(`${config.api.host}:${config.api.port}/login`, { nombre: this.state.email, password: this.state.pass })
+        this.setState({
+            error:null,
+            loading:false,
+            
+        })
+        this.setData(data.data.body)
+    } catch (error) {
+        this.setState({
+            error:true,
+            loading:false
+        })
+    }
+
+
+
+
+
+  }
+
+  handleOnChange = (e)=>{
+    this.setState({
+      [e.target.name] : e.target.value 
+    })
   }
 
   render() {
+    if (this.state.loading === true) {
+      return(
+         <h1>cargando..</h1>
+      )}
+    //USUARIO_ADMIN
+    if(sessionStorage.getItem('myData')){
     return (
       <div>
         {/* Main Sidebar Container */}
@@ -20,7 +73,7 @@ class Aside extends React.Component {
               className="brand-image img-circle elevation-3"
               style={{ opacity: ".8" }}
             />
-            <span className="brand-text font-weight-light">AdminLTE 3</span>
+            <span className="brand-text font-weight-light">Electro  Store</span>
           </a>
           {/* Sidebar */}
           <div className="sidebar">
@@ -50,9 +103,9 @@ class Aside extends React.Component {
                 {/* Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library */}
 
-                <li className="nav-item has-treeview mb-3">
+                {/* <li className="nav-item has-treeview mb-3">
                   <button onClick={ () => this.setData()}>Set Data</button> 
-                </li>
+                </li> */}
 
                 <li className="nav-item has-treeview mb-3">
                   <a href="#" className="nav-link">
@@ -67,24 +120,30 @@ class Aside extends React.Component {
                       <div className="form-group">
                         <p className="text-white">Correo</p>
                         <input
+                          name="email"
                           type="email"
                           className="form-control"
                           id="exampleInputEmail1"
-                          placeholder="Enter email"
+                          placeholder="ingresa tu email"
+                          onChange={this.handleOnChange} 
+                          value={this.state.email}
                         />
                       </div>
                       <div className="form-group">
                         <p className="text-white">Contraseña</p>
                         <input
-                          type="email"
+                          name="pass"
+                          type="password"
                           className="form-control"
                           id="exampleInputEmail1"
-                          placeholder="Enter email"
+                          placeholder="ingresa tu contraseña"
+                          onChange={this.handleOnChange}
+                          value={this.state.pass}
                         />
                       </div>
                       <div>
-                        <button type="submit" className="btn btn-primary mb-2">
-                          Submit
+                        <button onClick={this.handleOnSubmit} type="submit" className="btn btn-primary mb-2">
+                          Ingresar
                         </button>
                         <p className="mb-1">
                           <a href="forgot-password.html">
@@ -134,6 +193,7 @@ class Aside extends React.Component {
                     </p>
                   </a>
                 </li>
+
                 <li className="nav-item has-treeview">
                   <a href="fake_url" className="nav-link">
                     <i className="nav-icon fas fa-user" />
@@ -151,6 +211,7 @@ class Aside extends React.Component {
                     </li>
                   </ul>
                 </li>
+
               </ul>
             </nav>
             {/* /.sidebar-menu */}
@@ -159,12 +220,104 @@ class Aside extends React.Component {
         </aside>
       </div>
     );
+    }else{
+      //USUARIO_INVITADO
+      return (
+        <div>
+          {/* Main Sidebar Container */}
+          <aside className="main-sidebar sidebar-dark-primary elevation-4">
+            {/* Brand Logo */}
+            <a href="fake_url" className="brand-link">
+              <img
+                src="dist/img/AdminLTELogo.png"
+                alt="AdminLTE Logo"
+                className="brand-image img-circle elevation-3"
+                style={{ opacity: ".8" }}
+              />
+              <span className="brand-text font-weight-light">Electro  Store</span>
+            </a>
+            {/* Sidebar */}
+            <div className="sidebar">
+              {/* Sidebar user panel (optional) */}
+       
+              {/* Sidebar Menu */}
+              <nav className="mt-2">
+                <ul
+                  className="nav nav-pills nav-sidebar flex-column"
+                  data-widget="treeview"
+                  role="menu"
+                  data-accordion="false"
+                >
+                  
+
+  
+                  <li className="nav-item has-treeview mb-3">
+                    <a href="#" className="nav-link">
+                      <i className="nav-icon fas fa-user" />
+                      <p>
+                        Iniciar session
+                        <i className="fas fa-angle-left right" />
+                      </p>
+                    </a>
+                    <ul className="nav nav-treeview" style={{ display: "none" }}>
+                      <li className="nav-item">
+                        <div className="form-group">
+                          <p className="text-white">Correo</p>
+                          <input
+                            name="email"
+                            type="email"
+                            className="form-control"
+                            id="exampleInputEmail1"
+                            placeholder="ingresa tu email"
+                            onChange={this.handleOnChange} 
+                            value={this.state.email}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <p className="text-white">Contraseña</p>
+                          <input
+                            name="pass"
+                            type="password"
+                            className="form-control"
+                            id="exampleInputEmail1"
+                            placeholder="ingresa tu contraseña"
+                            onChange={this.handleOnChange}
+                            value={this.state.pass}
+                          />
+                        </div>
+                        <div>
+                          <button onClick={this.handleOnSubmit} type="submit" className="btn btn-primary mb-2">
+                            Ingresar
+                          </button>
+                          <p className="mb-1">
+                            <a href="forgot-password.html">
+                              Olvidaste tu contraseña?
+                            </a>
+                          </p>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+  
+           
+  
+  
+                </ul>
+              </nav>
+              {/* /.sidebar-menu */}
+            </div>
+            {/* /.sidebar */}
+          </aside>
+        </div>
+      );
+
+    }
+
   }
 
-  setData() {
-  
-    let obj = {name: 'Felipe', age:'26', email:'a@gmail.com' };
-    sessionStorage.setItem('myData', JSON.stringify(obj));
+  setData(TOKEN) {
+    
+    sessionStorage.setItem('myData',TOKEN);
   }
  
 }

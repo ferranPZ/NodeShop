@@ -58,5 +58,10 @@
 }
 
 .img-fluid{
-    height: 9vw;
+  width: 150px; /* width of container */
+  height: 150px; /* height of container */
+  object-fit: cover;
+  object-position: 50% 0px; 
+  border: 10px solid white;
+
 }

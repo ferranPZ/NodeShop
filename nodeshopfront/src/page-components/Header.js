@@ -27,18 +27,18 @@ class Header extends PureComponent {
                   </a>
                 </li>
                 <li className="nav-item d-none d-sm-inline-block">
-                  <a href="/home" className="nav-link">
+                  <Link className="nav-link" to="/">
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item d-none d-sm-inline-block">
-                  <a href="fake_url" className="nav-link">
+                  <Link className="nav-link" to="/fake-url">
                     Contactanos
-                  </a>
+                  </Link>
                 </li>
 
                 <li>
-                  <Link className="nav-link" to="/">
+                  <Link className="nav-link" to="/productos">
                     Productos
                   </Link>
                 </li>

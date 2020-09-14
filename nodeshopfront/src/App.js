@@ -1,6 +1,6 @@
 import React from "react";
 
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "icheck-bootstrap";
 //SPA <Router></Router>
@@ -15,6 +15,7 @@ import MainRow from "./page-components/MainRow";
 import Footer from "./page-components/Footer";
 //Componentes funcionales
 import ShowProductos from "./module/productos/show";
+import Home from "./module/pages/Home";
 import MenuProductos from "./module/productos/menu";
 import EditarProductos from "./module/productos/edit";
 import Details from "./module/productos/details";
@@ -25,13 +26,13 @@ function App() {
       <Header></Header>
       <Aside></Aside>
       <div className="content-wrapper">
-        <ContentHeader></ContentHeader>
+        {/* <ContentHeader></ContentHeader> */}
         <section className="content">
           <div className="container-fluid">
             {/* Info boxes  
             <InfoBoxes></InfoBoxes>
           */}
-            <ol className="breadcrumb float-sm">
+            {/* <ol className="breadcrumb float-sm">
               <li className="nav-item active">
                 <Link className="nav-link" to="/">
                   Productos
@@ -47,12 +48,14 @@ function App() {
                   para probar el SPA 2
                 </Link>
               </li>
-            </ol>
+            </ol> */}
             <div className="row">
               <div className="col-md-12">
                 <div className="card-body">
                   {/* Productos aqui se llamará un template */}
+                  
                   <Route path="/" exact component={ShowProductos} />
+                  <Route path="/home" exact component={Home} />
                   <Route path="/otros2" exact component={InfoBoxes} />
                   <Route path="/otro" exact component={MainRow} />
                   <Route path="/menu" exact component={MenuProductos} />

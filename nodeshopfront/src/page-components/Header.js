@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-
+import {Link } from "react-router-dom";
 class Header extends PureComponent {
     constructor(props) {
         super(props)
@@ -27,18 +27,25 @@ class Header extends PureComponent {
                   </a>
                 </li>
                 <li className="nav-item d-none d-sm-inline-block">
-                  <a href="fake_url" className="nav-link">
+                  <a href="/home" className="nav-link">
                     Home
                   </a>
                 </li>
                 <li className="nav-item d-none d-sm-inline-block">
                   <a href="fake_url" className="nav-link">
-                    Contact
+                    Contactanos
                   </a>
                 </li>
+
+                <li>
+                  <Link className="nav-link" to="/">
+                    Productos
+                  </Link>
+                </li>
+
               </ul>
               {/* SEARCH FORM */}
-              <form className="form-inline ml-3">
+              {/* <form className="form-inline ml-3">
                 <div className="input-group input-group-sm">
                   <input
                     className="form-control form-control-navbar"
@@ -52,7 +59,10 @@ class Header extends PureComponent {
                     </button>
                   </div>
                 </div>
-              </form>
+              </form> */}
+
+
+
               {/* Right navbar links */}
               <ul className="navbar-nav ml-auto">
                 {/* Messages Dropdown Menu */}

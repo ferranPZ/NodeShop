@@ -1,0 +1,62 @@
+.main-background{
+    width: 100%;
+    position: relative;
+    background: url(../../../images/background.jpg);
+    background-size: cover;
+
+}
+
+.background-overlay {
+    background: rgba(48, 51, 107,.7);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .form-control, .btn{
+    border-radius: 0;
+  }
+  
+  .team, footer {
+      position: relative;
+    background: #30336b;
+  }
+
+
+  .imagen{
+
+    width: 100%;
+    left: 10vw;
+  }
+
+  .team, footer {
+    background: #30336b;
+  }
+
+  .content-wrapper>.content {
+    padding: 0;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 0;
+}
+
+
+.text-card{
+    padding-top: 2vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    min-height: 20vw;
+}
+
+.team-card{
+
+    min-height: 22vw;
+}
+
+.img-fluid{
+    height: 9vw;
+}

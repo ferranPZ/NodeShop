@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 router.post('/',login)
-
+router.get('/',whoami)
 
 function login(req,res) {
     controller.login(req,res)
@@ -19,6 +19,16 @@ function login(req,res) {
       });
   }
 
+
+  function whoami(req,res) {
+    controller.whoami(req,res)
+    .then((data)=>{
+      response.success(req, res, data, 200);
+    })
+    .catch((e) => {
+      response.error(req, res, "Unexpected Error", 404, e);
+    });
+  }
 
   
 module.exports = router;

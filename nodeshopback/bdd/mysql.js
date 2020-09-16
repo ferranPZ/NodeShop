@@ -11,8 +11,9 @@ const dbconfig = {
 };
 
 function handleCon() {
-    console.log("conectado desde admin?")
+    console.log("Conectando..")
   connection = mysql.createConnection(dbconfig);
+
   connection.connect((error) => {
     if (error) {
       console.log("[db error]:", error);
@@ -26,7 +27,7 @@ function handleCon() {
   connection.on("error", (error) => {
     console.log("[db error]:", error);
     if (error.code === "PROTOCOL_CONNECTION_LOST") {
-      handleCon();
+      handleCon()
     } else {
       throw error;
     }

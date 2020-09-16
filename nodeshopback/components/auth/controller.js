@@ -34,12 +34,41 @@ async function login(req,res) {
         //resolve(store.query(table,query,join));
     
       }
+      reject('Los datos son incorrectos');
     });
   }
 
 
+  async function whoami(req,res) {
+    return new Promise(async (resolve,reject)=>{
+      
+      try {
+        await auth.check.logged(req)
+      } catch (error) {
+        reject('No se ha encontrado al usuario')
+      }
+     
+    
+      if (req.user) {
+        delete req.user.password;
+        delete req.user.estado;
+
+        console.log("usuario decodificado :",req.user)
+        resolve(req.user)
+         
+      }else{
+        reject('No se ha encontrado al usuario')
+  
+      }
+ 
+
+    })
+  }
+
+
   module.exports = {
-    login
+    login,
+    whoami,
   
   };
   

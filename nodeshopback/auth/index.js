@@ -51,7 +51,7 @@ function decodeHeader(req) {
     const decoded = verify(token);
     
     req.user = decoded;
-    console.log("puse el decoded",req.user)
+    console.log("usuario decoded",req.user)
     return decoded;
 }
 

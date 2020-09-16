@@ -1,9 +1,14 @@
 //DEPENDENCES
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
 
+
 import config from '../config'
+import { timers } from "jquery";
+
+//ASSETS
+import './styles/Aside.css'
 
 
 class Aside extends React.Component {
@@ -15,8 +20,17 @@ class Aside extends React.Component {
       pass:'',
       loading:false,
       error:null,
-
+      user:undefined,
+      showOptionsAccount:false
     };
+  }
+
+  componentDidMount(){
+    if (sessionStorage.getItem('JWT') && sessionStorage.getItem('myData')) {
+
+        this.setState({user:JSON.parse(sessionStorage.getItem('myData'))})
+      
+    }
   }
 
   
@@ -32,7 +46,6 @@ class Aside extends React.Component {
         this.setState({
             error:null,
             loading:false,
-            
         })
         this.setData(data.data.body)
     } catch (error) {
@@ -54,13 +67,19 @@ class Aside extends React.Component {
     })
   }
 
+
   render() {
+
     if (this.state.loading === true) {
       return(
          <h1>cargando..</h1>
       )}
+
+
     //USUARIO_ADMIN
-    if(sessionStorage.getItem('myData')){
+
+    //si existe un admin, muestra panel de admin con su info
+    if(sessionStorage.getItem('JWT') && (sessionStorage.getItem('myData') && this.state.user)){
     return (
       <div>
         {/* Main Sidebar Container */}
@@ -88,7 +107,7 @@ class Aside extends React.Component {
               </div>
               <div className="info">
                 <a href="fake_url" className="d-block">
-                  Alexander Pierce
+                  {this.state.user.nombre}
                 </a>
               </div>
             </div>
@@ -108,50 +127,31 @@ class Aside extends React.Component {
                 </li> */}
 
                 <li className="nav-item has-treeview mb-3">
-                  <a href="#" className="nav-link">
-                    <i className="nav-icon fas fa-user" />
-                    <p>
-                      Iniciar session
-                      <i className="fas fa-angle-left right" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview" style={{ display: "none" }}>
-                    <li className="nav-item">
-                      <div className="form-group">
-                        <p className="text-white">Correo</p>
-                        <input
-                          name="email"
-                          type="email"
-                          className="form-control"
-                          id="exampleInputEmail1"
-                          placeholder="ingresa tu email"
-                          onChange={this.handleOnChange} 
-                          value={this.state.email}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <p className="text-white">Contraseña</p>
-                        <input
-                          name="pass"
-                          type="password"
-                          className="form-control"
-                          id="exampleInputEmail1"
-                          placeholder="ingresa tu contraseña"
-                          onChange={this.handleOnChange}
-                          value={this.state.pass}
-                        />
-                      </div>
-                      <div>
-                        <button onClick={this.handleOnSubmit} type="submit" className="btn btn-primary mb-2">
-                          Ingresar
-                        </button>
-                        <p className="mb-1">
-                          <a href="forgot-password.html">
-                            Olvidaste tu contraseña?
-                          </a>
-                        </p>
-                      </div>
-                    </li>
+                  
+                {/* APRENDER A HACER NAVBARS EN REAAAACT  !!! */}
+                  {/* <div onClick={ ()=>{console.log("funciona")}}>                     
+                    <div className="nav-link">
+                      <i className="nav-icon fas fa-user" />
+                      <p>
+                        Cuenta
+                        <i className="fas fa-angle-left right" />
+                      </p>
+                    </div>
+                  </div>
+
+                  <div onClick={()=>{this.setState({showOptionsAccount:!this.state.showOptionsAccount})}}> 
+                    Cuenta 2
+                  </div> */}
+
+                  <button onClick={this.logOut}> 
+                        Cerrar sesión
+                  </button>
+                  
+
+              
+
+                  <ul id="AccountOptions" className="nav nav-treeview" style={(this.state.showOptionsAccount)?{ display: "" }:{ display: "none" }  }>
+                    asdasdasd
                   </ul>
                 </li>
 
@@ -315,11 +315,72 @@ class Aside extends React.Component {
 
   }
 
-  setData(TOKEN) {
-    
-    sessionStorage.setItem('myData',TOKEN);
+  getUser = async(TOKEN)=>{
+
+    this.setState({
+      error:null,
+      loading:true
+    })
+
+   try {
+      const res = await axios.get(`${config.api.host}:${config.api.port}/login`, {
+        headers: {
+          'Authorization': `Bearer ${TOKEN}`
+      }
+      });
+      if (res) {
+        this.setState({
+          error:null,
+          loading:false,
+        })
+        return res.data;
+      }
+    } catch (error) {
+      this.setState({
+        error:error,
+        loading:false
+      })
+      return error;
+    }
+  
   }
+
+
+
+  logOut = ()=>{
+    this.setState({loading:false})  
+    sessionStorage.clear();
+    
+
+  }
+
+  setData = async (TOKEN)=> {
+    //si las credenciales son correctas, se crea sesion(token y datos de usario)
+    try {
+      let usr = await this.getUser(TOKEN)
+      sessionStorage.setItem('JWT',TOKEN);
+      sessionStorage.setItem('myData',JSON.stringify(usr.body));
+
+      this.setState({user:usr})
+    } catch (error) {
+      console.error(error)
+      this.setState({error:error})
+    }
+    
+   
+
+    // .then(res=>{
+    //   console.log("usuario:", res)
+    // })
+    // .catch(error=>{
+    //   console.error(error);
+    // })
+    //
+    
+
+  
  
+}
 }
 
 export default Aside;

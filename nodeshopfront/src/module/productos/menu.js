@@ -35,6 +35,9 @@ const onSortFunction = {
     return moment(columnValue, "Do MMMM YYYY").valueOf();
   },
 };
+
+
+
 const CustomTable = React.memo((props) => {
   const {
     data,
@@ -55,90 +58,92 @@ const CustomTable = React.memo((props) => {
     maxPage,
     Components,
   } = useDatatableLifecycle(props);
-
-  return (
-    <>
-      <Components.Row className="controlRow__root">
-        <Components.Col xs="12">
-          <Filter
-            classes={classes}
-            tableHeaders={tableHeaders}
-            placeholder={labels.filterPlaceholder}
-            onChangeFilter={onChangeFilter}
-            filterText={filterText}
-            filterable={filterable}
-            components={{
-              Adornment: Components.Adornment,
-              Button: Components.Button,
-              ClearIcon: Components.ClearIcon,
-              FormControl: Components.FormControl,
-              InputGroup: Components.InputGroup,
-            }}
-          />
-        </Components.Col>
-      </Components.Row>
-      <Components.Row>
-        <Components.Col xs="12">
-          <Components.Table className={tableClass}>
-            <TableHeader
+  if (true) {
+      
+    return ( 
+      <>
+        <Components.Row className="controlRow__root">
+          <Components.Col xs="12">
+            <Filter
               classes={classes}
               tableHeaders={tableHeaders}
-              sortedProp={sortedProp}
-              onSortChange={onSortChange}
+              placeholder={labels.filterPlaceholder}
+              onChangeFilter={onChangeFilter}
+              filterText={filterText}
+              filterable={filterable}
               components={{
-                TableHead: Components.TableHead,
-                TableCell: Components.TableCell,
-                TableRow: Components.TableRow,
+                Adornment: Components.Adornment,
+                Button: Components.Button,
+                ClearIcon: Components.ClearIcon,
+                FormControl: Components.FormControl,
+                InputGroup: Components.InputGroup,
               }}
             />
-            <TableBody
+          </Components.Col>
+        </Components.Row>
+        <Components.Row>
+          <Components.Col xs="12">
+            <Components.Table className={tableClass}>
+              <TableHeader
+                classes={classes}
+                tableHeaders={tableHeaders}
+                sortedProp={sortedProp}
+                onSortChange={onSortChange}
+                components={{
+                  TableHead: Components.TableHead,
+                  TableCell: Components.TableCell,
+                  TableRow: Components.TableRow,
+                }}
+              />
+              <TableBody
+                classes={classes}
+                tableHeaders={tableHeaders}
+                labels={labels}
+                data={data}
+                components={{
+                  TableBody: Components.TableBody,
+                  TableCell: Components.TableCell,
+                  TableRow: Components.TableRow,
+                }}
+              />
+            </Components.Table>
+          </Components.Col>
+        </Components.Row>
+        <Components.Row className="controlRow__root bottom">
+          <Components.Col xs={12} md={4} />
+          <Components.Col xs={12} md={4}>
+            <PaginationOpts
               classes={classes}
-              tableHeaders={tableHeaders}
               labels={labels}
-              data={data}
+              onRowsPerPageChange={onRowsPerPageChange}
+              rowsPerPage={rowsPerPage}
+              rowsPerPageOption={rowsPerPageOption}
               components={{
-                TableBody: Components.TableBody,
-                TableCell: Components.TableCell,
-                TableRow: Components.TableRow,
+                Form: Components.Form,
+                FormGroup: Components.FormGroup,
+                FormControl: Components.FormControl,
               }}
             />
-          </Components.Table>
-        </Components.Col>
-      </Components.Row>
-      <Components.Row className="controlRow__root bottom">
-        <Components.Col xs={12} md={4} />
-        <Components.Col xs={12} md={4}>
-          <PaginationOpts
-            classes={classes}
-            labels={labels}
-            onRowsPerPageChange={onRowsPerPageChange}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOption={rowsPerPageOption}
-            components={{
-              Form: Components.Form,
-              FormGroup: Components.FormGroup,
-              FormControl: Components.FormControl,
-            }}
-          />
-        </Components.Col>
-        <Components.Col xs={12} md={4} className="text-right">
-          <Pagination
-            classes={classes}
-            data={data}
-            rowsPerPage={rowsPerPage}
-            currentPage={currentPage}
-            onPageNavigate={onPageNavigate}
-            labels={labels}
-            maxPage={maxPage}
-            components={{
-              Button: Components.Button,
-              ButtonGroup: Components.ButtonGroup,
-            }}
-          />
-        </Components.Col>
-      </Components.Row>
-    </>
-  );
+          </Components.Col>
+          <Components.Col xs={12} md={4} className="text-right">
+            <Pagination
+              classes={classes}
+              data={data}
+              rowsPerPage={rowsPerPage}
+              currentPage={currentPage}
+              onPageNavigate={onPageNavigate}
+              labels={labels}
+              maxPage={maxPage}
+              components={{
+                Button: Components.Button,
+                ButtonGroup: Components.ButtonGroup,
+              }}
+            />
+          </Components.Col>
+        </Components.Row>
+      </>
+    );
+  }
 }, shouldTableUpdate);
 //Lo relacionado con las notificaciones Toast
 const Toast = Swal.mixin({
@@ -237,6 +242,9 @@ class menuComponent extends React.Component {
       ),
     },
   ];
+
+
+
   
   CleanCreateForm() {
     this.setState({ nombre: "" });
@@ -426,257 +434,274 @@ class menuComponent extends React.Component {
         </option>
       );
     }
+    if (this.verfySession()) {
+      
+    
+      return (
+        <div>
+          <div className="card-body" style={{ height: "10px" }}>
+            <button
+              type="button"
+              className="btn  bg-gradient-primary float-right my-2"
+              data-toggle="modal"
+              data-target="#exampleModalCenter"
+            >
+              Crear nuevo producto
+            </button>
+          </div>
+          {/*----------------Modal----------------*/}
 
-    return (
-      <div>
-        <div className="card-body" style={{ height: "10px" }}>
-          <button
-            type="button"
-            className="btn  bg-gradient-primary float-right my-2"
-            data-toggle="modal"
-            data-target="#exampleModalCenter"
+          {/* Modal Crear*/}
+          <div
+            className="modal fade"
+            id="exampleModalCenter"
+            tabIndex={-1}
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true"
           >
-            Crear nuevo producto
-          </button>
-        </div>
-        {/*----------------Modal----------------*/}
-
-        {/* Modal Crear*/}
-        <div
-          className="modal fade"
-          id="exampleModalCenter"
-          tabIndex={-1}
-          role="dialog"
-          aria-labelledby="exampleModalCenterTitle"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog modal-lg" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLongTitle">
-                  Añadir productos
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="col-12">
-                  <div className="form-group row">
-                    <label
-                      htmlFor="NombreCreate"
-                      className="col-sm-2 col-form-label"
-                    >
-                      Nombre  
-                    </label>
-                    <div className="col-sm-12">
-                      <input
-                        type="text"
-                        className={`form-control ${this.state.validationNombre}`}
-                        id="inputNombreCreate"
-                        placeholder="Escriba un nombre"
-                        value={this.state.nombre}
-                        onChange={(value) =>
-                          this.setState({ nombre: value.target.value })
-                        }
-                      />
-                      <span
-                        id="inputNombreCreate-error"
-                        className="error invalid-feedback"
+            <div className="modal-dialog modal-dialog modal-lg" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLongTitle">
+                    Añadir productos
+                  </h5>
+                  <button
+                    type="button"
+                    className="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <div className="col-12">
+                    <div className="form-group row">
+                      <label
+                        htmlFor="NombreCreate"
+                        className="col-sm-2 col-form-label"
                       >
-                        Ingrese un nombre válido
-                      </span>
+                        Nombre  
+                      </label>
+                      <div className="col-sm-12">
+                        <input
+                          type="text"
+                          className={`form-control ${this.state.validationNombre}`}
+                          id="inputNombreCreate"
+                          placeholder="Escriba un nombre"
+                          value={this.state.nombre}
+                          onChange={(value) =>
+                            this.setState({ nombre: value.target.value })
+                          }
+                        />
+                        <span
+                          id="inputNombreCreate-error"
+                          className="error invalid-feedback"
+                        >
+                          Ingrese un nombre válido
+                        </span>
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label
+                        htmlFor="DescripcionCreate"
+                        className="col-sm-2 col-form-label"
+                      >
+                        Descripción
+                      </label>
+                      <div className="col-sm-12">
+                        <textarea
+                          className={`form-control ${this.state.validationDescripcion}`}
+                          rows="3"
+                          placeholder="Escriba una descripción..."
+                          value={this.state.descripcion}
+                          onChange={(value) =>
+                            this.setState({ descripcion: value.target.value })
+                          }
+                        ></textarea>
+                        <span
+                          id="inputDescripcionCreate-error"
+                          className="error invalid-feedback"
+                        >
+                          Ingrese una descripción
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div className="form-group row">
-                    <label
-                      htmlFor="DescripcionCreate"
-                      className="col-sm-2 col-form-label"
-                    >
-                      Descripción
-                    </label>
-                    <div className="col-sm-12">
-                      <textarea
-                        className={`form-control ${this.state.validationDescripcion}`}
-                        rows="3"
-                        placeholder="Escriba una descripción..."
-                        value={this.state.descripcion}
-                        onChange={(value) =>
-                          this.setState({ descripcion: value.target.value })
-                        }
-                      ></textarea>
-                      <span
-                        id="inputDescripcionCreate-error"
-                        className="error invalid-feedback"
-                      >
-                        Ingrese una descripción
-                      </span>
+                  <div className="row">
+                    <div className="col-8">
+                      <div className="form-group row">
+                        <label
+                          htmlFor="UnidadesCreate"
+                          className="col-sm-2 col-form-labels"
+                        >
+                          Unidades
+                        </label>
+                        <div className="col-sm-10">
+                          <input
+                            type="number"
+                            className={`form-control ${this.state.validationUnidades}`}
+                            id="inputUnidadesCreate"
+                            value={this.state.unidades}
+                            onChange={(value) =>
+                              this.setState({ unidades: value.target.value })
+                            }
+                          />
+                          <span
+                            id="inputUnidadCreate-error"
+                            className="error invalid-feedback"
+                          >
+                            Ingrese una cantidad
+                          </span>
+                        </div>
+                      </div>
+                      <div className="form-group row">
+                        <label
+                          htmlFor="ValorCreate"
+                          className="col-sm-2 col-form-label"
+                        >
+                          Imagen
+                        </label>
+                        <div className="col-sm-10">
+                          <input
+                            type="file"
+                            className={`form-control ${this.state.validationFile}`}
+                            name="myImage"
+                            value={this.state.fileName}
+                            onChange={this.imageHandler}
+                            accept="image/*"
+                          />
+
+                          <span
+                            id="inputImagenCreate-error"
+                            className="error invalid-feedback"
+                          >
+                            Ingrese una imagen
+                          </span>
+                        </div>
+                      </div>
+                      <div className="form-group row">
+                        <label
+                          htmlFor="UnidadesCreate"
+                          className="col-sm-2 col-form-label"
+                        >
+                          Categoría
+                        </label>
+                        <div className="col-sm-10">
+                          <select
+                            id="inputState"
+                            className={`form-control ${this.state.validationCategoria}`}
+                            onChange={(value) =>
+                              this.setState({
+                                categoria_idcategoria: value.target.value,
+                              })
+                            }
+                          >
+                            <option value="">Seleccione una Categoría</option>
+                            {options}
+                          </select>
+                          <span
+                            id="inputCategoriaCreate-error"
+                            className="error invalid-feedback"
+                          >
+                            Seleccione una categoría
+                          </span>
+                        </div>
+                      </div>
+                      <div className="form-group row">
+                        <label
+                          htmlFor="ValorCreate"
+                          className="col-sm-2 col-form-label"
+                        >
+                          Precio
+                        </label>
+                        <div className="col-sm-10">
+                          <input
+                            type="number"
+                            className={`form-control ${this.state.validationValor}`}
+                            id="inputValorCreate"
+                            value={this.state.valor}
+                            onChange={(value) =>
+                              this.setState({ valor: value.target.value })
+                            }
+                          />
+                          <span
+                            id="inputValorCreate-error"
+                            className="error invalid-feedback"
+                          >
+                            Ingrese un precio
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-4">
+                      <div>
+                        <img
+                          src={profileImg}
+                          alt=""
+                          id=""
+                          className="img mw-100"
+                        ></img>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-8">
-                    <div className="form-group row">
-                      <label
-                        htmlFor="UnidadesCreate"
-                        className="col-sm-2 col-form-labels"
-                      >
-                        Unidades
-                      </label>
-                      <div className="col-sm-10">
-                        <input
-                          type="number"
-                          className={`form-control ${this.state.validationUnidades}`}
-                          id="inputUnidadesCreate"
-                          value={this.state.unidades}
-                          onChange={(value) =>
-                            this.setState({ unidades: value.target.value })
-                          }
-                        />
-                        <span
-                          id="inputUnidadCreate-error"
-                          className="error invalid-feedback"
-                        >
-                          Ingrese una cantidad
-                        </span>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label
-                        htmlFor="ValorCreate"
-                        className="col-sm-2 col-form-label"
-                      >
-                        Imagen
-                      </label>
-                      <div className="col-sm-10">
-                        <input
-                          type="file"
-                          className={`form-control ${this.state.validationFile}`}
-                          name="myImage"
-                          value={this.state.fileName}
-                          onChange={this.imageHandler}
-                          accept="image/*"
-                        />
-
-                        <span
-                          id="inputImagenCreate-error"
-                          className="error invalid-feedback"
-                        >
-                          Ingrese una imagen
-                        </span>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label
-                        htmlFor="UnidadesCreate"
-                        className="col-sm-2 col-form-label"
-                      >
-                        Categoría
-                      </label>
-                      <div className="col-sm-10">
-                        <select
-                          id="inputState"
-                          className={`form-control ${this.state.validationCategoria}`}
-                          onChange={(value) =>
-                            this.setState({
-                              categoria_idcategoria: value.target.value,
-                            })
-                          }
-                        >
-                          <option value="">Seleccione una Categoría</option>
-                          {options}
-                        </select>
-                        <span
-                          id="inputCategoriaCreate-error"
-                          className="error invalid-feedback"
-                        >
-                          Seleccione una categoría
-                        </span>
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label
-                        htmlFor="ValorCreate"
-                        className="col-sm-2 col-form-label"
-                      >
-                        Precio
-                      </label>
-                      <div className="col-sm-10">
-                        <input
-                          type="number"
-                          className={`form-control ${this.state.validationValor}`}
-                          id="inputValorCreate"
-                          value={this.state.valor}
-                          onChange={(value) =>
-                            this.setState({ valor: value.target.value })
-                          }
-                        />
-                        <span
-                          id="inputValorCreate-error"
-                          className="error invalid-feedback"
-                        >
-                          Ingrese un precio
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-4">
-                    <div>
-                      <img
-                        src={profileImg}
-                        alt=""
-                        id=""
-                        className="img mw-100"
-                      ></img>
-                    </div>
-                  </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-warning"
+                    onClick={() => this.CleanCreateForm()}
+                  >
+                    Limpiar campos
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={() => this.validationModal()}
+                  >
+                    Guardar
+                  </button>
                 </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-warning"
-                  onClick={() => this.CleanCreateForm()}
-                >
-                  Limpiar campos
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={() => this.validationModal()}
-                >
-                  Guardar
-                </button>
               </div>
             </div>
           </div>
-        </div>
 
-        {/*----------------Tabla----------------*/}
-        <CustomTable
-          tableHeaders={this.header}
-          tableBody={this.state.listProducts}
-          rowsPerPage={5}
-          rowsPerPageOption={[5, 10, 30]}
-          initialSort={{ prop: "username", isAscending: true }}
-          onSort={onSortFunction}
-          labels={customLabels}
-          classes={classes}
-        />
-      </div>
-    );
+          {/*----------------Tabla----------------*/}
+          <CustomTable
+            tableHeaders={this.header}
+            tableBody={this.state.listProducts}
+            rowsPerPage={5}
+            rowsPerPageOption={[5, 10, 30]}
+            initialSort={{ prop: "username", isAscending: true }}
+            onSort={onSortFunction}
+            labels={customLabels}
+            classes={classes}
+          />
+        </div>
+      );
+    }else{
+      return(
+        <h1>Acceso Denegado</h1>
+      )
+    }
+  }
+
+  verfySession =()=>{
+
+    if (sessionStorage.getItem("JWT")) {
+      return true;
+      //consultar a api si token corresponde a un usuario real
+    }else{
+      return false;
+    }
   }
 }
 export default menuComponent;

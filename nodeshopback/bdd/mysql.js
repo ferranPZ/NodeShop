@@ -17,7 +17,9 @@ function handleCon() {
   connection.connect((error) => {
     if (error) {
       console.log("[db error]:", error);
-      setTimeout(handleCon, 2000);
+      setTimeout(() => {
+        handleCon()
+      }, 2000);
     } else {
       console.log("Conectado a la BD");
       return connection;
@@ -27,7 +29,10 @@ function handleCon() {
   connection.on("error", (error) => {
     console.log("[db error]:", error);
     if (error.code === "PROTOCOL_CONNECTION_LOST") {
-      handleCon()
+      setTimeout(() => {
+        handleCon()
+      }, 5000);
+      
     } else {
       throw error;
     }

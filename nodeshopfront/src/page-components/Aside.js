@@ -1,14 +1,23 @@
 //DEPENDENCES
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect} from "react-router-dom";
 import axios from 'axios';
-
-
 import config from '../config'
-import { timers } from "jquery";
+import { withRouter } from "react-router";
+
+
+
+//components
+import PageLoading from './PageLoading'
+
+
+
+
+
 
 //ASSETS
 import './styles/Aside.css'
+
 
 
 class Aside extends React.Component {
@@ -20,20 +29,26 @@ class Aside extends React.Component {
       pass:'',
       loading:false,
       error:null,
-      user:undefined,
-      showOptionsAccount:false
+      user: JSON.parse(sessionStorage.getItem('myData')) || undefined ,
+      showOptionsAccount:false,
+      redirect:false
     };
+
+    console.log("setea usr");
+    console.log(JSON.parse(sessionStorage.getItem('myData')));
+
+
   }
 
-  componentDidMount(){
-    if (sessionStorage.getItem('JWT') && sessionStorage.getItem('myData')) {
+  // componentDidMount(){
+  //   if (sessionStorage.getItem('JWT') && sessionStorage.getItem('myData')) {
 
-        this.setState({user:JSON.parse(sessionStorage.getItem('myData'))})
+  //       this.setState({user:JSON.parse(sessionStorage.getItem('myData'))})
       
-    }
-  }
+  //   }
+  // }
 
-  
+
   handleOnSubmit = async (e)=>{ 
 
     this.setState({
@@ -43,11 +58,11 @@ class Aside extends React.Component {
 
     try {
         const data = await axios.post(`${config.api.host}:${config.api.port}/login`, { nombre: this.state.email, password: this.state.pass })
+        await this.setData(data.data.body)
         this.setState({
             error:null,
             loading:false,
         })
-        this.setData(data.data.body)
     } catch (error) {
         this.setState({
             error:true,
@@ -57,8 +72,16 @@ class Aside extends React.Component {
 
 
 
+  }
+  componentDidMount(){
+    this.setState({redirect:false})
+  }
 
-
+  componentDidUpdate(){
+    console.log("actualizacion");
+    if(this.state.redirect){
+      this.setState({redirect:false})
+    }
   }
 
   handleOnChange = (e)=>{
@@ -69,7 +92,17 @@ class Aside extends React.Component {
 
 
   render() {
+    if (this.state.loading) {
+      return(
+        <PageLoading />
+      )
+    }
 
+    if (this.state.redirect) {
+      return <Redirect to='/'/>;
+    }
+
+    console.log("render");
     if (this.state.loading === true) {
       return(
          <h1>cargando..</h1>
@@ -80,23 +113,28 @@ class Aside extends React.Component {
 
     //si existe un admin, muestra panel de admin con su info
     if(sessionStorage.getItem('JWT') && (sessionStorage.getItem('myData') && this.state.user)){
+      console.log(" es admin");
     return (
       <div>
         {/* Main Sidebar Container */}
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
           {/* Brand Logo */}
-          <a href="fake_url" className="brand-link">
+          <Link to="/" className="brand-link">
             <img
               src="dist/img/AdminLTELogo.png"
               alt="AdminLTE Logo"
               className="brand-image img-circle elevation-3"
               style={{ opacity: ".8" }}
             />
-            <span className="brand-text font-weight-light">Electro  Store</span>
-          </a>
+            <span className="brand-text font-weight-light"> Electro  Store on</span>
+          </Link>
+
+         
+
           {/* Sidebar */}
-          <div className="sidebar">
+          <div className="ownbar">
             {/* Sidebar user panel (optional) */}
+    
             <div className="user-panel mt-3 pb-3 mb-3 d-flex">
               <div className="image">
                 <img
@@ -105,10 +143,13 @@ class Aside extends React.Component {
                   alt="UserImage"
                 />
               </div>
+
+         
               <div className="info">
-                <a href="fake_url" className="d-block">
+                <Link to="/" className="d-block text-white inactiveLink">
                   {this.state.user.nombre}
-                </a>
+                  {console.log("q pasa con state? :",this.state.user.nombre)}
+                </Link>
               </div>
             </div>
             {/* Sidebar Menu */}
@@ -143,10 +184,7 @@ class Aside extends React.Component {
                     Cuenta 2
                   </div> */}
 
-                  <button onClick={this.logOut}> 
-                        Cerrar sesión
-                  </button>
-                  
+             
 
               
 
@@ -156,57 +194,50 @@ class Aside extends React.Component {
                 </li>
 
                 <li className="nav-item has-treeview menu-closed">
-                  <a href="fake_url" className="nav-link active">
-                    <i className="nav-icon fas fa-tachometer-alt" />
-                    <p>
-                      Dashboard
-                      <i className="right fas fa-angle-left" />
-                    </p>
-                  </a>
-                  <ul className="nav nav-treeview">
-                    <li className="nav-item">
-                      <a href="fake_url" className="nav-link">
-                        <i className="far fa-circle nav-icon" />
-                        <p>Dashboard v1</p>
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="fake_url" className="nav-link active">
-                        <i className="far fa-circle nav-icon" />
-                        <p>Dashboard v2</p>
-                      </a>
-                    </li>
-                    <li className="nav-item">
-                      <a href="fake_url" className="nav-link">
-                        <i className="far fa-circle nav-icon" />
-                        <p>Dashboard v3</p>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li className="nav-item">
-                  <a href="fake_url" className="nav-link">
-                    <i className="nav-icon fas fa-th" />
-                    <p>
-                      Widgets
-                      <span className="right badge badge-danger">New</span>
-                    </p>
-                  </a>
-                </li>
-
-                <li className="nav-item has-treeview">
-                  <a href="fake_url" className="nav-link">
+                  <Link to="fake_url" className="nav-link active">
                     <i className="nav-icon fas fa-user" />
                     <p>
-                      Administrador
-                      <i className="fas fa-angle-left right" />
-                      <span className="badge badge-info right">6</span>
+                      Cuenta
+                      <i className="right fas fa-angle-left" />
                     </p>
-                  </a>
+                  </Link>
+                  <ul className="nav nav-treeview">
+                    <li className="nav-item">
+                    
+                      <div className="nav-link" onClick={this.logOut}> 
+                            Cerrar sesión
+                      </div>
+                    </li>
+                    <li className="nav-item">
+                    
+                      <div className="nav-link" > 
+                            Mi Perfil
+                      </div>
+                    </li>
+
+                    {/* <li>
+
+                      <Link to="fake_url" className="nav-link">
+                        <i className="far fa-circle nav-icon" />
+                        <p>Dashboard v1</p>
+                      </Link>
+                    </li>
+                     */}
+                  </ul>
+                </li>
+           
+                <li className="nav-item has-treeview">
+                  <Link to="fake_url" className="nav-link">
+                    <i className="nav-icon fas fa-sitemap" />
+                    <p>
+                      Gestion de productos
+                      <i className="fas fa-angle-left right" />
+                    </p>
+                  </Link>
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
                       <Link className="nav-link" to="/menu">
-                        Gestionar Productos
+                        Modificar
                       </Link>
                     </li>
                   </ul>
@@ -221,13 +252,15 @@ class Aside extends React.Component {
       </div>
     );
     }else{
-      //USUARIO_INVITADO
+      //USUARIO_INVITADO 
+       console.log(" es invitado");
       return (
+      
         <div>
           {/* Main Sidebar Container */}
           <aside className="main-sidebar sidebar-dark-primary elevation-4">
             {/* Brand Logo */}
-            <a href="fake_url" className="brand-link">
+            <Link to="fake_url" className="brand-link">
               <img
                 src="dist/img/AdminLTELogo.png"
                 alt="AdminLTE Logo"
@@ -235,7 +268,7 @@ class Aside extends React.Component {
                 style={{ opacity: ".8" }}
               />
               <span className="brand-text font-weight-light">Electro  Store</span>
-            </a>
+            </Link>
             {/* Sidebar */}
             <div className="sidebar">
               {/* Sidebar user panel (optional) */}
@@ -252,13 +285,13 @@ class Aside extends React.Component {
 
   
                   <li className="nav-item has-treeview mb-3">
-                    <a href="#" className="nav-link">
+                    <Link to="#" className="nav-link">
                       <i className="nav-icon fas fa-user" />
                       <p>
                         Iniciar session
                         <i className="fas fa-angle-left right" />
                       </p>
-                    </a>
+                    </Link>
                     <ul className="nav nav-treeview" style={{ display: "none" }}>
                       <li className="nav-item">
                         <div className="form-group">
@@ -290,9 +323,9 @@ class Aside extends React.Component {
                             Ingresar
                           </button>
                           <p className="mb-1">
-                            <a href="forgot-password.html">
+                            <Link to="forgot-password.html">
                               Olvidaste tu contraseña?
-                            </a>
+                            </Link>
                           </p>
                         </div>
                       </li>
@@ -348,10 +381,10 @@ class Aside extends React.Component {
 
 
   logOut = ()=>{
-    this.setState({loading:false})  
+    this.setState({user:undefined})  
     sessionStorage.clear();
-    
-
+    this.setState({ redirect: true });
+    // redirigir a home 
   }
 
   setData = async (TOKEN)=> {
@@ -360,8 +393,9 @@ class Aside extends React.Component {
       let usr = await this.getUser(TOKEN)
       sessionStorage.setItem('JWT',TOKEN);
       sessionStorage.setItem('myData',JSON.stringify(usr.body));
-
-      this.setState({user:usr})
+      this.setState({user:usr.body})
+      console.log("seteo usr en state");
+      console.log("usr:",this.state.user);
     } catch (error) {
       console.error(error)
       this.setState({error:error})

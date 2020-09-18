@@ -8,6 +8,7 @@ const table = 'admin';
 
 async function login(req,res) {
     return new Promise(async (resolve, reject) => {
+      let user;
       if (!req.body.nombre || !req.body.password) {
         console.error('[messageController] Falta nombre o password');
         reject('Los datos son incorrectos');
@@ -20,7 +21,12 @@ async function login(req,res) {
           nombre : req.body.nombre,
           password : req.body.password,
         }
-        let user = await store.query(table,query,join);
+        try {
+          user = await store.query(table,query,join);
+        } catch (error) {
+          reject(error);
+        }
+       
         if (user) {
             //generar token
             resolve(auth.sign(JSON.stringify(user)));

@@ -25,11 +25,11 @@ class Home extends React.Component{
                     <div className="row d-flex h-100">
                         <div className="col-sm-6 text-center justify-content-center align-self-center">
                         <h1>
-                            this is the title or a phrase relate to the product
+                            Bienvenido a ElectroStore
                         </h1>
                         <p>Elit reiciendis aspernatur obcaecati accusantium corporis? Mollitia eius ratione excepturi.</p>
                         <a href="#" className="btn btn-outline-secondary btn-lg text-white">
-                            Read More
+                            Acerca de nosotros
                         </a>
                         </div>
                         <div className="col-sm-6">

@@ -1,5 +1,6 @@
 //express s s
 const express = require("express");
+const multer = require('multer');
 
 
 const config = require("../../config").api;
@@ -7,12 +8,15 @@ const response = require("../../network/response");
 const controller = require("./controller");
 const router = express.Router();
 
+const upload = multer({
+  dest: 'public/' + config.profpic + '/',
+});
+
 
 router.get('/',liset);
-router.post('/',upsert);
+router.post('/',upload.single('fotoperfil'),upsert);
 router.put('/',upsert);
 router.delete('/',remove);
-
 
 
 

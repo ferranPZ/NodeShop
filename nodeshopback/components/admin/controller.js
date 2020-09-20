@@ -28,6 +28,7 @@ function get(req,res) {
 function upsert(req,res) {
 
   return new Promise(async (resolve, reject) => {
+    console.log(req.body)
      //comprueba de que se hayan enviado los datos
     if (!req.body.email || !req.body.nombre  || !req.body.password) {
       console.error('[messageController] Faltan datos');
@@ -39,7 +40,7 @@ function upsert(req,res) {
         email:req.body.email,
         nombre:req.body.nombre,
         descripcion:req.body.descripcion,
-        fotoperfil:req.body.file || null,
+        fotoperfil:req.file.filename || null,
         estado:"1"
       }
 

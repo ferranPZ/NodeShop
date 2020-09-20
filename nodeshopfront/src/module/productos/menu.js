@@ -199,6 +199,7 @@ class menuComponent extends React.Component {
       valor: "",
       estado: "",
       categoria_idcategoria: "",
+      token: "",
       //imagen modal
       file: null,
       profileImg: "dist/img/user2-160x160.jpg",
@@ -297,7 +298,7 @@ class menuComponent extends React.Component {
       this.setState({ validationCategoria: "is-valid" });
     }
 
-    if (validationOK === true) {
+    if (validationOK === true && this.state.token) {
       this.sendSave();
     }
   }
@@ -312,7 +313,7 @@ class menuComponent extends React.Component {
     const config = {
       headers: {
         "content-type": "multipart/form-data",
-        "Authorization": "Bearer " +"eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MTIsImVtYWlsIjoiYW50aWd1b0BnbWFpbC5jb20iLCJub21icmUiOiJhbnRpZ3VvIiwiZGVzY3JpcGNpb24iOiJhbnRpZ3VvIiwiZm90b3BlcmZpbCI6bnVsbCwiZXN0YWRvIjoiMSIsInBhc3N3b3JkIjoiYW50aWd1byJ9.6cIrNaffQtRN52H2Zp4qR7K9zPeJ0qfpVPS5qTIHs5I"
+        "Authorization": "Bearer " +this.state.token
       },
     };
     const baseUrl = "http://localhost:3000/producto";
@@ -384,6 +385,11 @@ class menuComponent extends React.Component {
   //Funciones del render
   componentDidMount() {
     this.loadProducts();
+
+    if (sessionStorage.getItem("JWT")) {
+      this.setState({token:sessionStorage.getItem("JWT")});
+    }
+   
   }
   loadProducts() {
     const url = baseUrl + "/producto";

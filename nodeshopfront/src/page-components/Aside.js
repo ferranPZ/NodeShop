@@ -90,6 +90,10 @@ class Aside extends React.Component {
     })
   }
 
+  defaultProfilePic = (e)=>{
+    e.target.src = "dist/img/user2-160x160.jpg"
+  }
+
 
   render() {
     if (this.state.loading) {
@@ -120,13 +124,8 @@ class Aside extends React.Component {
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
           {/* Brand Logo */}
           <Link to="/" className="brand-link">
-            <img
-              src="dist/img/AdminLTELogo.png"
-              alt="AdminLTE Logo"
-              className="brand-image img-circle elevation-3"
-              style={{ opacity: ".8" }}
-            />
-            <span className="brand-text font-weight-light"> Electro  Store on</span>
+          <i class="fas fa-robot"></i>
+            <span className="brand-text font-weight-light"> ElectroStore </span>
           </Link>
 
          
@@ -138,8 +137,10 @@ class Aside extends React.Component {
             <div className="user-panel mt-3 pb-3 mb-3 d-flex">
               <div className="image">
                 <img
-                  src="dist/img/user2-160x160.jpg"
-                  className="img-circle elevation-2"
+                  //src={"dist/img/user2-160x160.jpg"}
+                  src={"http://localhost:3000/app/profpic/"+this.state.user.fotoperfil}
+                  onError={this.defaultProfilePic}
+                  className="img-circle elevation-2 imgProfile"
                   alt="UserImage"
                 />
               </div>
@@ -147,8 +148,10 @@ class Aside extends React.Component {
          
               <div className="info">
                 <Link to="/" className="d-block text-white inactiveLink">
-                  {this.state.user.nombre}
-                  {console.log("q pasa con state? :",this.state.user.nombre)}
+                  <h4>
+                  <p className="mt-2">{this.state.user.nombre}</p>
+                  </h4>
+                  
                 </Link>
               </div>
             </div>

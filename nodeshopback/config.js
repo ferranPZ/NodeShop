@@ -3,7 +3,8 @@ const api = {
     port: process.env.PORT || 3000,
     host: process.env.HOST || 'http://localhost',
     publicRoute: process.env.PUBLIC_ROUTE || '/app',
-    filesRoute: process.env.FILES_ROUTE || 'files'
+    filesRoute: process.env.FILES_ROUTE || 'files',
+    profpic: process.env.PROFILE_PICS || 'profpic'
 };
 
 const mysql = {

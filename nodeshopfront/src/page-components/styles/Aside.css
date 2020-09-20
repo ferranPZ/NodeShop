@@ -3,6 +3,10 @@
     cursor: default;
  }
 
+ .imgProfile{
+   min-height: 3vw;
+   min-width: 3.4vw;
+}
 
 
  .ownbar{

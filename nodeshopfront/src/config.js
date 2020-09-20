@@ -11,8 +11,13 @@ const ui = {
     host: process.env.HOST || 'http://localhost',
 }
 
+const resources = {
+    defaultImg: 'default.jpg'
+}
+
 
 module.exports = {
     api,
-    ui
+    ui,
+    resources
 };

@@ -4,6 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
+import config from '../../../config'
 
 class FirstComponents extends React.Component {
   constructor(props) {
@@ -65,20 +66,33 @@ class FirstComponents extends React.Component {
       tableData: slice,
     });
   }
+
+
+
+  addDefaultSrc(ev){
+    ev.target.src = 'http://localhost:3000/app/files/notAvailable.jpg'
+    ev.target.style = "max-width: 19vw; display: block; margin-left: auto; margin-right: auto;"
+    
+  }
+
   render() {
     return (
       <div>
         <div className="row">
           {this.state.tableData.map((tdata, i) => (
+           
             <div
               className="col-12 col-md-6 col-lg-4 d-flex align-items-stretch"
               key={i}
             >
+            
               <div className="card w-100 mh-100" style={{ height: "530px" }}>
                 {tdata.imagen !== "default" ? (
                   <img
+                   
                     className="card-img-top"
                     src={`http://localhost:3000/app/files/${tdata.imagen}`}
+                    onError={this.addDefaultSrc} 
                     alt="Card image cap"
                     style={{ height: "270px" }}
                   />

@@ -55,9 +55,10 @@ function upsert(req,res) {
         if(newAdmin.insertId || req.body.id){
           let dataAuth = {
             id : newAdmin.insertId || req.body.id,//getAdmin id
-            password: req.body.password,//await bcrypt.hash(req.body.password,5),
+            password: await bcrypt.hash(req.body.password,10),
             estado:"1"
           }
+          console.log("contrasena a guardar : ",dataAuth.password)
           //console.log(dataAuth);
           resolve(store.upsert(table+"_auth",dataAuth));
         }else{

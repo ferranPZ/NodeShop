@@ -86,7 +86,7 @@ function query(table, where,join) {
       console.log("JOINN")
       console.log(where.nombre)
       console.log(`SELECT * FROM  ${table} ${JoinSentence} WHERE ?`,where);
-      var query = connection.query(`SELECT * FROM  ${table} ${JoinSentence} WHERE nombre = ? AND password = ?`,[where.nombre,where.password], (error,result)=>{
+      var query = connection.query(`SELECT * FROM  ${table} ${JoinSentence} WHERE nombre = ? `,[where.nombre], (error,result)=>{
 
           if (error) {
               return reject(error)

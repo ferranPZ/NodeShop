@@ -4,6 +4,7 @@ const config = require("../config");
 let connection;
 
 const dbconfig = {
+    connectionLimit : 100,
     host: config.mysql.host,
     user: config.mysql.user,
     password: config.mysql.password,
@@ -11,19 +12,22 @@ const dbconfig = {
 };
 
 function handleCon() {
-    console.log("Conectando..")
-  connection = mysql.createConnection(dbconfig);
+  console.log("Conectando..")
+  //connection = mysql.createConnection(dbconfig);
+  connection =  mysql.createPool(dbconfig);
 
-  connection.connect((error) => {
+  connection.getConnection((error,connection) => {
     if (error) {
       console.log("[db error]:", error);
       setTimeout(() => {
         handleCon()
       }, 2000);
+     //return error;
     } else {
       console.log("Conectado a la BD");
-      return connection;
+      //return connection;
     }
+    connection.release();
   });
 
   connection.on("error", (error) => {
@@ -34,6 +38,7 @@ function handleCon() {
       }, 5000);
       
     } else {
+      console.log("error no manejado")
       throw error;
     }
 

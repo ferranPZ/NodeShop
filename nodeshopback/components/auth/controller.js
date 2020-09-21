@@ -16,10 +16,9 @@ async function login(req,res) {
         const join = {
           admin_auth : "id",
         }
-  
         const query = {
           nombre : req.body.nombre,
-          password : req.body.password,
+          //password : await bcrypt.hash(req.body.password,5)
         }
         try {
           user = await store.query(table,query,join);
@@ -28,14 +27,21 @@ async function login(req,res) {
         }
        
         if (user) {
-            //generar token
-            resolve(auth.sign(JSON.stringify(user)));
 
-            // console.log("generar token : ",user)
-            // resolve("TOKEN")
+    
+            bcrypt.compare(req.body.password,user.password).then((result)=>{
+              console.log("pass ingresada:",req.body.password)
+              console.log("pass correcta:",user.password)
+              if(!result){
+                reject('Los datos son incorrectos');
+              } else {
+                //generar token
+                resolve(auth.sign(JSON.stringify(user)));
+              }
+            })
         } else {
             //console.log("entro aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
-            reject('Los datos son incorrectos');
+           
         }
         //resolve(store.query(table,query,join));
     

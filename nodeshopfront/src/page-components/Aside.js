@@ -127,7 +127,7 @@ class Aside extends React.Component {
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
           {/* Brand Logo */}
           <Link to="/" className="brand-link">
-          <i class="fas fa-robot"></i>
+          <i className="fas fa-robot"></i>
             <span className="brand-text font-weight-light"> ElectroStore </span>
           </Link>
 

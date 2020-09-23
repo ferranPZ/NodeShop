@@ -22,7 +22,19 @@ function get(req,res) {
   });
 }
 
-
+async function hash(password) {
+  return new Promise((resolve, reject) => {
+      bcrypt.hash(password, 10, function(err, hash) {
+      if (err) {
+        console.log("no se creo el hash");
+        reject (err)
+      } else {
+        console.log("se creo el hash",hash);
+        resolve (hash)
+      }
+    });
+  });
+}
 
 
 function upsert(req,res) {
@@ -53,11 +65,18 @@ function upsert(req,res) {
         console.log(newAdmin)
         //si fue insertado o actualizado, upsert auth
         if(newAdmin.insertId || req.body.id){
+
+       
+
           let dataAuth = {
             id : newAdmin.insertId || req.body.id,//getAdmin id
-            password: await bcrypt.hash(req.body.password,10),
+            password: await hash(req.body.password),
             estado:"1"
           }
+
+          
+
+
           console.log("contrasena a guardar : ",dataAuth.password)
           //console.log(dataAuth);
           resolve(store.upsert(table+"_auth",dataAuth));

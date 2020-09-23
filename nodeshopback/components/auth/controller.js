@@ -5,6 +5,22 @@ const response = require("../../network/response");
 const bcrypt = require("bcrypt");
 const table = 'admin';
 
+async function compare(password,hash) {
+  console.log("password:",password)
+  console.log("hash:",hash)
+  return new Promise(async (resolve,reject)=>{
+    bcrypt.compare(password, hash, function(err, result) {
+      if (result) {
+        resolve();
+      } else {
+        reject('Los datos son incorrectos (comparing)');
+      }
+  
+    });
+
+  });
+  
+}
 
 async function login(req,res) {
     return new Promise(async (resolve, reject) => {
@@ -25,20 +41,16 @@ async function login(req,res) {
         } catch (error) {
           reject(error);
         }
-       
-        if (user) {
 
-    
-            bcrypt.compare(req.body.password,user.password).then((result)=>{
-              console.log("pass ingresada:",req.body.password)
-              console.log("pass correcta:",user.password)
-              if(!result){
-                reject('Los datos son incorrectos');
-              } else {
-                //generar token
-                resolve(auth.sign(JSON.stringify(user)));
-              }
-            })
+        if (user) {
+          try {
+            await compare(req.body.password,user.password).then(
+              resolve(auth.sign(JSON.stringify(user)))
+            )
+          } catch (error) {
+            console.error(error);
+          }
+          
         } else {
             //console.log("entro aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
            

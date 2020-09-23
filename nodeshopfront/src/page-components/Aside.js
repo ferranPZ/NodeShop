@@ -4,6 +4,8 @@ import { Link, Redirect} from "react-router-dom";
 import axios from 'axios';
 import config from '../config'
 import { withRouter } from "react-router";
+import swal from 'sweetalert';
+import $ from 'jquery'; 
 
 
 
@@ -12,11 +14,9 @@ import PageLoading from './PageLoading'
 
 
 
-
-
-
 //ASSETS
 import './styles/Aside.css'
+
 
 
 
@@ -40,14 +40,6 @@ class Aside extends React.Component {
 
   }
 
-  // componentDidMount(){
-  //   if (sessionStorage.getItem('JWT') && sessionStorage.getItem('myData')) {
-
-  //       this.setState({user:JSON.parse(sessionStorage.getItem('myData'))})
-      
-  //   }
-  // }
-
 
   handleOnSubmit = async (e)=>{ 
 
@@ -63,7 +55,9 @@ class Aside extends React.Component {
             error:null,
             loading:false,
         })
+        swal("Hola Administrador!", "Login exitoso 😉", "success");
     } catch (error) {
+        swal("Error", "Datos incorrectos 😕", "error");
         this.setState({
             error:true,
             loading:false
@@ -75,6 +69,15 @@ class Aside extends React.Component {
   }
   componentDidMount(){
     this.setState({redirect:false})
+    console.log("paso por aqio")
+    $(document).on('shown.lte.pushmenu', function () {
+        $('#login').show();
+        console.log("hola")
+    }).on('collapsed.lte.pushmenu', function(){
+        $('#login').hide();
+        console.log("hola")
+    });
+
   }
 
   componentDidUpdate(){
@@ -187,10 +190,6 @@ class Aside extends React.Component {
                     Cuenta 2
                   </div> */}
 
-             
-
-              
-
                   <ul id="AccountOptions" className="nav nav-treeview" style={(this.state.showOptionsAccount)?{ display: "" }:{ display: "none" }  }>
                     asdasdasd
                   </ul>
@@ -239,7 +238,7 @@ class Aside extends React.Component {
                   </Link>
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
-                      <Link className="nav-link" to="/menu">
+                      <Link className="nav-link brand-text" to="/menu">
                         Modificar
                       </Link>
                     </li>
@@ -295,18 +294,19 @@ class Aside extends React.Component {
                         <i className="fas fa-angle-left right" />
                       </p>
                     </Link>
-                    <ul className="nav nav-treeview" style={{ display: "none" }}>
-                      <li className="nav-item">
+                    <ul className="nav nav-treeview " style={{ display: "none" }}>
+                      <li className="nav-item  brand-text" id="login" >
                         <div className="form-group">
-                          <p className="text-white">Correo</p>
+                          <p className="brand-text font-weight-light text-white">Correo</p>
                           <input
                             name="email"
                             type="email"
                             className="form-control"
-                            id="exampleInputEmail1"
+                            id="inputLogin"
                             placeholder="ingresa tu email"
                             onChange={this.handleOnChange} 
                             value={this.state.email}
+                            onKeyPress={this.handleKeyPress}
                           />
                         </div>
                         <div className="form-group">
@@ -315,14 +315,17 @@ class Aside extends React.Component {
                             name="pass"
                             type="password"
                             className="form-control"
-                            id="exampleInputEmail1"
+                            id="inputLogin"
                             placeholder="ingresa tu contraseña"
                             onChange={this.handleOnChange}
                             value={this.state.pass}
+                            onKeyPress={this.handleKeyPress}
                           />
                         </div>
+               
+
                         <div>
-                          <button onClick={this.handleOnSubmit} type="submit" className="btn btn-primary mb-2">
+                          <button onClick={this.handleOnSubmit} type="submit" className="btn btn-primary mb-2"  >
                             Ingresar
                           </button>
                           <p className="mb-1">
@@ -381,7 +384,11 @@ class Aside extends React.Component {
   
   }
 
-
+  handleKeyPress = (event)=>{
+    if(event.key === 'Enter'){
+      this.handleOnSubmit()
+    }
+  }
 
   logOut = ()=>{
     this.setState({user:undefined})  

@@ -8,7 +8,15 @@
    min-width: 3.4vw;
 }
 
+.text-white{
+}
 
  .ownbar{
      
+ }
+
+ #inputLogin{
+    margin-left: auto;  
+    margin-right: auto;
+    display: block;
  }

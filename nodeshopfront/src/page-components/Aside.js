@@ -206,13 +206,13 @@ class Aside extends React.Component {
                   <ul className="nav nav-treeview">
                     <li className="nav-item">
                     
-                      <div className="nav-link" onClick={this.logOut}> 
+                      <div className="nav-link brand-text " onClick={this.logOut}> 
                             Cerrar sesión
                       </div>
                     </li>
                     <li className="nav-item">
                     
-                      <div className="nav-link" > 
+                      <div className="nav-link brand-text" > 
                             Mi Perfil
                       </div>
                     </li>

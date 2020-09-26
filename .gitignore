@@ -2,7 +2,7 @@
 
 #files
 nodeshopback/public/files
-
+nodeshopback/public/profpic
 # dependencies
 /node_modules
 /.pnp

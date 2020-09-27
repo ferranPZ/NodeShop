@@ -6,6 +6,10 @@ import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import config from '../../../config'
 
+
+//assets
+import "./styles/FirstComponents.css"
+
 class FirstComponents extends React.Component {
   constructor(props) {
     super(props);
@@ -69,10 +73,10 @@ class FirstComponents extends React.Component {
 
 
 
-  addDefaultSrc(ev){
-    ev.target.src = 'http://localhost:3000/app/files/notAvailable.jpg'
+  addDefaultSrc(ev) {
+    ev.target.src = 'http://localhost:3001/dist/img/image-not-found.jpg'
     ev.target.style = "max-width: 19vw; display: block; margin-left: auto; margin-right: auto;"
-    
+
   }
 
   render() {
@@ -80,31 +84,35 @@ class FirstComponents extends React.Component {
       <div>
         <div className="row">
           {this.state.tableData.map((tdata, i) => (
-           
+
             <div
               className="col-12 col-md-6 col-lg-4 d-flex align-items-stretch"
               key={i}
             >
-            
-              <div className="card w-100 mh-100" style={{ height: "530px" }}>
+
+              <div className="card w-100 mh-100" style={{ height: "" }}>
                 {tdata.imagen !== "default" ? (
                   <img
-                   
-                    className="card-img-top"
+
+                    className="card-img-top mt-5"
                     src={`http://localhost:3000/app/files/${tdata.imagen}`}
-                    onError={this.addDefaultSrc} 
+                    onError={this.addDefaultSrc}
                     alt="Card image cap"
                     style={{ height: "270px" }}
                   />
                 ) : (
-                  <img
-                    className="card-img-top"
-                    src="dist/img/user2-160x160.jpg"
-                  />
-                )}
-                <h5 className="card-title px-3 py-1"><b>{tdata.nombre}</b></h5>
-                <div className="card-body" style={{ height: "270px" }}>
-                  <p className="card-text">{tdata.descripcion}</p>
+                    <img
+                      className="card-img-top"
+                      src="dist/img/user2-160x160.jpg"
+                    />
+                  )}
+                <div className="card_content">
+
+                  <h5 className="card-title px-3 py-1"><b>{tdata.nombre}</b></h5>
+                  <div className="card-body" style={{ height: "270px" }}>
+                    <p className="card-text">{tdata.descripcion}</p>
+                  </div>
+
                 </div>
                 <div className="card-footer">
                   <div className="row">
@@ -147,5 +155,5 @@ class FirstComponents extends React.Component {
     );
   }
 }
- 
+
 export default FirstComponents;

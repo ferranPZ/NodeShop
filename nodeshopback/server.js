@@ -16,11 +16,11 @@ const router = require('./network/routes');
 
 //db(config.dbUrl);
 
-app.use(config.publicRoute, express.static('public'));
+app.use(config.publicRoute, express.static(__dirname + '/public'));
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use('/api-docs',swaggerUi.serve,swaggerUi.setup(swagerDoc))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagerDoc))
 app.use(errors);
 
 router(app);
@@ -28,5 +28,5 @@ router(app);
 
 
 server.listen(config.port, function () {
-    console.log('La aplicación está escuchando en '+ config.host +':' + config.port);
+    console.log('La aplicación está escuchando en ' + config.host + ':' + config.port);
 });

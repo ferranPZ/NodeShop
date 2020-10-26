@@ -2,7 +2,7 @@
 
 An online shop created with Node.js, Express.js & React
 
-## Instalación
+## Getting Started
 
 To start the server, use the command line interface of your choice, run:
 ```bash
@@ -17,11 +17,6 @@ npm install
 npm run start
 ```
 
-## Uso
-
-```nodejs
-nodemon server.js
-```
 
 ## Api Doc
 

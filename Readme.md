@@ -1,6 +1,6 @@
 # NodeShop
 
-An online shop created with Node.js, Express.js & React
+An online shop built with Node.js, Express.js & React
 
 ## Getting Started
 

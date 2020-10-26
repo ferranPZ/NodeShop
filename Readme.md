@@ -1,13 +1,20 @@
 # NodeShop
 
-Tienda de comercio electronico desarrollada en NodeJs
+An online shop created with Node.js, Express.js & React
 
 ## Instalación
 
-Usar el gestor de paquetes npm
+To start the server, use the command line interface of your choice, run:
 ```bash
 cd ~/NodeShop/nodeshopback
-npm i
+npm install
+npm run dev
+```
+To start the client, use the command line and run:
+```bash
+cd ~/NodeShop/nodeshopfront
+npm install
+npm run start
 ```
 
 ## Uso
@@ -16,9 +23,11 @@ npm i
 nodemon server.js
 ```
 
-## Api
+## Api Doc
+
+you can find the documentation in the following url
 ```
-localhost:3000/producto
+http://localhost:3001/api-docs
 ```
 
 ## Licencia
